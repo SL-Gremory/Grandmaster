@@ -10,10 +10,19 @@ public abstract class Character : MonoBehaviour
     [SerializeField]
     private float speed;
     protected Vector2 direction;
+    protected int hp, mov, mp, atk, def, spr, spd, bst;
 
     // Start is called before the first frame update
     void Start()
     {
+        hp = 10;
+        mov = 5;
+        mp = 10;
+        atk = 1;
+        def = 2;
+        spr = 2;
+        spd = 2;
+        bst = (hp / 2) + mov + mp + atk + def + spr + spd;
         
     }
 

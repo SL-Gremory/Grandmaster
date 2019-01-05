@@ -5,10 +5,12 @@ using UnityEngine;
 public class Player : Character
 {
     // Start is called before the first frame update
+    /*
     void Start()
     {
-     
+      
     }
+    */
 
 
     protected override void Update()
@@ -41,6 +43,13 @@ public class Player : Character
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector2.right;
+        }
+
+        // Change HP 
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            hp -= 1;
+            Debug.Log("HP = " + hp);
         }
     }
 }
