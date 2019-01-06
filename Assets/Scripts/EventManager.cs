@@ -5,8 +5,9 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     //Initialize variables
-	bool isPlayerTurn = true;
-	bool turnIsDone = false;
+	private bool isPlayerTurn = true;
+	private bool turnIsDone = false;
+	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
 	public int playerUnitCount = 0;
 	public int enemyUnitCount = 0;
 	public int unitsDone = 0;
@@ -35,27 +36,23 @@ public class EventManager : MonoBehaviour
 	void ResetCounts()
 	{
 		unitsDone = 0;
-		if (isPlayerTurn)
+		
+		//goes through every object of type Unit wakes up allies or enemies appropriately
+		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
+		foreach (Unit unit in units)
 		{
-			//goes through every UnitAlly and wakes them up
-			UnitAlly[] allies = FindObjectsOfType(typeof(UnitAlly)) as UnitAlly[];
-			foreach (UnitAlly ally in allies)
+			if (unit.isAlly && isPlayerTurn)
 			{
-				ally.moveIsDone = false;
-				ally.actionIsDone = false;
-				ally.RevertColor();//DELETE THIS LINE FOR THE REAL THING
+				unit.moveIsDone = false;
+				unit.actionIsDone = false;
+				unit.RevertColor();//DELETE THIS LINE FOR THE REAL THING
 				Debug.Log("ally is woke");
 			}
-		}
-		else
-		{
-			//goes through every UnitEnemy and wakes them up
-			UnitEnemy[] enemies = FindObjectsOfType(typeof(UnitEnemy)) as UnitEnemy[];
-			foreach (UnitEnemy enemy in enemies)
+			else if (!unit.isAlly && !isPlayerTurn)
 			{
-				enemy.moveIsDone = false;
-				enemy.actionIsDone = false;
-				enemy.RevertColor();//DELETE THIS LINE FOR THE REAL THING
+				unit.moveIsDone = false;
+				unit.actionIsDone = false;
+				unit.RevertColor();//DELETE THIS LINE FOR THE REAL THING
 				Debug.Log("enemy is woke");
 			}
 		}

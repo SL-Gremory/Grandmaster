@@ -2,29 +2,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitAlly : MonoBehaviour
+public class Unit : MonoBehaviour
 {
-    //Initialize variables
+	//Initialize variables
 	private EventManager eventManager;
-	public bool moveIsDone = false;
-	public bool actionIsDone = false;
+	public bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
+	public bool moveIsDone;
+	public bool actionIsDone;
 	
-	// Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
-        eventManager = GameObject.FindObjectOfType<EventManager>();
-		eventManager.playerUnitCount++;
+		eventManager = GameObject.FindObjectOfType<EventManager>();
+		
+        if (isAlly)
+		{
+			eventManager.playerUnitCount++;
+			if (eventManager.playerFirst)
+			{
+				moveIsDone = false;
+				actionIsDone = false;
+			}
+			else
+			{
+				moveIsDone = true;
+				actionIsDone = true;
+				Darken();//DELETE THIS LINE FOR THE REAL THING
+				Darken();//DELETE THIS LINE FOR THE REAL THING
+			}
+		}
+		else
+		{
+			eventManager.enemyUnitCount++;
+			if (eventManager.playerFirst)
+			{
+				moveIsDone = true;
+				actionIsDone = true;
+				Darken();//DELETE THIS LINE FOR THE REAL THING
+				Darken();//DELETE THIS LINE FOR THE REAL THING
+			}
+			else
+			{
+				moveIsDone = false;
+				actionIsDone = false;
+			}
+		}
     }
 
     // Update is called once per frame
     /*void Update()
     {
-		
+        
     }*/
 	
 	void OnDeath()
 	{
-		eventManager.playerUnitCount--;
+		if (isAlly)
+		{
+			eventManager.playerUnitCount--;
+		}
+		else
+		{
+			eventManager.enemyUnitCount--;
+		}
 		//remove sprite, etc.
 	}
 	
@@ -46,7 +86,7 @@ public class UnitAlly : MonoBehaviour
 		//prevent further actions
 	}
 	
-	//////////DELETE THIS SECTION FOR THE REAL THING//////////
+	//////////DELETE THIS SECTION FOR THE REAL THING. THIS IS FOR SIMULATION ONLY//////////
 	void OnMouseEnter()
 	{
 		if (!actionIsDone)
@@ -100,5 +140,5 @@ public class UnitAlly : MonoBehaviour
 		tmp.b += 0.6f;
 		this.GetComponent<SpriteRenderer>().color = tmp;
 	}
-	//////////DELETE THIS SECTION FOR THE REAL THING//////////
+	//////////DELETE THIS SECTION FOR THE REAL THING. THIS IS FOR SIMULATION ONLY//////////
 }
