@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 6ecb475e0b460c04b91e877ec0799d2d
+  productGUID: f950fadbaeeaa7d4ba52a8f1c668a27a
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -585,7 +585,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 98a43928-5c28-4499-bbc6-5bb36e395bd7
   framebufferDepthMemorylessMode: 0
-  projectName: Grandmaster
+  projectName: 
   organizationId: slgremory
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
