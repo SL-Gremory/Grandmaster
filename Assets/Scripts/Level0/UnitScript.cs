@@ -9,7 +9,7 @@ public class UnitScript : Unit
     {
         base.Initialize();
         transform.position += new Vector3(0, 1, 0);
-        GetComponent<Renderer>().material.color = LeadingColor;
+        GetComponent<Renderer>().material.color = LeadingColor + Color.black;
     }
 
     public override void MarkAsAttacking(Unit other)
@@ -29,7 +29,7 @@ public class UnitScript : Unit
 
     public override void MarkAsFinished()
     {
-        GetComponent<Renderer>().material.color = LeadingColor;
+        GetComponent<Renderer>().material.color = LeadingColor + Color.gray;
     }
 
     public override void MarkAsFriendly()
@@ -53,6 +53,6 @@ public class UnitScript : Unit
     private void Update()
     {
         // This makes it so that the unit is always looking at the used camera (WIP)
-        //transform.LookAt(Camera.main.transform.position, -Vector3.up);
+        transform.LookAt(Camera.main.transform.position, -Vector3.up);
     }
 }

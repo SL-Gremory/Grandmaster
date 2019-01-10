@@ -6,25 +6,25 @@ public class CameraToggle : MonoBehaviour
 {
     public Camera PerspectiveCamera;
     public Camera TopDownCamera;
-
+/*
     public void ShowTopDown()
-    {
-        PerspectiveCamera.enabled = false;
-        TopDownCamera.enabled = true;
-    }
-
-    public void ShowPerspective()
     {
         PerspectiveCamera.enabled = true;
         TopDownCamera.enabled = false;
     }
 
+    public void ShowPerspective()
+    {
+        PerspectiveCamera.enabled = false;
+        TopDownCamera.enabled = true;
+    }
+*/
     private void Start()
     {
-        // Top-down view is default
+        // Perspective view is default
 
-        TopDownCamera.enabled = true;
-        PerspectiveCamera.enabled = false;
+        TopDownCamera.enabled = false;
+        PerspectiveCamera.enabled = true;
 
     }
 
