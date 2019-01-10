@@ -5,6 +5,9 @@ using UnityEngine;
 public class UnitScript : Unit
 {
     public Color LeadingColor;
+    public Camera PerspectiveCamera;
+    public Camera TopDownCamera;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -53,6 +56,13 @@ public class UnitScript : Unit
     private void Update()
     {
         // This makes it so that the unit is always looking at the used camera (WIP)
-        transform.LookAt(Camera.main.transform.position, -Vector3.up);
+        if (PerspectiveCamera.enabled) {
+            transform.LookAt(transform.position + PerspectiveCamera.transform.rotation * Vector3.forward,
+                PerspectiveCamera.transform.rotation * Vector3.up);
+        } else
+        {
+            transform.LookAt(transform.position + TopDownCamera.transform.rotation * Vector3.forward,
+                TopDownCamera.transform.rotation * Vector3.up);
+        }
     }
 }
