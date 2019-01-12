@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class UnitManager : MonoBehaviour
 {
 	//Initialize variables
 	private EventManager eventManager;

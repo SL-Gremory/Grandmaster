@@ -38,8 +38,8 @@ public class EventManager : MonoBehaviour
 		unitsDone = 0;
 		
 		//goes through every object of type Unit wakes up allies or enemies appropriately
-		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
-		foreach (Unit unit in units)
+		UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+		foreach (UnitManager unit in units)
 		{
 			if (unit.isAlly && isPlayerTurn)
 			{
