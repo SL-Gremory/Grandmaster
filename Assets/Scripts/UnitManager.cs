@@ -6,45 +6,43 @@ public class UnitManager : MonoBehaviour
 {
 	//Initialize variables
 	private EventManager eventManager;
+	private Color originalColor;
+	private Color darkColor1;
+	private Color darkColor2;
+	private bool moveIsDone;
+	private bool actionIsDone;
 	public bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
-	public bool moveIsDone;
-	public bool actionIsDone;
 	
     // Start is called before the first frame update
     void Start()
     {
 		eventManager = GameObject.FindObjectOfType<EventManager>();
+		originalColor = this.GetComponent<SpriteRenderer>().color;
+		darkColor1 = originalColor; darkColor1.r -= 0.3f; darkColor1.g -= 0.3f; darkColor1.b -= 0.3f; //excuse my bullshit
+		darkColor2 = originalColor; darkColor2.r -= 0.6f; darkColor2.g -= 0.6f; darkColor2.b -= 0.6f; //excuse my bullshit
 		
         if (isAlly)
 		{
 			eventManager.playerUnitCount++;
 			if (eventManager.playerFirst)
 			{
-				moveIsDone = false;
-				actionIsDone = false;
+				ReadyUnit();
 			}
 			else
 			{
-				moveIsDone = true;
-				actionIsDone = true;
-				Darken();//DELETE THIS LINE FOR THE REAL THING
-				Darken();//DELETE THIS LINE FOR THE REAL THING
+				ExhaustUnit();
 			}
 		}
 		else
 		{
 			eventManager.enemyUnitCount++;
-			if (eventManager.playerFirst)
+			if (!eventManager.playerFirst)
 			{
-				moveIsDone = true;
-				actionIsDone = true;
-				Darken();//DELETE THIS LINE FOR THE REAL THING
-				Darken();//DELETE THIS LINE FOR THE REAL THING
+				ReadyUnit();
 			}
 			else
 			{
-				moveIsDone = false;
-				actionIsDone = false;
+				ExhaustUnit();
 			}
 		}
     }
@@ -55,7 +53,41 @@ public class UnitManager : MonoBehaviour
         
     }*/
 	
-	void OnDeath()
+	public void ReadyUnit()
+	{
+		moveIsDone = false;
+		actionIsDone = false;
+		ChangeColor(0);
+	}
+	
+	public void ExhaustUnit()
+	{
+		moveIsDone = true;
+		actionIsDone = true;
+		ChangeColor(2);
+	}
+	
+	void DoneMoving()
+	{
+		if (!moveIsDone)
+		{
+			moveIsDone = true;
+			ChangeColor(1);
+			Debug.Log("Unit finished moving");
+		}
+	}
+	
+	void DoneActing()
+	{
+		if (!actionIsDone)
+		{
+			ExhaustUnit();
+			eventManager.unitsDone++;
+			Debug.Log("Unit finished acting");
+		}	
+	}
+	
+	void KillUnit()
 	{
 		if (isAlly)
 		{
@@ -65,43 +97,23 @@ public class UnitManager : MonoBehaviour
 		{
 			eventManager.enemyUnitCount--;
 		}
-		//remove sprite, etc.
+		Destroy(gameObject);
+		Debug.Log("Unit has died to death");
 	}
 	
-	void DoneMoving()
-	{
-		moveIsDone = true;
-		Darken();//DELETE THIS LINE FOR THE REAL THING
-		Debug.Log("Unit finished moving");
-		//prevent further movement
-	}
-	
-	void DoneActing()
-	{
-		if(!moveIsDone){DoneMoving();}
-		actionIsDone = true;
-		eventManager.unitsDone++;
-		Darken();//DELETE THIS LINE FOR THE REAL THING
-		Debug.Log("Unit finished acting");
-		//prevent further actions
-	}
-	
-	//////////DELETE THIS SECTION FOR THE REAL THING. THIS IS FOR SIMULATION ONLY//////////
 	void OnMouseEnter()
 	{
 		if (!actionIsDone)
 		{
-			Color tmp = this.GetComponent<SpriteRenderer>().color;
-			tmp.a = 0.7f;
-			this.GetComponent<SpriteRenderer>().color = tmp;
+			Highlight(true);
 		}
 	}
+	
 	void OnMouseExit()
 	{
-		Color tmp = this.GetComponent<SpriteRenderer>().color;
-		tmp.a = 1f;
-		this.GetComponent<SpriteRenderer>().color = tmp;
+		Highlight(false);
 	}
+	
 	void OnMouseOver()
 	{
 		//Left click to simulate unit moving
@@ -119,26 +131,38 @@ public class UnitManager : MonoBehaviour
 		//Middle click to simulate death, so spooky
 		if (Input.GetMouseButtonDown(2))
 		{
-			OnDeath();
-			Destroy(gameObject);
-			Debug.Log("Unit has died to death");
+			KillUnit();
 		}
 	}
-	void Darken()
+	
+	void Highlight(bool highlighted)
 	{
+		//not a true highlight, just changes the transparency
 		Color tmp = this.GetComponent<SpriteRenderer>().color;
-		tmp.r -= 0.3f;
-		tmp.g -= 0.3f;
-		tmp.b -= 0.3f;
+		if(highlighted)
+		{
+			tmp.a = 0.7f;
+		}
+		else
+		{
+			tmp.a = 1f;
+		}
 		this.GetComponent<SpriteRenderer>().color = tmp;
 	}
-	public void RevertColor()
+	
+	void ChangeColor(int choice)
 	{
-		Color tmp = this.GetComponent<SpriteRenderer>().color;
-		tmp.r += 0.6f;
-		tmp.g += 0.6f;
-		tmp.b += 0.6f;
-		this.GetComponent<SpriteRenderer>().color = tmp;
+		if (choice == 0)
+		{
+			this.GetComponent<SpriteRenderer>().color = originalColor;
+		}
+		else if (choice == 1)
+		{
+			this.GetComponent<SpriteRenderer>().color = darkColor1;
+		}
+		else if (choice == 2)
+		{
+			this.GetComponent<SpriteRenderer>().color = darkColor2;
+		}
 	}
-	//////////DELETE THIS SECTION FOR THE REAL THING. THIS IS FOR SIMULATION ONLY//////////
 }
