@@ -5,16 +5,18 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     //Initialize variables
-	private bool isPlayerTurn;
-	private bool turnIsDone = false;
+	private DoneButton doneButton;
 	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
+	public bool turnIsDone = false;
+	public bool isPlayerTurn;
 	public int playerUnitCount = 0;
 	public int enemyUnitCount = 0;
 	public int unitsDone = 0;
 	
-	// Awake is called before Start
+	// Awake is called immediately after all game objects are initialized, and before Start
 	void Awake()
 	{
+		doneButton = GameObject.FindObjectOfType<DoneButton>();
 		if (playerFirst)
 		{
 			isPlayerTurn = true;
@@ -36,18 +38,26 @@ public class EventManager : MonoBehaviour
     {
         if (turnIsDone)
 		{
-			isPlayerTurn = !isPlayerTurn;
-			ResetCounts();
+			Debug.Log("Changing turns");
+			ChangeTurns();
 			turnIsDone = false;
 		}
-		if (isPlayerTurn && playerUnitCount == unitsDone || !isPlayerTurn && enemyUnitCount == unitsDone)
+		
+		if (isPlayerTurn && playerUnitCount == unitsDone)
+		{
+			doneButton.BrightenButton();
+			unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button every frame after it has already been brightened
+		}
+		else if (!isPlayerTurn && enemyUnitCount == unitsDone)
 		{
 			turnIsDone = true;
 		}
     }
 	
-	void ResetCounts()
+	void ChangeTurns()
 	{	
+		isPlayerTurn = !isPlayerTurn;
+		doneButton.ResetButton(isPlayerTurn);
 		unitsDone = 0;
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
