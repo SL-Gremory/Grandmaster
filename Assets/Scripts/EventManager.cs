@@ -6,17 +6,20 @@ public class EventManager : MonoBehaviour
 {
     //Initialize variables
 	private DoneButton doneButton;
+	private TurnCountText turnCountText;
 	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
 	public bool turnIsDone = false;
 	public bool isPlayerTurn;
 	public int playerUnitCount = 0;
 	public int enemyUnitCount = 0;
 	public int unitsDone = 0;
+	public int turnCounter = 1;
 	
 	// Awake is called immediately after all game objects are initialized, and before Start
 	void Awake()
 	{
 		doneButton = GameObject.FindObjectOfType<DoneButton>();
+		turnCountText = GameObject.FindObjectOfType<TurnCountText>();
 		if (playerFirst)
 		{
 			isPlayerTurn = true;
@@ -58,6 +61,8 @@ public class EventManager : MonoBehaviour
 	{	
 		isPlayerTurn = !isPlayerTurn;
 		doneButton.ResetButton(isPlayerTurn);
+		turnCounter++;
+		turnCountText.DisplayNewTurn();
 		unitsDone = 0;
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
