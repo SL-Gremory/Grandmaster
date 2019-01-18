@@ -1,4 +1,8 @@
-﻿public abstract class Equipment
-{
+﻿
 
+public abstract class Equipment
+{
+   // private readonly string WeaponName;
+
+    public abstract void WeaponMight();
 }

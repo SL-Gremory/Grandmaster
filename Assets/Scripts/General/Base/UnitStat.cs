@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class UnitStat
 {
+    // Unit's base stat
     public float BaseValue;
 
     // Cannot alter this unless we are in the constructor of a class
@@ -12,6 +13,7 @@ public class UnitStat
     // Checks to see if last value is garbage
     private bool isDirty = true;
     private float _value;
+
 
     public float Value {
         get {
@@ -41,6 +43,8 @@ public class UnitStat
         statModifiers.Sort(CompareModifierOrder);
     }
     
+    // Some modifiers have higher precedence over other modifiers
+    // This will check the modifiers
     private int CompareModifierOrder(StatModifier a, StatModifier b)
     {
         if (a.Order < b.Order)
@@ -76,6 +80,7 @@ public class UnitStat
         return didRemove;
     }
 
+    // Calculate the final multiplier for affecting unit's stats
     private float CalculateFinalValue()
     {
         float finalValue = BaseValue;

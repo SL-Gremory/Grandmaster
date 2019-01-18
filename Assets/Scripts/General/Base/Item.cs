@@ -15,7 +15,7 @@ public class Item
     public string name;
     public void Equip(Character c)
     {
-        // Modifiers need to be stored in variables fists before adding them to the stat
+        // Modifiers need to be stored in variables first before adding them to the stat
         mod1 = new StatModifier(10, StatModType.Flat);
         mod2 = new StatModifier(0.1f, StatModType.PercentMult);
         c.Strength.AddModifier(mod1);
