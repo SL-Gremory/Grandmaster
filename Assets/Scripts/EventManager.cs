@@ -49,7 +49,7 @@ public class EventManager : MonoBehaviour
 		if (isPlayerTurn && playerUnitCount == unitsDone)
 		{
 			doneButton.BrightenButton();
-			unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button every frame after it has already been brightened
+			unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button in every frame even after it has already been brightened
 		}
 		else if (!isPlayerTurn && enemyUnitCount == unitsDone)
 		{
@@ -59,11 +59,14 @@ public class EventManager : MonoBehaviour
 	
 	void ChangeTurns()
 	{	
-		isPlayerTurn = !isPlayerTurn;
-		doneButton.ResetButton(isPlayerTurn);
-		turnCounter++;
-		turnCountText.DisplayNewTurn();
+		isPlayerTurn = !isPlayerTurn; //current turn is done, at this point forward it is the other side's turn
 		unitsDone = 0;
+		doneButton.ResetButton(isPlayerTurn);
+		if (isPlayerTurn)
+		{
+			turnCounter++; //only increments when it is becoming the player's turn
+			turnCountText.DisplayNewTurn();
+		}
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
 		UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
