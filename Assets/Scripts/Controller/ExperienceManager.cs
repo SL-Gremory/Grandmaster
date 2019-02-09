@@ -18,6 +18,8 @@ public static class ExperienceManager
         // Grab list of all your unit ranks
         List<Rank> ranks = new List<Rank>(party.Count);
         
+
+        // Potentially bugged
         for(int i = 0; i < party.Count; ++i)
         {
             Rank rank = party[i].GetComponent<Rank>();

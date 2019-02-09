@@ -12,7 +12,7 @@ public class Rank : MonoBehaviour
     #region Consts
 
     public const int minLevel = 1;
-    public const int maxLevel = 40;         // THIS MIGHT CHANGE
+    public const int maxLevel = 100;         // THIS MIGHT CHANGE
     public const int maxTotalExp = 40127;   // THIS MIGHT CHANGE
 
     #endregion
@@ -52,7 +52,7 @@ public class Rank : MonoBehaviour
     #endregion
 
     #region Public
-    public int LevelForExperience(int exp)
+    public static int LevelForExperience(int exp)
     {
         int level = maxLevel;
         
@@ -65,7 +65,7 @@ public class Rank : MonoBehaviour
         return level;
     }
 
-    public int ExperienceForLevel(int level)
+    public static int ExperienceForLevel(int level)
     {
         float levelPercent = Mathf.Clamp01((float)(level - minLevel) / (float)(maxLevel - minLevel));
         return (int)EasingEquations.EaseInQuad(0, maxTotalExp, levelPercent);

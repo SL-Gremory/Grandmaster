@@ -16,5 +16,6 @@ public enum StatTypes
     SPR,    // Magical defense
     SPD,    // Speed
     MOV,    // Move count
+    JMP,    // Max amount able to change height,
     Count
 }

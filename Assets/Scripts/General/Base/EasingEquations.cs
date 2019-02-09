@@ -16,4 +16,6 @@ public class EasingEquations : MonoBehaviour
         end -= start;
         return end * value * value + start;
     }
+
+    // Add more equations here if we need
 }
