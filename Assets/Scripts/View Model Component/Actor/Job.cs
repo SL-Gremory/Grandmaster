@@ -56,9 +56,11 @@ public class Job : MonoBehaviour
         stats.SetValue(StatTypes.HP, stats[StatTypes.HP]);
         stats.SetValue(StatTypes.MP, stats[StatTypes.MP]);
     }
+
     #endregion
 
     #region Event Handlers
+
     protected virtual void OnLvlChangeNotification(object sender, object args)
     {
         int oldValue = (int)args;
@@ -69,27 +71,49 @@ public class Job : MonoBehaviour
             LevelUp();
         }
     }
+
     #endregion
 
     #region Private
+
     private void LevelUp()
     {
-        for(int i = 0; i < statOrder.Length; ++i)
+        // Stat growth junk goes here
+        // Still not sure about the "scale" of things concerning the stats
+        // i.e. will they be in the tens? hundreds? thousands?
+
+        for (int i = 0; i < statOrder.Length; ++i)
         {
             StatTypes type = statOrder[i];
+   
             int whole = Mathf.FloorToInt(growStats[i]);
             float fraction = growStats[i] - whole;
 
             int value = stats[type];
             value += whole;
+
             if (UnityEngine.Random.value > (1f - fraction))
                 value++;
+
 
             stats.SetValue(type, value);
         }
 
         stats.SetValue(StatTypes.HP, stats[StatTypes.HP]);
         stats.SetValue(StatTypes.MP, stats[StatTypes.MP]);
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
     #endregion
 }

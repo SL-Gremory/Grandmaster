@@ -68,7 +68,8 @@ public class Rank : MonoBehaviour
     public static int ExperienceForLevel(int level)
     {
         float levelPercent = Mathf.Clamp01((float)(level - minLevel) / (float)(maxLevel - minLevel));
-        return (int)EasingEquations.EaseInQuad(0, maxTotalExp, levelPercent);
+        int totalExperience = (int)EasingEquations.EaseInQuad(0, maxTotalExp, levelPercent);
+        return totalExperience;
     }
 
     public void Init(int level)
