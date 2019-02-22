@@ -6,6 +6,7 @@ public class UnitManager : MonoBehaviour
 {
 	//Initialize variables
 	private EventManager eventManager;
+	private Stats stats;//might need to make public if I understand how this works
 	private Color originalColor;
 	private Color darkColor1;
 	private Color darkColor2;
@@ -17,11 +18,26 @@ public class UnitManager : MonoBehaviour
     void Start()
     {
 		eventManager = GameObject.FindObjectOfType<EventManager>();
+		stats = gameObject.GetComponentInParent<Stats>();
 		originalColor = this.GetComponent<SpriteRenderer>().color;
 		darkColor1 = originalColor; darkColor1.r -= 0.3f; darkColor1.g -= 0.3f; darkColor1.b -= 0.3f; //excuse my bullshit
 		darkColor2 = originalColor; darkColor2.r -= 0.6f; darkColor2.g -= 0.6f; darkColor2.b -= 0.6f; //excuse my bullshit
 		
-        if (isAlly)
+        StartUnit();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Debug.Log(stats[StatTypes.HP]);
+        }
+    }
+	
+	void StartUnit()
+	{
+		if (isAlly)
 		{
 			eventManager.playerUnitCount++;
 			if (eventManager.playerFirst)
@@ -45,13 +61,22 @@ public class UnitManager : MonoBehaviour
 				ExhaustUnit();
 			}
 		}
-    }
-
-    // Update is called once per frame
-    /*void Update()
-    {
-        
-    }*/
+		
+		StatTypes[] order = new StatTypes[]
+		{
+			StatTypes.HP,     // Hit points
+			StatTypes.MP,     // "Magic" points
+			StatTypes.ATK,    // Physical/magical attack power
+			StatTypes.DEF,    // Physical defense
+			StatTypes.SPR,    // Magical defense
+			StatTypes.SPD,    // Speed
+		};
+		for(int i = 0; i < order.Length; i++)
+		{
+			StatTypes currentType = order[i];
+			stats.SetValue(currentType,10);
+		}
+	}
 	
 	public void ReadyUnit()
 	{
