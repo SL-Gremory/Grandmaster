@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System; //for String characterName
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class UnitManager : MonoBehaviour
 	//Initialize variables
 	private EventManager eventManager;
 	private Stats stats;//might need to make public if I understand how this works
+	private CharacterData characterData; //consider changing private to static since there only needs to be one instance of this variable
+	public String characterName; //must define when spawning object
 	private Color originalColor;
 	private Color darkColor1;
 	private Color darkColor2;
@@ -19,6 +22,7 @@ public class UnitManager : MonoBehaviour
     {
 		eventManager = GameObject.FindObjectOfType<EventManager>();
 		stats = gameObject.GetComponentInParent<Stats>();
+		characterData = GameObject.FindObjectOfType<CharacterData>();
 		originalColor = this.GetComponent<SpriteRenderer>().color;
 		darkColor1 = originalColor; darkColor1.r -= 0.3f; darkColor1.g -= 0.3f; darkColor1.b -= 0.3f; //excuse my bullshit
 		darkColor2 = originalColor; darkColor2.r -= 0.6f; darkColor2.g -= 0.6f; darkColor2.b -= 0.6f; //excuse my bullshit
@@ -27,13 +31,10 @@ public class UnitManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            Debug.Log(stats[StatTypes.HP]);
-        }
-    }
+        
+    }*/
 	
 	void StartUnit()
 	{
@@ -71,10 +72,11 @@ public class UnitManager : MonoBehaviour
 			StatTypes.SPR,    // Magical defense
 			StatTypes.SPD,    // Speed
 		};
+		int[] characterStats = characterData.ReportStats(characterName);
 		for(int i = 0; i < order.Length; i++)
 		{
 			StatTypes currentType = order[i];
-			stats.SetValue(currentType,10);
+			stats.SetValue(currentType,characterStats[i]);
 		}
 	}
 	
@@ -158,6 +160,17 @@ public class UnitManager : MonoBehaviour
 		{
 			KillUnit();
 		}
+		//hit space to view the unit's info in the console. For testing.
+		if (Input.GetKeyDown("space"))
+        {
+			Debug.Log(characterName);
+			Debug.Log("HP = " + stats[StatTypes.HP]);
+			Debug.Log("MP = " + stats[StatTypes.MP]);
+			Debug.Log("ATK = " + stats[StatTypes.ATK]);
+			Debug.Log("DEF = " + stats[StatTypes.DEF]);
+			Debug.Log("SPR = " + stats[StatTypes.SPR]);
+			Debug.Log("SPD = " + stats[StatTypes.SPD]);
+        }
 	}
 	
 	void Highlight(bool highlighted)
