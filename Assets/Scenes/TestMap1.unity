@@ -127,12 +127,12 @@ PrefabInstance:
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.3311291
+      value: -1.34
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.576084
+      value: -4.93
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
@@ -201,12 +201,12 @@ PrefabInstance:
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.93
+      value: 0.9211292
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.6263323
+      value: -4.980249
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
@@ -256,7 +256,7 @@ PrefabInstance:
     - target: {fileID: 7202649257556270175, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: characterName
-      value: Default
+      value: Efriyeet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 462cd55b8da3efc4281f933fb115ab87, type: 3}
@@ -441,12 +441,12 @@ PrefabInstance:
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2397976
+      value: -1.2486687
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.480376
+      value: -1.8342924
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
@@ -703,12 +703,12 @@ PrefabInstance:
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.8799753
+      value: 0.87110424
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.49
+      value: -1.8439159
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
@@ -758,7 +758,7 @@ PrefabInstance:
     - target: {fileID: 2972770024627076608, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: characterName
-      value: Default
+      value: Efriyeet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6, type: 3}
@@ -930,12 +930,12 @@ PrefabInstance:
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.4900246
+      value: -3.4988966
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.58
+      value: -4.9339156
       objectReference: {fileID: 0}
     - target: {fileID: 8593419962621580899, guid: 462cd55b8da3efc4281f933fb115ab87,
         type: 3}
@@ -1142,12 +1142,12 @@ PrefabInstance:
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.2897968
+      value: -3.298667
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.4903762
+      value: -1.8442926
       objectReference: {fileID: 0}
     - target: {fileID: 4944053379781043491, guid: 7de8e0cebaf30ec4a8f5edc6808ce2e6,
         type: 3}
