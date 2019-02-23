@@ -18,6 +18,8 @@ public class Job : MonoBehaviour
         StatTypes.SPR,    // Magical defense
         StatTypes.SPD     // Speed
         //StatTypes.MOV,    // Move count
+        //StatTypes.JMP
+        //StatTypes.Count
     };
 
     public int[] baseStats = new int[statOrder.Length];
@@ -82,6 +84,12 @@ public class Job : MonoBehaviour
         // Still not sure about the "scale" of things concerning the stats
         // i.e. will they be in the tens? hundreds? thousands?
 
+
+     //   string readPath = string.Format("{0}/Settings/GROWTHS.csv", Application.dataPath);
+      //  string jobName = gameObject.GetComponentInParent<Stats>();
+
+
+
         for (int i = 0; i < statOrder.Length; ++i)
         {
             StatTypes type = statOrder[i];
@@ -101,11 +109,6 @@ public class Job : MonoBehaviour
 
         stats.SetValue(StatTypes.HP, stats[StatTypes.HP]);
         stats.SetValue(StatTypes.MP, stats[StatTypes.MP]);
-
-
-
-
-
 
 
 

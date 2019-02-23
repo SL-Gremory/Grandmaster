@@ -42,7 +42,7 @@ public static class JobParser
     // GrowthStats parser
     private static void ParseGrowthStats()
     {
-        string readPath = string.Format("{0}/Settings/JobGrowthStats.csv", Application.dataPath);
+        string readPath = string.Format("{0}/Settings/GROWTHS.csv", Application.dataPath);
         string[] readInText = File.ReadAllLines(readPath);
         for (int i = 1; i < readInText.Length; ++i)
             ParseGrowthStatsAuxiliary(readInText[i]);
@@ -51,6 +51,17 @@ public static class JobParser
     private static void ParseGrowthStatsAuxiliary(string v)
     {
         throw new NotImplementedException();
+
+
+
+
+
+
+
+
+
+
+
     }
  
 
@@ -67,6 +78,16 @@ public static class JobParser
     {
         string[] elements = line.Split(',');
  
+
+
+
+
+
+
+
+
+
+
     }
 
 }
