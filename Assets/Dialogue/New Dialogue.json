@@ -1,0 +1,24 @@
+{
+  "Items": [
+    {
+      "speaker": "Emily Green",
+      "expression": "base",
+      "speech": "Hey there! I'm Emily, but you can call me Emmy."
+    },
+    {
+      "speaker": "Emmy",
+      "expression": "base",
+      "speech": "Now my name has changed. Oh who are you and why are you red?"
+    },
+    {
+      "speaker": "Anon",
+      "expression": "base",
+      "speech": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac lobortis risus, non dapibus metus. Praesent vel mauris eget mi sollicitudin posuere. Integer ac tellus euismod, laoreet sapien ac, tincidunt dolor. Nulla ut varius lectus. Cras porttitor egestas turpis eu efficitur. Praesent vitae ipsum non diam vehicula tempor. Aenean volutpat lorem nisl, ut aliquet enim tempor sed."
+    },
+    {
+      "speaker": "Emmy",
+      "expression": "base",
+      "speech": "What. The. Fuck."
+    }
+  ]
+}

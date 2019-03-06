@@ -1,0 +1,23 @@
+{
+    "characterName": "Anonym Ous",
+    "nickname": "",
+    "description": "",
+    "splashArt": {
+        "instanceID": 11802
+    },
+    "portraitArtMain": {
+        "instanceID": 11848
+    },
+    "portraitArtHappy": {
+        "instanceID": 11860
+    },
+    "portraitArtSad": {
+        "instanceID": 11860
+    },
+    "portraitArtEmbarrassed": {
+        "instanceID": 11860
+    },
+    "portraitArtAngry": {
+        "instanceID": 11860
+    }
+}
