@@ -100,4 +100,37 @@ public class EventManager : MonoBehaviour
 			}
 		}
 	}
+	
+	public void CheckWinConditions()
+	{
+		
+		if (enemyUnitCount <= 0)
+		{
+			//win
+			Debug.Log("player wins");
+			//exhaust units and disable done button
+			UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+			foreach (UnitManager unit in units)
+			{
+				unit.ExhaustUnit();
+			}
+			doneButton.isEnabled = false;
+		}
+		else if (playerUnitCount <= 0)
+		{
+			//loss
+			Debug.Log("enemy wins");
+			//exhaust units and disable done button
+			UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+			foreach (UnitManager unit in units)
+			{
+				unit.ExhaustUnit();
+			}
+			doneButton.isEnabled = false;
+		}
+		else
+		{
+			//carry on my wayward son
+		}
+	}
 }

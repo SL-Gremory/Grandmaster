@@ -125,6 +125,7 @@ public class UnitManager : MonoBehaviour
 			eventManager.enemyUnitCount--;
 		}
 		Destroy(gameObject);
+		eventManager.CheckWinConditions();
 		Debug.Log("Unit has died to death");
 	}
 	
@@ -159,6 +160,7 @@ public class UnitManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(2))
 		{
 			KillUnit();
+			//stats.SetValue(StatTypes.HP,0); //sets hp stat to zero
 		}
 		//hit space to view the unit's info in the console. For testing.
 		if (Input.GetKeyDown("space"))
