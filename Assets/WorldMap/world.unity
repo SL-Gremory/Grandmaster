@@ -812,6 +812,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startNode: {fileID: 588095135}
+  scene:
+    sceneAsset: {fileID: 102900000, guid: 61af75774d3bd4e45973049aaae2c8bf, type: 3}
+    scenePath: Assets/LevelEditor/Scenes/LevelTestScene.unity
 --- !u!1 &955212798
 GameObject:
   m_ObjectHideFlags: 0

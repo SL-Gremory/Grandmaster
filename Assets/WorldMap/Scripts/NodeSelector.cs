@@ -8,6 +8,7 @@ namespace Map
     {
         [SerializeField]
         Node startNode;
+
         private void Start()
         {
             WorldMap.Instance.SetCurrentNode(startNode);

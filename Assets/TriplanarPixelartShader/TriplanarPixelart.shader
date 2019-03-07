@@ -44,7 +44,8 @@ Shader "Standard Triplanar Pixelart"
 			void vert(inout appdata_full v, out Input data)
 			{
 				//UNITY_INITIALIZE_OUTPUT(Input, data);
-				data.pos =  mul(unity_ObjectToWorld, v.vertex).xyz;
+				data.pos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				
 				data.pos -= data.pos % 1.0 / _PPU;
 				data.normal = UnityObjectToWorldNormal(v.normal);
 			}
@@ -66,11 +67,11 @@ Shader "Standard Triplanar Pixelart"
 					ty.x *= -1;
 				if (IN.normal.z > 0)
 					tz.x *= -1;
-
-				tx -= tx % 1.0 / _PPU;
-				ty -= ty % 1.0 / _PPU;
-				tz -= tz % 1.0 / _PPU;
-
+				/*
+				tx -= tx % (1.0 / _PPU) + (0.5 / _PPU);
+				ty -= ty % (1.0 / _PPU) + (0.5 / _PPU);
+				tz -= tz % (1.0 / _PPU) + (0.5 / _PPU);*/
+				
 				bf.x = step(bf.y + bf.z, bf.x);
 				bf.y = step(bf.x + bf.z, bf.y);
 				bf.z = step(bf.y + bf.x, bf.z);

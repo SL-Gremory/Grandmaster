@@ -1,5 +1,7 @@
 ﻿using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public static class JsonHelper
@@ -55,6 +57,7 @@ public class ConversationSO : ScriptableObject
 
     public void Load()
     {
+#if UNITY_EDITOR
         var relPath = AssetDatabase.GetAssetPath(this);
         if (relPath == null || relPath.Length == 0)
             return;
@@ -76,6 +79,7 @@ public class ConversationSO : ScriptableObject
             AssetDatabase.SaveAssets();
             Loaded = true;
         }
+#endif
     }
 
     private void OnDisable()
