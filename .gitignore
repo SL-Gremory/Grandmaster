@@ -1,6 +1,7 @@
 ###
 # Unity folders and files
 ###
+Packages/manifest.json
 [Aa]ssets/AssetStoreTools*
 [Bb]uild/
 [Ll]ibrary/
