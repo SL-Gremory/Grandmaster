@@ -19,6 +19,11 @@ using System.IO;
  */
 
 
+static class FilepathConstants
+{
+    public const string GROWTH_STATS = "{0}/Settings/GROWTHS.csv";
+    public const string BASE_STATS = "{0}/Settings/BASE.csv";
+}
 
 public static class JobParser
 {
@@ -42,7 +47,7 @@ public static class JobParser
     // GrowthStats parser
     private static void ParseGrowthStats()
     {
-        string readPath = string.Format("{0}/Settings/GROWTHS.csv", Application.dataPath);
+        string readPath = string.Format(FilepathConstants.GROWTH_STATS, Application.dataPath);
         string[] readInText = File.ReadAllLines(readPath);
         for (int i = 1; i < readInText.Length; ++i)
             ParseGrowthStatsAuxiliary(readInText[i]);
