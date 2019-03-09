@@ -46,6 +46,19 @@ public static class PlayerFlags
         return true;
     }
 
+    public static bool HasAnyFlag(string flag)
+    {
+        if (flag.Length == 0)
+            return true;
+        var sep = flag.Split(';');
+        for (int i = 0; i < sep.Length; i++)
+        {
+            if (flags.Contains(sep[i]))
+                return true;
+        }
+        return false;
+    }
+
     public static string[] GetFlags()
     {
         string[] all = new string[flags.Count];

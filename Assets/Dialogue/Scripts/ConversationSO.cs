@@ -43,7 +43,7 @@ public class NameAndCharacter
 }
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue <--", order = 1)]
-public class ConversationSO : ScriptableObject
+public class ConversationSO : ScriptableObject, ISequence
 {
     [SerializeField]
     NameAndCharacter[] actors;
@@ -93,5 +93,15 @@ public class ConversationSO : ScriptableObject
         if (ind == -1)
             return null;
         return actors[ind].character;
+    }
+
+    public void BeginSequence()
+    {
+        DialogueManager.Instance.StartConversation(this);
+    }
+
+    public bool HasSequenceEnded()
+    {
+        return !DialogueManager.Instance.IsInDialogue;
     }
 }

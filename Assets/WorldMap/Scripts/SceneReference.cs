@@ -150,6 +150,17 @@ public class SceneReference : ISerializationCallbackReceiver
                 UnityEditor.SceneManagement.EditorSceneManager.MarkAllScenesDirty();
         }
     }
+    /*
+    public override void BeginSequence()
+    {
+        Debug.Log("Beginning battle sequence. NOT IMPLEMENTED");
+    }
+
+    public override bool HasSequenceEnded()
+    {
+        // this won't be called, as a battle is in different scene
+        return true;
+    }*/
 #endif
 }
 

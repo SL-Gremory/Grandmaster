@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-    public DialogueManager Instance { get; private set; }
+    public static DialogueManager Instance { get; private set; }
 
     [SerializeField]
     TextMeshProUGUI namePlateText;

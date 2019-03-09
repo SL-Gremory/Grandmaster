@@ -15,6 +15,9 @@ namespace Map
         public void InitialPosition(GameObject player, Node init)
         {
             player.transform.position = init.transform.position;
+            var seq = init.GetComponent<EventSequencer>();
+            if (seq)
+                seq.Begin();
         }
 
         public bool IsTraveling()
@@ -39,6 +42,8 @@ namespace Map
                 yield return null;
             }
             isRunning = false;
+
+            InitialPosition(player, to);
         }
     }
 }

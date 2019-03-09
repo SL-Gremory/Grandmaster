@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 279971067}
   - component: {fileID: 279971066}
   - component: {fileID: 279971069}
+  - component: {fileID: 279971070}
   m_Layer: 0
   m_Name: Capital City
   m_TagString: Untagged
@@ -356,6 +357,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &279971070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279971065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b607f6599353c4047871097615546adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sequences:
+  - {fileID: 11400000, guid: 83a40d81b5d988f4bb5a36a45133bfd3, type: 2}
 --- !u!1 &588095134
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,9 +383,9 @@ GameObject:
   - component: {fileID: 588095136}
   - component: {fileID: 588095138}
   - component: {fileID: 588095135}
+  - component: {fileID: 588095141}
   - component: {fileID: 588095140}
   - component: {fileID: 588095139}
-  - component: {fileID: 588095141}
   m_Layer: 0
   m_Name: First Town
   m_TagString: Untagged
@@ -482,25 +497,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 588095134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de71bd87f39e33469632ab398cd6311, type: 3}
+  m_Script: {fileID: 11500000, guid: d3a587c18f8adef45a65952e503522b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 279971066}
-  hasFlag: tutorialComplete;beginnerDifficulty
-  onTravelTo:
+  hasFlag: niceFlag
+  doesntHaveFlag: 
+  sequence: {fileID: 0}
+  endAfterTime: 0
+  functionOnStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 588095134}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 907985162}
+        m_MethodName: Save
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Went to Capital like a noob
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  functionOnEnd:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &588095140
 MonoBehaviour:
@@ -511,26 +532,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 588095134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de71bd87f39e33469632ab398cd6311, type: 3}
+  m_Script: {fileID: 11500000, guid: e179585b2e90d154992398b4a1ffd17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 955212799}
-  hasFlag: 
-  onTravelTo:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 588095134}
-        m_MethodName: set_name
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Went West
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  addFlag: niceFlag;otherFlag
+  removeFlag: 
 --- !u!114 &588095141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,26 +546,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 588095134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de71bd87f39e33469632ab398cd6311, type: 3}
+  m_Script: {fileID: 11500000, guid: b607f6599353c4047871097615546adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 279971066}
-  hasFlag: tutorialComplete;hardDifficulty
-  onTravelTo:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 588095134}
-        m_MethodName: set_name
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Went to Capital like a boss
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  sequences:
+  - {fileID: 11400000, guid: 83a40d81b5d988f4bb5a36a45133bfd3, type: 2}
+  - {fileID: 11400000, guid: 72f342207ff8c8c488845d94c2cec2fd, type: 2}
+  - {fileID: 588095140}
+  - {fileID: 588095139}
 --- !u!1 &672960963
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +791,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &907985162
 MonoBehaviour:
@@ -812,9 +806,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startNode: {fileID: 588095135}
-  scene:
-    sceneAsset: {fileID: 102900000, guid: 61af75774d3bd4e45973049aaae2c8bf, type: 3}
-    scenePath: Assets/LevelEditor/Scenes/LevelTestScene.unity
 --- !u!1 &955212798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1259,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1483083521
 GameObject:
@@ -1557,7 +1548,7 @@ RectTransform:
   m_Children:
   - {fileID: 73160945}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

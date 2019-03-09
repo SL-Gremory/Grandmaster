@@ -16,6 +16,16 @@ namespace Map
         
         public static WorldMap Instance { get; private set; }
 
+        void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("More than one WorldMap running, this shouldn't happen.");
+                return;
+            }
+            Instance = this;
+        }
+
         /// <summary>
         /// Tries to travel to a location, returns true if successful.
         /// </summary>
@@ -47,12 +57,6 @@ namespace Map
             return currentNode?.name;
         }
 
-        void Awake() {
-            if (Instance != null) {
-                Debug.LogError("More than one WorldMap running, this shouldn't happen.");
-                return;
-            }
-            Instance = this;
-        }
+        
     }
 }
