@@ -11,7 +11,8 @@ public class BattleSceneSO : ScriptableObject, ISequence
 
     public void BeginSequence()
     {
-        SceneManager.LoadScene(scene.ScenePath, LoadSceneMode.Single);
+        SceneManager.LoadScene("BattleSceneBase", LoadSceneMode.Single);
+        SceneManager.LoadScene(scene.ScenePath, LoadSceneMode.Additive);
         
     }
 
