@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
         if (Instance != null)
             Debug.LogError("Can't have multiple DialogueManager instances.");
         Instance = this;
+        gameObject.SetActive(false);
     }
 
     public void EnableBackground(bool en)

@@ -77,6 +77,11 @@ public class LevelGrid : MonoBehaviour
         HidePrefabsAll();
     }
 
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
     public void SampleHeights()
     { //TODO get real height including other objects like walls and bridges using raycasts
         ProcessTerrain(GetComponent<Terrain>().terrainData);
