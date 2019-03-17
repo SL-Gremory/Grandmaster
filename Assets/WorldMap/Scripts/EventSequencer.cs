@@ -22,9 +22,11 @@ public class EventSequencer : MonoBehaviour
     }
 
     IEnumerator SequenceCheckingCoroutine() {
+        yield return null;
         while (CurrentSequence > -1 && CurrentSequence < sequences.Length) {
             CurrentSequence++;
             Debug.Log("Beginning sequence " + (CurrentSequence - 1));
+            SaveManager.UpdateSaveData();
             (sequences[CurrentSequence-1] as ISequence).BeginSequence(); //this may change scenes and stop execution of the coroutine
             yield return null;
             while (!(sequences[CurrentSequence - 1] as ISequence).HasSequenceEnded()) {
@@ -33,6 +35,7 @@ public class EventSequencer : MonoBehaviour
             Debug.Log("Ending sequence " + (CurrentSequence - 1));
         }
     }
+
 }
 
 

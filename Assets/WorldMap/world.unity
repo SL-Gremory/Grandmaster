@@ -251,6 +251,8 @@ GameObject:
   - component: {fileID: 279971066}
   - component: {fileID: 279971069}
   - component: {fileID: 279971070}
+  - component: {fileID: 279971072}
+  - component: {fileID: 279971071}
   m_Layer: 0
   m_Name: Capital City
   m_TagString: Untagged
@@ -339,7 +341,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &279971069
 CircleCollider2D:
@@ -371,6 +373,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequences:
   - {fileID: 11400000, guid: 83a40d81b5d988f4bb5a36a45133bfd3, type: 2}
+  - {fileID: 11400000, guid: 72f342207ff8c8c488845d94c2cec2fd, type: 2}
+  - {fileID: 279971072}
+  - {fileID: 279971071}
+--- !u!114 &279971071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279971065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a587c18f8adef45a65952e503522b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFlag: niceFlag
+  doesntHaveFlag: 
+  sequence: {fileID: 0}
+  endAfterTime: 0
+  functionOnStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 588095134}
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hello there
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  functionOnEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &279971072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279971065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e179585b2e90d154992398b4a1ffd17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addFlag: niceFlag;otherFlag
+  removeFlag: 
 --- !u!1 &588095134
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,9 +437,6 @@ GameObject:
   - component: {fileID: 588095136}
   - component: {fileID: 588095138}
   - component: {fileID: 588095135}
-  - component: {fileID: 588095141}
-  - component: {fileID: 588095140}
-  - component: {fileID: 588095139}
   m_Layer: 0
   m_Name: First Town
   m_TagString: Untagged
@@ -470,7 +521,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &588095138
 CircleCollider2D:
@@ -488,72 +539,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &588095139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588095134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3a587c18f8adef45a65952e503522b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasFlag: niceFlag
-  doesntHaveFlag: 
-  sequence: {fileID: 0}
-  endAfterTime: 0
-  functionOnStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 588095134}
-        m_MethodName: set_name
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Hello there
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  functionOnEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &588095140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588095134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e179585b2e90d154992398b4a1ffd17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  addFlag: niceFlag;otherFlag
-  removeFlag: 
---- !u!114 &588095141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588095134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b607f6599353c4047871097615546adc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequences:
-  - {fileID: 11400000, guid: 83a40d81b5d988f4bb5a36a45133bfd3, type: 2}
-  - {fileID: 11400000, guid: 72f342207ff8c8c488845d94c2cec2fd, type: 2}
-  - {fileID: 588095140}
-  - {fileID: 588095139}
 --- !u!1 &672960963
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +776,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &907985162
 MonoBehaviour:
@@ -898,7 +883,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &955212802
 CircleCollider2D:
@@ -942,9 +927,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183517207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2067177161}
+  - {fileID: 1553095435}
   - {fileID: 588095137}
   - {fileID: 279971068}
   - {fileID: 955212801}
@@ -953,7 +940,7 @@ Transform:
   - {fileID: 1193623128}
   - {fileID: 1248638420}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1183517209
 MonoBehaviour:
@@ -1074,7 +1061,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1193623129
 CircleCollider2D:
@@ -1129,7 +1116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1955289705116787699, guid: ba3407617de0ecc41a3bdff6d3bcf710, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1955289705116787699, guid: ba3407617de0ecc41a3bdff6d3bcf710, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1265,7 +1252,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1248638421
 CircleCollider2D:
@@ -1347,7 +1334,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1483083521
 GameObject:
@@ -1447,7 +1434,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1483083525
 CircleCollider2D:
@@ -1537,11 +1524,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553095433}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1183517208}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857251301
@@ -1636,7 +1623,7 @@ RectTransform:
   m_Children:
   - {fileID: 73160945}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1735,7 +1722,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1183517208}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &2018155236
 CircleCollider2D:
@@ -1828,10 +1815,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067177158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1183517208}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

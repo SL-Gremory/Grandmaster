@@ -26,3 +26,5 @@ public static class BattleJudges
         return state.RealTimeElapsed >= 10;
     }
 }
+
+

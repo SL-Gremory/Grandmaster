@@ -43,6 +43,7 @@ namespace Map
                     }
                 }
                 currentNode = to;
+                SaveManager.UpdateSaveData();
                 return true;
             }
             return false;

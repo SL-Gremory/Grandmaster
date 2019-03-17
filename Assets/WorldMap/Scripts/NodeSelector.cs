@@ -12,7 +12,10 @@ namespace Map
         private void Start()
         {
             WorldMap.Instance.SetCurrentNode(startNode);
-            SaveManager.Load();
+            if (SaveManager.IsSaveLoaded())
+                SaveManager.RestoreFromOpenSave();
+            else
+                SaveManager.LoadFromDisk();
         }
 
         void Update()
@@ -31,7 +34,8 @@ namespace Map
             }
         }
 
-        public void Save() {
+        public void Save()
+        {
             SaveManager.Save();
         }
     }
