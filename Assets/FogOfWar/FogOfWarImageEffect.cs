@@ -47,9 +47,8 @@ public class FogOfWarImageEffect : MonoBehaviour
 
         // pass frustum rays to shader
         EffectMaterial.SetMatrix("_FrustumCornersES", GetFrustumCorners(CurrentCamera));
-        EffectMaterial.SetMatrix("_CameraInvViewMatrix", CurrentCamera.cameraToWorldMatrix);
-        EffectMaterial.SetVector("_CameraWS", CurrentCamera.transform.position);
         EffectMaterial.SetVector("_CameraDir", CurrentCamera.transform.forward);
+        EffectMaterial.SetVector("_ScreenResolution", new Vector2(Screen.width, Screen.height));
 
 
         CustomGraphicsBlit(source, destination, EffectMaterial, 0); // Replace Graphics.Blit with CustomGraphicsBlit
@@ -112,7 +111,6 @@ public class FogOfWarImageEffect : MonoBehaviour
     static void CustomGraphicsBlit(RenderTexture source, RenderTexture dest, Material fxMaterial, int passNr)
     {
         RenderTexture.active = dest;
-
         fxMaterial.SetTexture("_MainTex", source);
 
         GL.PushMatrix();
