@@ -5,7 +5,7 @@ using UnityEngine;
 /*
 void SpawningDoohickey()
 {
-    string[] jobs = new string[] { "Bulwark" };
+    string[] jobs = new string[] { "Apothecary" };
 
     for(int i = 0; i < jobs.Length; ++i)
     {
