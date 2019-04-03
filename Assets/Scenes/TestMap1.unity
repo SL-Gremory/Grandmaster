@@ -603,8 +603,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.21999836, y: 6.169}
-  m_SizeDelta: {x: 11.15, y: 6.388}
+  m_AnchoredPosition: {x: 0.22, y: 6.999}
+  m_SizeDelta: {x: 20.096, y: 8.048}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136571130
 MonoBehaviour:
@@ -639,15 +639,17 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'M to simulate move
+  m_Text: 'Left click to select an object
+
+    While selected:
+
+    M to simulate move
 
     A to simulate action
 
     K to kill a unit
 
-    SPACE to see stats or
-
-    use done button'
+    SPACE to see stats or use done button'
 --- !u!222 &1136571131
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1269,6 +1271,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 462cd55b8da3efc4281f933fb115ab87, type: 3}
+--- !u!1001 &6767474073272070108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6767474072905551465, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_Name
+      value: raptor-sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767474072905551461, guid: 790deb1f8ab257447b4542aa26526984,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 790deb1f8ab257447b4542aa26526984, type: 3}
 --- !u!1001 &7185714151228325098
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    //Initialize variables
 	private DoneButton doneButton;
 	private TurnCountText turnCountText;
 	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
@@ -15,7 +14,6 @@ public class EventManager : MonoBehaviour
 	public int unitsDone = 0;
 	public int turnCounter = 1;
 	
-	// Awake is called immediately after all game objects are initialized, and before Start
 	void Awake()
 	{
 		doneButton = GameObject.FindObjectOfType<DoneButton>();
@@ -30,13 +28,6 @@ public class EventManager : MonoBehaviour
 		}
 	}
 	
-	// Start is called before the first frame update
-    /*void Start()
-    {
-        
-    }*/
-	
-    // Update is called once per frame
     void Update()
     {
         if (turnIsDone)
@@ -114,7 +105,7 @@ public class EventManager : MonoBehaviour
 			{
 				unit.ExhaustUnit();
 			}
-			doneButton.isEnabled = false;
+			doneButton.DeactivateButton();
 		}
 		else if (playerUnitCount <= 0)
 		{
@@ -126,7 +117,7 @@ public class EventManager : MonoBehaviour
 			{
 				unit.ExhaustUnit();
 			}
-			doneButton.isEnabled = false;
+			doneButton.DeactivateButton();
 		}
 		else
 		{

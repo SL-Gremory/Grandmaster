@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
-	private Color originalColor;
-	private Color darkColor1;
-	private Color darkColor2;
-	private bool isActive = true; //should be false by default. set to true for testing.
-	private bool isSelected = false;
+	protected Color originalColor;
+	protected Color darkColor1;
+	protected Color darkColor2;
+	protected bool isActive = false;
+	protected bool isSelected = false;
+	private SelecterIcon selecterIcon;
+	private Vector3 iconPos;
 	
-    void Start()
+    void Awake()
     {
+		selecterIcon = GameObject.FindObjectOfType<SelecterIcon>();
         originalColor = this.GetComponent<SpriteRenderer>().color;
-		darkColor1 = originalColor; darkColor1.r -= 0.3f; darkColor1.g -= 0.3f; darkColor1.b -= 0.3f; //excuse my bullshit
-		darkColor2 = originalColor; darkColor2.r -= 0.6f; darkColor2.g -= 0.6f; darkColor2.b -= 0.6f; //excuse my bullshit
+		darkColor1 = new Color(originalColor.r-0.3f, originalColor.g-0.3f, originalColor.b-0.3f);
+		darkColor2 = new Color(originalColor.r-0.6f, originalColor.g-0.6f, originalColor.b-0.6f);
     }
 
     void OnMouseEnter()
@@ -30,27 +33,28 @@ public class Selectable : MonoBehaviour
 		Highlight(false);
 	}
 	
-	void OnMouseOver()
+	protected void OnMouseOver()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (isActive && Input.GetMouseButtonDown(0))
 		{
-			//find all selectables; if is selected, revert selection and color
+			//find all selectables; if is selected, revert selection
 			Selectable[] selectables = FindObjectsOfType(typeof(Selectable)) as Selectable[];
 			foreach (Selectable selectable in selectables)
 			{
 				if (selectable.isSelected)
 				{
 					selectable.isSelected = false;
-					selectable.ChangeColor(0);
 				}
 			}
-			//make the clicked selectable selected
+			//select only the clicked selectable
 			isSelected = true;
-			ChangeColor(1);
+			iconPos = this.transform.position;
+			iconPos.z -= 1f;
+			selecterIcon.transform.position = iconPos;
 		}
 	}
 	
-	void Highlight(bool highlighted)
+	protected void Highlight(bool highlighted)
 	{
 		//not a true highlight, just changes the transparency
 		Color tmp = this.GetComponent<SpriteRenderer>().color;
@@ -65,7 +69,7 @@ public class Selectable : MonoBehaviour
 		this.GetComponent<SpriteRenderer>().color = tmp;
 	}
 	
-	void ChangeColor(int choice)
+	protected void ChangeColor(int choice)
 	{
 		if (choice == 0)
 		{

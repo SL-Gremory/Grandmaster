@@ -3,38 +3,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : Selectable
 {
-	//Initialize variables
 	private EventManager eventManager;
 	private Stats stats;//might need to make public if I understand how this works
 	private CharacterData characterData; //consider changing private to static since there only needs to be one instance of this variable
 	public String characterName; //must define when spawning object
-	private Color originalColor;
-	private Color darkColor1;
-	private Color darkColor2;
+	public bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
 	private bool moveIsDone;
 	private bool actionIsDone;
-	public bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
 	
-    // Start is called before the first frame update
     void Start()
     {
 		eventManager = GameObject.FindObjectOfType<EventManager>();
 		stats = gameObject.GetComponentInParent<Stats>();
 		characterData = GameObject.FindObjectOfType<CharacterData>();
-		originalColor = this.GetComponent<SpriteRenderer>().color;
-		darkColor1 = originalColor; darkColor1.r -= 0.3f; darkColor1.g -= 0.3f; darkColor1.b -= 0.3f; //excuse my bullshit
-		darkColor2 = originalColor; darkColor2.r -= 0.6f; darkColor2.g -= 0.6f; darkColor2.b -= 0.6f; //excuse my bullshit
-		
         StartUnit();
     }
+	
+	void Update()
+	{
+		if (isSelected)
+		{
+			//M to simulate unit moving
+			if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+			{
+				DoneMoving();
+			}
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        
-    }*/
+			//A to simulate unit performing an action
+			if (Input.GetKeyDown(KeyCode.A) && !actionIsDone)
+			{
+				DoneActing();
+			}
+
+			//D to kill unit
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				KillUnit();
+				//stats.SetValue(StatTypes.HP,0); //sets hp stat to zero; test unit death detection when it gets implemented
+			}
+			//SPACE to view the unit's character info in the console
+			if (Input.GetKeyDown("space"))
+			{
+				Debug.Log(characterName);
+				Debug.Log("HP = " + stats[StatTypes.HP]);
+				Debug.Log("MP = " + stats[StatTypes.MP]);
+				Debug.Log("ATK = " + stats[StatTypes.ATK]);
+				Debug.Log("DEF = " + stats[StatTypes.DEF]);
+				Debug.Log("SPR = " + stats[StatTypes.SPR]);
+				Debug.Log("SPD = " + stats[StatTypes.SPD]);
+			}
+		}
+	}
 	
 	void StartUnit()
 	{
@@ -84,6 +105,7 @@ public class UnitManager : MonoBehaviour
 	{
 		moveIsDone = false;
 		actionIsDone = false;
+		isActive = true; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(0);
 	}
 	
@@ -91,6 +113,7 @@ public class UnitManager : MonoBehaviour
 	{
 		moveIsDone = true;
 		actionIsDone = true;
+		isActive = false; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(2);
 	}
 	
@@ -127,82 +150,5 @@ public class UnitManager : MonoBehaviour
 		Destroy(gameObject);
 		eventManager.CheckWinConditions();
 		Debug.Log("Unit has died to death");
-	}
-	
-	void OnMouseEnter()
-	{
-		if (!actionIsDone)
-		{
-			Highlight(true);
-		}
-	}
-	
-	void OnMouseExit()
-	{
-		Highlight(false);
-	}
-	
-	void OnMouseOver()
-	{
-		//M to simulate unit moving
-		if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
-		{
-			DoneMoving();
-		}
-
-		//A to simulate unit performing an action
-		if (Input.GetKeyDown(KeyCode.A) && !actionIsDone)
-		{
-			DoneActing();
-		}
-
-		//D to kill unit
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			KillUnit();
-			//stats.SetValue(StatTypes.HP,0); //sets hp stat to zero
-		}
-		//hit space to view the unit's info in the console. For testing.
-		if (Input.GetKeyDown("space"))
-        {
-			Debug.Log(characterName);
-			Debug.Log("HP = " + stats[StatTypes.HP]);
-			Debug.Log("MP = " + stats[StatTypes.MP]);
-			Debug.Log("ATK = " + stats[StatTypes.ATK]);
-			Debug.Log("DEF = " + stats[StatTypes.DEF]);
-			Debug.Log("SPR = " + stats[StatTypes.SPR]);
-			Debug.Log("SPD = " + stats[StatTypes.SPD]);
-        }
-	}
-	
-	void Highlight(bool highlighted)
-	{
-		//not a true highlight, just changes the transparency
-		Color tmp = this.GetComponent<SpriteRenderer>().color;
-		if(highlighted)
-		{
-			tmp.a = 0.7f;
-		}
-		else
-		{
-			tmp.a = 1f;
-		}
-		this.GetComponent<SpriteRenderer>().color = tmp;
-	}
-	
-	void ChangeColor(int choice)
-	{
-		if (choice == 0)
-		{
-			this.GetComponent<SpriteRenderer>().color = originalColor;
-		}
-		else if (choice == 1)
-		{
-			this.GetComponent<SpriteRenderer>().color = darkColor1;
-		}
-		else if (choice == 2)
-		{
-			this.GetComponent<SpriteRenderer>().color = darkColor2;
-		}
 	}
 }
