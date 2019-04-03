@@ -603,8 +603,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.21999836, y: 4.9750004}
-  m_SizeDelta: {x: 11.15, y: 3.998}
+  m_AnchoredPosition: {x: 0.21999836, y: 6.169}
+  m_SizeDelta: {x: 11.15, y: 6.388}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136571130
 MonoBehaviour:
@@ -639,11 +639,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lclick to simulate move
+  m_Text: 'M to simulate move
 
-    Rclick to simulate action
+    A to simulate action
 
-    Middleclick to kill a unit'
+    K to kill a unit
+
+    SPACE to see stats or
+
+    use done button'
 --- !u!222 &1136571131
 CanvasRenderer:
   m_ObjectHideFlags: 0

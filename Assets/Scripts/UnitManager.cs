@@ -144,20 +144,20 @@ public class UnitManager : MonoBehaviour
 	
 	void OnMouseOver()
 	{
-		//Left click to simulate unit moving
-		if (Input.GetMouseButtonDown(0) && !moveIsDone)
+		//M to simulate unit moving
+		if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
 		{
 			DoneMoving();
 		}
 
-		//Right click to simulate unit performing an action
-		if (Input.GetMouseButtonDown(1) && !actionIsDone)
+		//A to simulate unit performing an action
+		if (Input.GetKeyDown(KeyCode.A) && !actionIsDone)
 		{
 			DoneActing();
 		}
 
-		//Middle click to simulate death, so spooky
-		if (Input.GetMouseButtonDown(2))
+		//D to kill unit
+		if (Input.GetKeyDown(KeyCode.K))
 		{
 			KillUnit();
 			//stats.SetValue(StatTypes.HP,0); //sets hp stat to zero

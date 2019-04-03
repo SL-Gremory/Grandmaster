@@ -62,7 +62,7 @@ public class DoneButton : MonoBehaviour
 	void OnMouseOver()
 	{
 		//Left click to activate
-		if (Input.GetMouseButtonDown(0) && isEnabled)
+		if (Input.GetKeyDown("space") && isEnabled)
 		{
 			eventManager.turnIsDone = true;
 			Debug.Log("Player declared end of turn");
