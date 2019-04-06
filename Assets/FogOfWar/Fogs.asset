@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 112b7e2a5aeaa13419b46fbedfa005f9, type: 3}
   m_Name: Fogs
   m_EditorClassIdentifier: 
-  fogTypes: []
+  fogTypes:
+  - hue: {r: 1, g: 1, b: 1, a: 1}
+    noiseScale: 0.2
+  - hue: {r: 0.5, g: 0, b: 0, a: 1}
+    noiseScale: 1
+  - hue: {r: 0.30593628, g: 0.5188679, b: 0.3122202, a: 1}
+    noiseScale: 0.65

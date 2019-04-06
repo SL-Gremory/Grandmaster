@@ -33,7 +33,7 @@ public class FogOfWarGrid : MonoBehaviour
 
         Shader.SetGlobalVector("_LevelSize", new Vector4(grid.GetMapSize().x, MAX_MAP_HEIGHT, grid.GetMapSize().y, 0));
         Shader.SetGlobalTexture("_VisHeightMap", visibilityTex);
-
+        /*
         //TEST
         for (int x = 10; x < 25; x++)
         {
@@ -58,7 +58,14 @@ public class FogOfWarGrid : MonoBehaviour
                     SetFog(new Int2(x, y), 1);
             }
         }
-
+        for (int x = 20; x < 50; x++)
+        {
+            for (int y = 20; y < 50; y++)
+            {
+                if ((x - 25) * (x - 25) + (y - 25) * (y - 25) < 50)
+                    SetFog(new Int2(x, y), 2);
+            }
+        }*/
 
     }
 
