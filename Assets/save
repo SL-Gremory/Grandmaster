@@ -1,0 +1,23 @@
+{
+    "characterName": "Emmy",
+    "nickname": "",
+    "description": "",
+    "splashArt": {
+        "instanceID": 10256
+    },
+    "portraitArtMain": {
+        "instanceID": 10088
+    },
+    "portraitArtHappy": {
+        "instanceID": 10088
+    },
+    "portraitArtSad": {
+        "instanceID": 10290
+    },
+    "portraitArtEmbarrassed": {
+        "instanceID": 10606
+    },
+    "portraitArtAngry": {
+        "instanceID": 10390
+    }
+}
