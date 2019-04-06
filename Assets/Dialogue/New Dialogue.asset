@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7e41dfc05b136439b3e97e8e0c3322, type: 3}
+  m_Name: New Dialogue
+  m_EditorClassIdentifier: 
+  actors:
+  - name: Emily Green
+    character: {fileID: 11400000, guid: 732baea2996eb444fa896afbb1fd62d5, type: 2}
+  - name: Emmy
+    character: {fileID: 11400000, guid: 732baea2996eb444fa896afbb1fd62d5, type: 2}
+  - name: Anon
+    character: {fileID: 11400000, guid: 27a2a3b712ff07f488ea2fe49d00ecf4, type: 2}
+  conversation:
+  - speaker: Emily Green
+    expression: base
+    speech: Hey there! I'm Emily, but you can call me Emmy.
+  - speaker: Emmy
+    expression: base
+    speech: Now my name has changed. Oh who are you and why are you red?
+  - speaker: Anon
+    expression: base
+    speech: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac lobortis risus, non dapibus metus. Praesent vel mauris eget mi sollicitudin posuere. Integer ac tellus euismod, laoreet sapien ac, tincidunt dolor. Nulla ut varius lectus. Cras porttitor egestas turpis eu efficitur. Praesent vitae ipsum non diam vehicula tempor. Aenean volutpat lorem nisl, ut aliquet enim tempor sed.
+  - speaker: Emmy
+    expression: base
+    speech: What. The. Fuck.

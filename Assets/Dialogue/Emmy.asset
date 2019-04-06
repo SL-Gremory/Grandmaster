@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573aadff43253c34993b373c07a8a417, type: 3}
+  m_Name: Emmy
+  m_EditorClassIdentifier: 
+  characterName: Emmy
+  nickname: 
+  description: 
+  splashArt: {fileID: 21300000, guid: 47d078662f3833d4fb7e572a110b0e71, type: 3}
+  portraitArtMain: {fileID: 21300000, guid: 73e11223213313544bd52c9fc2b3ab85, type: 3}
+  portraitArtHappy: {fileID: 21300000, guid: 73e11223213313544bd52c9fc2b3ab85, type: 3}
+  portraitArtSad: {fileID: 21300000, guid: a7311f17f7878df40a3611e62c7d808f, type: 3}
+  portraitArtEmbarrassed: {fileID: 21300000, guid: 575e66bb86af8a34a903d7dbba35637e, type: 3}
+  portraitArtAngry: {fileID: 21300000, guid: 3cbc3a88e67047e4bace096a4e19434d, type: 3}
