@@ -2,36 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
-void SpawningDoohickey()
+public class SpawningDoohickey : MonoBehaviour
 {
-    string[] jobs = new string[] { "Apothecary" };
-
-    for(int i = 0; i < jobs.Length; ++i)
+    void Start()
     {
-        GameObject instance = Instantiate(owner.heroPrefab) as GameObject;
-
-        Stats s = instance.AddComponent<Stats>();
-        s[StatTypes.LVL] = 1;
-
-        GameObject jobPrefab = Resources.Load<GameObject>("Jobs/" + jobs[i]);
-        GameObject jobInstance = Instantiate(jobPrefab) as GameObject;
-        jobInstance.transform.SetParent(instance.transform);
-
-        Job job = jobInstance.GetComponent<Job>();
-        job.Employ();
-        job.LoadDefaultStats();
-
-        Point p = new Point((int)levelData.tiles[i].x,
-            (int)levelData.tiles[i].z);
-
-        Unit unit = instance.GetComponent<Unit>();
-        unit.Place(board.GetTile(p));
-        unit.Match();
-
-        instance.AddComponent<WalkMovement>();
-        UnitScript.Add(unit);
+        GameObject unitPrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        unitPrefab.AddComponent<Stats>();
+        unitPrefab.AddComponent<Rank>();
+        unitPrefab.AddComponent<Job>();
+        unitPrefab.AddComponent<UnitClass>();
     }
-    
 }
-*/
+
