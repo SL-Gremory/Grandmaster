@@ -1,0 +1,51 @@
+Welcome to the grid terrain level editor!
+
+Creating the level:
+Open/Create a scene, right-click in object hierarchy and select Create Game Level.
+GameObject named Level will be created. It has components Terrain, Terrain Collider, Terrain Helper and Level Grid
+I recommend leaving Level at position (0,0,0) as it simplifies the grid coordinates.
+
+Terrain component:
+In first tab you can change height of the terrain and paint textures on it.
+In second tab you can add trees, but it may clash with our grid, not recommended.
+In third tab you can paint details like grass.
+In settings(the fourth tab) you can switch between normal and pixelart materials(they blend textures differently).
+Don't change Terrain size(except height), Control Texture Resolution and Heightmap Resolution here.
+
+Terrain Helper component:
+Terrain size -> Set size of terrain here. The terrain must be square for heightmap, detailmap and our grid to line up.
+(We can hide unused terrain parts later, don't worry)
+Visualize -> Show clues about height, walkability and prefabs when mouse is over the terrain.
+	Grid distance -> How many cells around the mouse are shown.
+Terrain Painting:
+Paint Walkability -> Set cells under mouse walkable or unwalkable with left-click.
+Paint Prefabs -> Add any prefab on cells under mouse with left-click.
+	Painted Prefab -> Place your prefab in this slot.
+	Add -> Adds selected prefab to cell.
+	Replace -> Replaces all prefabs in cell with prefab in slot.
+	Remove -> Removes selected prefab from cell, removes all if no prefab selected.
+
+Level Grid component:
+Set Unwalkable Angle -> Automatically sets cells unwalkable if slope is above angle, does nothing if 0.
+Use Terrain -> Samples level height from terrain
+Use Props -> Sample takes into account height and walkability of props
+Use Prefabs(not implemented) -> Default prefabs added depending on terrain textures
+Sample Terrain -> Bakes level data using methods selected above
+
+Adding Props to level:
+Any GameObject in the scene with component implementing IProp is recognized as a prop.
+Props need colliders to sample height from them.
+PropDummy is basic example of a prop.
+
+Level Grid in code:
+The level is available as a singleton in LevelGrid.Instance property
+For programming gameplay you can use these methods (described in code comments):
+Int2 GetMapSize()
+float GetHeight(int x, int z)
+void SetHeight(int x, int z, float height)
+bool IsWalkable(int x, int z)
+void SetWalkable(int x, int z, bool value)
+GameObject ShowPrefabsAt(int x, int z)
+void HidePrefabsAt(int x, int z)
+void HidePrefabsAll()
+There are other methods which are undocumented, they are used for level baking in editor, but it is possible to use them at runtime too.
