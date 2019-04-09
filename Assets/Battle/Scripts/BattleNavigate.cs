@@ -3,30 +3,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleControl : MonoBehaviour
+public class BattleNavigate : MonoBehaviour
 {
 
     [Header("Integrate to use real unit stats")]
     [SerializeField]
-    Int2 currentUnitPosition;
+    Int2 currentUnitPosition; // old, used for calculating all paths in area
     [SerializeField]
     int maxDistance;
     [SerializeField]
     float maxJump;
     [SerializeField]
     GameObject squarePrefab;
-    [SerializeField]
-    bool recalculate;
+
 
     GameObject visualsParent;
+    Int2 lastGoal;
+    List<Int2> path;
+    bool traveling;
 
     private void Update()
     {
-        if (recalculate)
+        if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
-            recalculate = false;
-            CalculateTraversability();
+            StartCoroutine(Travel(path));
         }
+        if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
+        {
+            var goal = new Int2((int)hit.point.x, (int)hit.point.z);
+            if (goal == lastGoal)
+                return;
+            lastGoal = goal;
+            path = CalculatePath(new Int2((int)transform.position.x, (int)transform.position.z), goal);
+        }
+        
+    }
+
+    IEnumerator Travel(List<Int2> path)
+    {
+        traveling = true;
+        while (path.Count > 0)
+        {
+            var cell = path[path.Count - 1];
+            var target = new Vector3(cell.x + 0.5f, LevelGrid.Instance.GetHeight(cell.x, cell.y), cell.y + 0.5f);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 10f);
+            if (Vector3.SqrMagnitude(transform.position - target) < 0.1)
+                path.RemoveAt(path.Count-1); // slow but whatever
+            yield return null;
+        }
+        traveling = false;
+    }
+
+    List<Int2> CalculatePath(Int2 start, Int2 goal)
+    {
+        if (visualsParent != null)
+            Destroy(visualsParent);
+        visualsParent = new GameObject("Walking visuals");
+        var path = Astar(start, goal, maxDistance, maxJump);
+        if (path != null)
+        {
+            Instantiate(squarePrefab, new Vector3(goal.x + 0.5f, LevelGrid.Instance.GetHeight(goal.x, goal.y) + 0.25f, goal.y + 0.5f), squarePrefab.transform.rotation, visualsParent.transform);
+            return path;
+        }
+        return null;
     }
 
     void CalculateTraversability()
@@ -39,7 +78,7 @@ public class BattleControl : MonoBehaviour
             for (int z = currentUnitPosition.y - maxDistance; z < currentUnitPosition.y + maxDistance + 1; z++)
             {
                 if (Astar(currentUnitPosition, new Int2(x, z), maxDistance, maxJump) != null)
-                    Instantiate(squarePrefab, new Vector3(x, LevelGrid.Instance.GetHeight(x, z) + 0.25f, z), squarePrefab.transform.rotation, visualsParent.transform);
+                    Instantiate(squarePrefab, new Vector3(x + 0.5f, LevelGrid.Instance.GetHeight(x, z) + 0.25f, z + 0.5f), squarePrefab.transform.rotation, visualsParent.transform);
             }
         }
     }
