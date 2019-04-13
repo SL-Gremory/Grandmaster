@@ -9,15 +9,15 @@ public class LevelGrowthTest : MonoBehaviour
 
     void Start()
     {
-        //VerifyLevelToExperienceCalculations();
-        VerifySharedExperienceDistribution();
+        VerifyLevelToExperienceCalculations();
+        //VerifySharedExperienceDistribution();
     }
 
     // Test awarding exeperience to party members
     // Members initialized to different levels
     void VerifySharedExperienceDistribution()
     {
-        string[] names = new string[] { "MC", "Emmy", "Angostura", "Brandy" };
+        string[] names = new string[] {"Emmy"};
 
         Party heroes = new Party();
 
@@ -45,11 +45,12 @@ public class LevelGrowthTest : MonoBehaviour
     void VerifyLevelToExperienceCalculations()
     {
 
-        for (int i = 1; i < 101; ++i)
+        for (int i = 1; i <= 40; ++i)
         {
             int expForLevel = Rank.ExperienceForLevel(i);
-            int levelForExp = Rank.LevelForExperience(i);
+            int levelForExp = Rank.LevelForExperience(expForLevel);
 
+            
             if(levelForExp != i)
             {
                 Debug.Log(string.Format("Mismatch on level: {0} with exp: {1} returned {2}", i, expForLevel, levelForExp));
@@ -58,6 +59,10 @@ public class LevelGrowthTest : MonoBehaviour
             {
                 Debug.Log(string.Format("Level: {0} = Exp: {1}", levelForExp, expForLevel));
             }
+            
+            //Debug.Log(string.Format("Level: {0} = Exp: {1}", i, expForLevel));
+
+            //Debug.Log(string.Format("Currently on {0} but found {1}", i, levelForExp));
         }
     }
 
