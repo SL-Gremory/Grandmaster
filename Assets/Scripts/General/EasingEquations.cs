@@ -8,13 +8,14 @@ using UnityEngine;
 // to hard levels
 
 // Credits to C.J. Kimberlin (http://cjkimberlin.com) this function
+// https://gist.github.com/cjddmut/d789b9eb78216998e95c
 
 public class EasingEquations : MonoBehaviour
 {
-    public static float EaseInQuad(float start, float end, float value)
+    public static float EaseInQuad(float start, float end, float levelPercentage)
     {
         end -= start;
-        return end * value * value + start;
+        return end * levelPercentage * levelPercentage + start;
     }
 
     // Add more equations here if we need

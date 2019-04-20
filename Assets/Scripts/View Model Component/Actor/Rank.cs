@@ -12,7 +12,7 @@ public class Rank : MonoBehaviour
     #region Consts
 
     public const int minLevel = 1;
-    public const int maxLevel = 100;         // THIS MIGHT CHANGE
+    public const int maxLevel = 40;         // THIS MIGHT CHANGE
     public const int maxTotalExp = 40127;   // THIS MIGHT CHANGE
 
     #endregion
@@ -52,6 +52,8 @@ public class Rank : MonoBehaviour
     #endregion
 
     #region Public
+
+    // This returns the level a unit would be if they had some total of accumulated experience
     public static int LevelForExperience(int exp)
     {
         int level = maxLevel;
@@ -65,6 +67,7 @@ public class Rank : MonoBehaviour
         return level;
     }
 
+    // This returns the grand total number of accumulated experience required to reach a certain level
     public static int ExperienceForLevel(int level)
     {
         float levelPercent = Mathf.Clamp01((float)(level - minLevel) / (float)(maxLevel - minLevel));

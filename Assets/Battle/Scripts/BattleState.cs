@@ -17,7 +17,10 @@ public class BattleState : MonoBehaviour
     private void Update()
     {
         RealTimeElapsed += Time.deltaTime;
-
+        if (BattleData == null) {
+            Debug.LogWarning("No battle data here, must be a test.", this);
+            return;
+        }
         if (BattleJudges.JudgeEnd(BattleData.WinCondition, this))
         {
             //TODO: BATTLE IS WON, RETURN TO MAP
