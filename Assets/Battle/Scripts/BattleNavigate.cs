@@ -15,12 +15,23 @@ public class BattleNavigate : MonoBehaviour
     float maxJump;
     [SerializeField]
     GameObject squarePrefab;
-
+    [SerializeField]
+    Mesh quadMesh;
+    [SerializeField]
+    Material gridMat;
 
     GameObject visualsParent;
     Int2 lastGoal;
     List<Int2> path;
     bool traveling;
+    TerrainData levelTerrain;
+
+    private void Start()
+    {
+        levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
+        //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
+
+    }
 
     private void Update()
     {
@@ -36,7 +47,7 @@ public class BattleNavigate : MonoBehaviour
             lastGoal = goal;
             path = CalculatePath(new Int2((int)transform.position.x, (int)transform.position.z), goal);
         }
-        
+
     }
 
     IEnumerator Travel(List<Int2> path)
@@ -47,8 +58,8 @@ public class BattleNavigate : MonoBehaviour
             var cell = path[path.Count - 1];
             var target = new Vector3(cell.x + 0.5f, LevelGrid.Instance.GetHeight(cell.x, cell.y), cell.y + 0.5f);
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 10f);
-            if (Vector3.SqrMagnitude(transform.position - target) < 0.1)
-                path.RemoveAt(path.Count-1); // slow but whatever
+            if (Vector3.SqrMagnitude(transform.position - target) < 0.01)
+                path.RemoveAt(path.Count - 1);
             yield return null;
         }
         traveling = false;
@@ -59,13 +70,79 @@ public class BattleNavigate : MonoBehaviour
         if (visualsParent != null)
             Destroy(visualsParent);
         visualsParent = new GameObject("Walking visuals");
+        if (start.x < 0 || start.y < 0 || start.x >= LevelGrid.Instance.GetMapSize().x || start.y >= LevelGrid.Instance.GetMapSize().y)
+            return null;
+        if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
+            return null;
+        //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
+        var go = Instantiate(squarePrefab, new Vector3(goal.x + 0.5f, LevelGrid.Instance.GetHeight(goal.x, goal.y) + 0.1f, goal.y + 0.5f), squarePrefab.transform.rotation, visualsParent.transform);
         if (path != null)
         {
-            Instantiate(squarePrefab, new Vector3(goal.x + 0.5f, LevelGrid.Instance.GetHeight(goal.x, goal.y) + 0.25f, goal.y + 0.5f), squarePrefab.transform.rotation, visualsParent.transform);
+            go.GetComponent<Renderer>().sharedMaterial.SetColor("_TintColor", Color.green);
             return path;
         }
+        go.GetComponent<Renderer>().sharedMaterial.SetColor("_TintColor", Color.red);
         return null;
+    }
+
+    static void SpawnVisualGrid(Transform holder, Mesh quad, TerrainData data, Material mat)
+    {
+
+        for (int x = 0; x < LevelGrid.Instance.GetMapSize().x; x++)
+        {
+            for (int y = 0; y < LevelGrid.Instance.GetMapSize().y; y++)
+            {
+                var go = new GameObject();
+                go.transform.SetParent(holder, false);
+                go.transform.position = new Vector3(x + 0.5f, LevelGrid.Instance.GetHeight(x, y) + 0.1f, y + 0.5f);
+                var filter = go.AddComponent<MeshFilter>();
+                go.AddComponent<MeshRenderer>().sharedMaterial = mat;
+                var mesh = new Mesh();
+                mesh.vertices = new Vector3[] {
+                    new Vector3(-0.5f, 0,-0.5f),
+                    new Vector3(0.5f, 0,0.5f),
+                    new Vector3(0.5f, 0,-0.5f),
+                    new Vector3(-0.5f, 0,0.5f),
+                };
+                mesh.triangles = quad.triangles;
+                mesh.uv = quad.uv;
+                filter.sharedMesh = mesh;
+            }
+        }
+
+    }
+
+    static void SpawnVisualGridAround(Transform holder, Mesh quad, TerrainData data, Material mat, Int2 center, int maxDistance)
+    {
+
+        for (int x = -maxDistance; x <= maxDistance; x++)
+        {
+            for (int y = -maxDistance; y <= maxDistance; y++)
+            {
+                if (center.x + x < 0 || center.y + y < 0 || center.x + x >= LevelGrid.Instance.GetMapSize().x || center.y + y >= LevelGrid.Instance.GetMapSize().y)
+                    continue;
+                if (Mathf.Abs(x) + Mathf.Abs(y) > maxDistance)
+                    continue;
+                var go = new GameObject();
+                go.transform.SetParent(holder, false);
+                go.transform.position = new Vector3(center.x + x + 0.5f, 0, center.y + y + 0.5f);
+                var filter = go.AddComponent<MeshFilter>();
+                go.AddComponent<MeshRenderer>().sharedMaterial = mat;
+                var mesh = new Mesh();
+                mesh.vertices = new Vector3[] {
+                    new Vector3(-0.5f, data.GetHeight(center.x + x, center.y + y) + 0.1f,-0.5f),
+                    new Vector3(0.5f, data.GetHeight(center.x + x+1, center.y + y+1) + 0.1f,0.5f),
+                    new Vector3(0.5f, data.GetHeight(center.x + x+1, center.y + y) + 0.1f,-0.5f),
+                    new Vector3(-0.5f, data.GetHeight(center.x + x, center.y + y+1) + 0.1f,0.5f),
+                };
+                mesh.triangles = quad.triangles;
+                mesh.uv = quad.uv;
+                filter.sharedMesh = mesh;
+
+                //Debug.Log(verts[0] + ", " + verts[1] + ", " + verts[2]);
+            }
+        }
     }
 
     void CalculateTraversability()
@@ -85,10 +162,7 @@ public class BattleNavigate : MonoBehaviour
 
     static List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
     {
-        if (start.x < 0 || start.y < 0 || start.x >= LevelGrid.Instance.GetMapSize().x || start.y >= LevelGrid.Instance.GetMapSize().y)
-            return null;
-        if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
-            return null;
+
         HashSet<Int2> closedSet = new HashSet<Int2>();
         var openSet = new SimplePriorityQueue<Int2>();
 

@@ -11,6 +11,7 @@ Shader "Nature/Terrain/StandardPixelart" {
         Tags {
             "Queue" = "Geometry-100"
             "RenderType" = "Opaque"
+			"Overlay" = "Grid"
         }
 
         CGPROGRAM
@@ -50,8 +51,7 @@ Shader "Nature/Terrain/StandardPixelart" {
 			fixed3 y = ddy(IN.worldPos);
 			fixed3 c = cross(x, y);
 			if (length(c) > 0)
-				o.Normal = lerp(o.Normal, normalize(c), 1);*/
-
+				o.Normal = lerp(o.Normal, -normalize(c), 1);*/
 
 			o.Albedo = mixedDiffuse.rgb;
 			o.Alpha = 1;
