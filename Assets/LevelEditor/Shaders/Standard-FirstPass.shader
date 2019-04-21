@@ -45,13 +45,16 @@ Shader "Nature/Terrain/StandardPixelart" {
             half weight;
             fixed4 mixedDiffuse;
             half4 defaultSmoothness = half4(_Smoothness0, _Smoothness1, _Smoothness2, _Smoothness3);
-			SplatmapMix(IN, defaultSmoothness, splat_control, weight, mixedDiffuse, o.Normal);
-			/* // want some lowpoly power?
+
+			// want some lowpoly power?
 			fixed3 x = ddx(IN.worldPos);
-			fixed3 y = ddy(IN.worldPos);
+			fixed3 y = -ddy(IN.worldPos);
 			fixed3 c = cross(x, y);
-			if (length(c) > 0)
-				o.Normal = lerp(o.Normal, -normalize(c), 1);*/
+			//if (length(c) > 0)
+				o.Normal = lerp(o.Normal, normalize(c).xzy, 1);
+
+			SplatmapMix(IN, defaultSmoothness, splat_control, weight, mixedDiffuse, o.Normal);
+			
 
 			o.Albedo = mixedDiffuse.rgb;
 			o.Alpha = 1;
