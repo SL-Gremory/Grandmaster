@@ -132,21 +132,21 @@ void SplatmapMix(Input IN, out half4 splat_control, out half weight, out fixed4 
 		mixedDiffuse = tex2D(_Splat3, uvSplat3) * half4(1.0, 1.0, 1.0, defaultAlpha.a);
 #else
 	mixedDiffuse = tex2D(_Splat0, uvSplat0);
-	if (splat_control.g > 0.49)
+	if (splat_control.g >= densTarget)
 		mixedDiffuse = tex2D(_Splat1, uvSplat1);
-	if (splat_control.b > 0.49)
+	if (splat_control.b > densTarget)
 		mixedDiffuse = tex2D(_Splat2, uvSplat2);
-	if (splat_control.a > 0.49)
+	if (splat_control.a > densTarget)
 		mixedDiffuse = tex2D(_Splat3, uvSplat3);
 #endif
 #ifdef _NORMALMAP
-	if (splat_control.r > 0.1)
+	if (splat_control.r > densTarget)
 		mixedNormal = UnpackNormalWithScale(tex2D(_Normal0, uvSplat0), _NormalScale0);
-	if (splat_control.g > 0.49)
+	if (splat_control.g > densTarget)
 		mixedNormal += UnpackNormalWithScale(tex2D(_Normal1, uvSplat1), _NormalScale1);
-	if (splat_control.b > 0.49)
+	if (splat_control.b > densTarget)
 		mixedNormal += UnpackNormalWithScale(tex2D(_Normal2, uvSplat2), _NormalScale2);
-	if (splat_control.a > 0.49)
+	if (splat_control.a > densTarget)
 		mixedNormal += UnpackNormalWithScale(tex2D(_Normal3, uvSplat3), _NormalScale3);
 #endif
 
