@@ -15,9 +15,7 @@ Shader "Standard Triplanar Pixelart"
 	}
 		SubShader
 		{
-			Tags { "RenderType" = "Opaque"
-					"Overlay" = "Grid"
-		}
+			Tags { "RenderType" = "Opaque" }
 
 			CGPROGRAM
 
