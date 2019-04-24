@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class DisableWhenNotMainScene : MonoBehaviour
 {
     void Awake() {
-        if (SceneManager.sceneCount > 1) {
+		if (SceneManager.sceneCount > 1) {
             gameObject.SetActive(false);
         }
     }

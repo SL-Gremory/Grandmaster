@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
 	private DoneButton doneButton;
 	private TurnCountText turnCountText;
-	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
-	public bool turnIsDone = false;
-	public bool isPlayerTurn;
-	public int playerUnitCount = 0;
-	public int enemyUnitCount = 0;
-	public int unitsDone = 0;
-	public int turnCounter = 1;
+	[SerializeField]
+	private bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
+	internal bool turnIsDone = false;
+	internal bool isPlayerTurn;
+	internal int playerUnitCount = 0;
+	internal int enemyUnitCount = 0;
+	internal int unitsDone = 0;
+	internal int turnCounter = 1;
 	
 	void Awake()
 	{
@@ -92,7 +93,7 @@ public class EventManager : MonoBehaviour
 		}
 	}
 	
-	public void CheckWinConditions()
+	internal void CheckWinConditions()
 	{
 		
 		if (enemyUnitCount <= 0)

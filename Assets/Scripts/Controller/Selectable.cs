@@ -7,10 +7,9 @@ public class Selectable : MonoBehaviour
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
-	protected bool isActive = false;
-	protected bool isSelected = false;
+	protected bool isActive = false; //if can be selected
+	protected bool isSelected = false; //if is selected
 	private SelecterIcon selecterIcon;
-	private Vector3 iconPos;
 	
     void Awake()
     {
@@ -37,6 +36,7 @@ public class Selectable : MonoBehaviour
 	{
 		if (isActive && Input.GetMouseButtonDown(0))
 		{
+			Debug.Log("Selected a selectable");
 			//find all selectables; if is selected, revert selection
 			Selectable[] selectables = FindObjectsOfType(typeof(Selectable)) as Selectable[];
 			foreach (Selectable selectable in selectables)
@@ -48,9 +48,20 @@ public class Selectable : MonoBehaviour
 			}
 			//select only the clicked selectable
 			isSelected = true;
-			iconPos = this.transform.position;
-			iconPos.z -= 1f;
-			selecterIcon.transform.position = iconPos;
+			SelectThis(true);
+		}
+	}
+	
+	protected void SelectThis(bool yes)
+	{
+		if (yes)
+		{
+			selecterIcon.targetObject = this.gameObject;
+		}
+		else
+		{
+			selecterIcon.targetObject = null;
+			selecterIcon.ResetPosition();
 		}
 	}
 	
