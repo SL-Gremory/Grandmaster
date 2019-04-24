@@ -77,6 +77,8 @@ public class BattleNavigate : MonoBehaviour
                 path.RemoveAt(path.Count - 1);
             yield return null;
         }
+        if (visualsParent != null)
+            Destroy(visualsParent);
         traveling = false;
     }
 
