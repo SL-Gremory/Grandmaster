@@ -6,24 +6,19 @@ using UnityEngine.UI;
 public class TurnCountText : MonoBehaviour
 {
 	//Initialize variables
-	private EventManager eventManager;
-	public Text displayText;
+	private BattleManager battleManager;
+	[SerializeField]
+	private Text displayText; //this script is on Main Camera. Place UI text object here
 	
     // Start is called before the first frame update
     void Start()
     {
-		eventManager = GameObject.FindObjectOfType<EventManager>();
+		battleManager = GameObject.FindObjectOfType<BattleManager>();
 		DisplayNewTurn();
     }
 	
-	// Update is called once per frame
-    /*void Update()
-    {
-        
-    }*/
-	
-	public void DisplayNewTurn()
+	internal void DisplayNewTurn()
 	{
-		displayText.text = "Turn " + eventManager.turnCounter;
+		displayText.text = "Turn " + battleManager.turnCounter;
 	}
 }

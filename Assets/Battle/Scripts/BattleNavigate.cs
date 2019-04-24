@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleNavigate : MonoBehaviour
-{
-
+{	
+	private UnitManager unitManager; //VARLER - find unitManager to interact with
+	
     [Header("Integrate to use real unit stats")]
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
@@ -24,30 +25,44 @@ public class BattleNavigate : MonoBehaviour
     Int2 lastGoal;
     List<Int2> path;
     bool traveling;
+	bool pathHasBeenReset; //VARLER - for resetting the path prior to entering Move()
     TerrainData levelTerrain;
 
     private void Start()
     {
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
-
+		
+		//VARLER - find unit manager to interact with
+		unitManager = gameObject.GetComponentInParent<UnitManager>();
     }
-
-    private void Update()
+	
+    internal void Move()
     {
+		Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
+		//VARLER - if statement ensures path has been reset before re-entering Move()
+		if (!pathHasBeenReset)
+		{
+			path = null;
+			pathHasBeenReset = true;
+		}
+		
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
             StartCoroutine(Travel(path));
+			unitManager.DoneMoving(); //VARLER - execute code for unit done moving
+			pathHasBeenReset = false; //VARLER - allow path to be reset again
+			return; //VARLER - failsafe for cutting out of function once move is complete
         }
         if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
         {
+			Debug.Log("Looking at paths");
             var goal = new Int2((int)hit.point.x, (int)hit.point.z);
             if (goal == lastGoal)
                 return;
             lastGoal = goal;
             path = CalculatePath(new Int2((int)transform.position.x, (int)transform.position.z), goal);
         }
-
     }
 
     IEnumerator Travel(List<Int2> path)

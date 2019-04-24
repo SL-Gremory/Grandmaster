@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class SelecterIcon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+	internal GameObject targetObject;
+	
     void Update()
     {
-        transform.Rotate(0f, 0f, -3f);
+		if (targetObject != null)
+		{
+			transform.position = targetObject.transform.position + new Vector3(0f, 1f, 0f);
+			transform.Rotate(0f, 0f, -3f);
+		}
     }
+	
+	internal void ResetPosition()
+	{
+		transform.position = Vector3.zero;
+		transform.rotation = Quaternion.identity;
+	}
 }

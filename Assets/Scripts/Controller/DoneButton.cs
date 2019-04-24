@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class DoneButton : Selectable
 {
-	private EventManager eventManager;
+	private BattleManager battleManager;
 	
     // Start is called before the first frame update
     void Start()
     {
-		eventManager = GameObject.FindObjectOfType<EventManager>();
-		ResetButton(eventManager.isPlayerTurn);
+		battleManager = GameObject.FindObjectOfType<BattleManager>();
+		ResetButton(battleManager.isPlayerTurn);
     }
 	
 	void Update()
 	{
 		//SPACE to activate when selected
-		if (isSelected && Input.GetKeyDown("space"))
+		if (isSelected) //&& Input.GetKeyDown("space"))
 		{
-			eventManager.turnIsDone = true;
+			battleManager.turnIsDone = true;
+			isSelected = false; //failsafe to prevent multiple button presses
+			SelectThis(false); //remove selecter icon before it shows up on button
 			Debug.Log("Player declared end of turn");
 		}
 	}
 	
-	public void ResetButton(bool isPlayerTurn)
+	internal void ResetButton(bool isPlayerTurn)
 	{
+		SelectThis(false); //reset selecter icon at change of turn
+		
 		if (isPlayerTurn)
 		{
 			ChangeColor(1);
@@ -37,17 +41,17 @@ public class DoneButton : Selectable
 		}
 	}
 	
-	public void BrightenButton()
+	internal void BrightenButton()
 	{
 		ChangeColor(0);
 	}
 	
-	public void ActivateButton()
+	internal void ActivateButton()
 	{
 		isActive = true;
 	}
 	
-	public void DeactivateButton()
+	internal void DeactivateButton()
 	{
 		isActive = false;
 	}
