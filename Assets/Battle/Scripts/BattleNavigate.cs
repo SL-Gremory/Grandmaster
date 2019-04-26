@@ -35,8 +35,10 @@ public class BattleNavigate : MonoBehaviour
 		
 		//VARLER - find unit manager to interact with
 		unitManager = gameObject.GetComponentInParent<UnitManager>();
+        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unitManager);
+
     }
-	
+
     internal void Move()
     {
 		Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
@@ -68,6 +70,7 @@ public class BattleNavigate : MonoBehaviour
     IEnumerator Travel(List<Int2> path)
     {
         traveling = true;
+        BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
         {
             var cell = path[path.Count - 1];
@@ -79,6 +82,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (visualsParent != null)
             Destroy(visualsParent);
+        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unitManager);
         traveling = false;
     }
 
@@ -90,6 +94,8 @@ public class BattleNavigate : MonoBehaviour
         if (start.x < 0 || start.y < 0 || start.x >= LevelGrid.Instance.GetMapSize().x || start.y >= LevelGrid.Instance.GetMapSize().y)
             return null;
         if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
+            return null;
+        if (BattleManager.Instance.IsUnitAt(goal))
             return null;
         //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
@@ -211,8 +217,13 @@ public class BattleNavigate : MonoBehaviour
                     continue;
                 }
                 var neighHeight = LevelGrid.Instance.GetHeight(neighbor.x, neighbor.y);
-                if (Mathf.Abs(currHeight - neighHeight) > maxJump)
+                if (Mathf.Abs(currHeight - neighHeight) > maxJump) //cannot cross the height difference
                     continue;
+                if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
+                    continue;
+                if (BattleManager.Instance.IsEnemyAt(neighbor))
+                    continue;
+
                 var tentativegScore = gScore[current] + 1;
                 gScore[neighbor] = tentativegScore;
                 fScore[neighbor] = tentativegScore + Heuristic(neighbor, goal);

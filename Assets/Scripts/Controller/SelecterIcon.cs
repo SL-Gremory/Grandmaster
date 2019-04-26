@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class SelecterIcon : MonoBehaviour
 {
-	internal GameObject targetObject;
-	
+	public static GameObject targetObject;
+
+    static SelecterIcon instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+            Debug.LogError("Multiple SelecterIcons in the scene.", this);
+        instance = this;
+    }
+
     void Update()
     {
 		if (targetObject != null)
@@ -15,9 +24,9 @@ public class SelecterIcon : MonoBehaviour
 		}
     }
 	
-	internal void ResetPosition()
+	public static void ResetPosition()
 	{
-		transform.position = Vector3.zero;
-		transform.rotation = Quaternion.identity;
+		instance.transform.position = Vector3.zero;
+		instance.transform.rotation = Quaternion.identity;
 	}
 }

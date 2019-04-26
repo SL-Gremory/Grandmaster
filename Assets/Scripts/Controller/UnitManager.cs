@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class UnitManager : Selectable
 {
-	private BattleManager battleManager;
 	private BattleNavigate battleNavigate;
 	[SerializeField]
 	internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
 	private bool moveIsDone;
 	private bool actionIsDone;
+
+    public bool IsAlly { get { return isAlly; } }
 	
     void Start()
     {
-		battleManager = GameObject.FindObjectOfType<BattleManager>();
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
@@ -47,8 +47,8 @@ public class UnitManager : Selectable
 	{
 		if (isAlly)
 		{
-			battleManager.playerUnitCount++;
-			if (battleManager.isPlayerTurn)
+			BattleManager.Instance.playerUnitCount++;
+			if (BattleManager.Instance.isPlayerTurn)
 			{
 				ReadyUnit();
 			}
@@ -59,8 +59,8 @@ public class UnitManager : Selectable
 		}
 		else
 		{
-			battleManager.enemyUnitCount++;
-			if (!battleManager.isPlayerTurn)
+			BattleManager.Instance.enemyUnitCount++;
+			if (!BattleManager.Instance.isPlayerTurn)
 			{
 				ReadyUnit();
 			}
@@ -102,7 +102,7 @@ public class UnitManager : Selectable
 		if (!actionIsDone)
 		{
 			ExhaustUnit();
-			battleManager.unitsDone++;
+			BattleManager.Instance.unitsDone++;
 			Debug.Log("Unit finished acting");
 		}	
 	}
@@ -111,14 +111,14 @@ public class UnitManager : Selectable
 	{
 		if (isAlly)
 		{
-			battleManager.playerUnitCount--;
+			BattleManager.Instance.playerUnitCount--;
 		}
 		else
 		{
-			battleManager.enemyUnitCount--;
+			BattleManager.Instance.enemyUnitCount--;
 		}
 		Destroy(gameObject);
-		battleManager.CheckWinConditions();
+		BattleManager.Instance.CheckWinConditions();
 		Debug.Log("Unit has died to death");
 	}
 }
