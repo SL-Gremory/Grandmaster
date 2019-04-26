@@ -9,17 +9,20 @@ using UnityEngine;
 public class GrandmasterUnit : MonoBehaviour
 {
     [SerializeField]
-    Job unitJob;
+    string unitName;
 
     [SerializeField]
-    int[] unitStats = new int[(int)StatTypes.Count];
+    private Job unitJob;
 
-    Rank unitRank;
+    [SerializeField]
+    private int[] unitStats = new int[(int)StatTypes.Count];
 
+    [SerializeField]
+    private Team unitAffiliation;
 
-    private float unitModifiedAttack;
+    private Rank unitRank;
+
    
-
     #region Manager-related functions
 
     // Indicator that indicates if unit is done or not done with a turn which is done using an indification variable indicating that it is done or not done with a turn
@@ -30,10 +33,17 @@ public class GrandmasterUnit : MonoBehaviour
         return turnStatus;
     }
 
+    public void SetTurnStatus(bool status)
+    {
+        turnStatus = status;
+    }
+
     public void toggleStatus()
     {
         turnStatus = !turnStatus;
     }
+
+
 
     #endregion
 
@@ -43,8 +53,8 @@ public class GrandmasterUnit : MonoBehaviour
         turnStatus = true;
 
         SetBaseStats();
-        SetModifiedDamageOutput();
-        Debug.Log(string.Format("Damage with {0} would be: {1}", ATK, unitModifiedAttack));
+
+        //Debug.Log(string.Format("Damage with {0} would be: {1}", ATK, unitModifiedAttack));
         // THIS PART IS FOR TESTING
         // Setting unit to level 10 using a loop
         // It's awkward I know
@@ -53,35 +63,19 @@ public class GrandmasterUnit : MonoBehaviour
         {
             LevelUp();
         }
-        SetModifiedDamageOutput();
-        Debug.Log(string.Format("Damage with {0} would now be: {1}", ATK, unitModifiedAttack));
+
+        //Debug.Log(string.Format("Damage with {0} would now be: {1}", ATK, unitModifiedAttack));
 
     }
 
-    void SetModifiedDamageOutput()
+    public string GetUnitName()
     {
-        // NOTE THESE VALUES ARE FOR TESTING
-
-        float s = (float)SPD;     // Speed
-        float a = (float)ATK;     // Attack
-        float ad = 1f;             // Attack Debuff
-        float ab = 1f;             // Attack Buff
-        float d = 1f;              // Enemy Defense
-        float dd = 1f;             // Defense Debuff
-        float db = 1f;             // Defense Buff
-        float e = 1f;              // Elemental Strength/Weakness
-        float x = 1f;              // Multiplier
-        float t = 1f;              // Triangle bonus +/- 20%
-        float f = 0f;              // Flat damage
-
-        // (1/e)#(t#((x#(a#(ad+ab)))-(d#(dd+db)))) + f
-
-        unitModifiedAttack = (1 / e)*(t*((x*(a*(ad + ab))) - (d*(dd + db)))) + f;
+        return unitName;
     }
 
-    float GetDamageOutput()
+    public Team GetUnitAffiliation()
     {
-        return unitModifiedAttack;
+        return unitAffiliation;
     }
 
     private void Update()
