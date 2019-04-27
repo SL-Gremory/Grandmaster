@@ -48,17 +48,16 @@ public class BadStateMachine : MonoBehaviour
 
     private void InitializeUnitsOnField()
     {
+
+        // TO DO:
+        // INSTEAD OF FINDING UNITS HAVE THEM REGISTER FROM A UNIT MANAGER CLASS ATTACHED TO THEM ONTO A BATTLE MANAGER CLASS USING SINGLETONS
+
         unitsOnTheField = GameObject.FindObjectsOfType<GrandmasterUnit>();
 
         for(int i = 0; i < unitsOnTheField.Length; ++i)
         {
             //unitsOnThe
         }
-
-
-
-
-
 
 
         // Player's units (heros) will always move first

@@ -43,28 +43,30 @@ public class GrandmasterUnit : MonoBehaviour
         turnStatus = !turnStatus;
     }
 
-
-
     #endregion
 
 
     void Start()
     {
         turnStatus = true;
-
         SetBaseStats();
 
-        //Debug.Log(string.Format("Damage with {0} would be: {1}", ATK, unitModifiedAttack));
-        // THIS PART IS FOR TESTING
-        // Setting unit to level 10 using a loop
-        // It's awkward I know
 
-        for (int i = 0; i < 10; ++i)
+        SingletonManagerTest.herosOnTheField.Add(this);
+        Debug.Log("Added self to manager");
+        /*
+        if (unitAffiliation == Team.HERO)
         {
-            LevelUp();
+            SingletonManagerTest.herosOnTheField.Add(this);
+        } else if (unitAffiliation == Team.ENEMY)
+        {
+            SingletonManagerTest.enemiesOnTheField.Add(this);   
         }
+        */
+    }
 
-        //Debug.Log(string.Format("Damage with {0} would now be: {1}", ATK, unitModifiedAttack));
+    private void Update()
+    {
 
     }
 
@@ -73,20 +75,13 @@ public class GrandmasterUnit : MonoBehaviour
         return unitName;
     }
 
+ 
     public Team GetUnitAffiliation()
     {
         return unitAffiliation;
     }
 
-    private void Update()
-    {
-       if(Input.GetKeyDown(KeyCode.L))
-        {
-            LevelUp();
-            //Debug.Log(string.Format("LEVEL UP! PRINTING LEVEL {0} STATS", LVL));
-            //printStats();
-        }
-    }
+    #region Parameter fields
 
     // Level
     public int LVL
@@ -171,6 +166,9 @@ public class GrandmasterUnit : MonoBehaviour
         get { return GetStat(StatTypes.JMP); }
         set { SetStat(StatTypes.JMP, value); }
     }
+
+    #endregion
+
     public void SetStat(StatTypes parameter, int value)
     {
         int typeIndex = (int)parameter;
@@ -215,6 +213,8 @@ public class GrandmasterUnit : MonoBehaviour
         CMP = MMP;
     }
 
+
+    // Semi-random level-up (WIP)
     public void variableLevelUp()
     {
 
