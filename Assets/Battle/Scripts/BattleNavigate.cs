@@ -8,6 +8,8 @@ public class BattleNavigate : MonoBehaviour
 	private UnitManager unitManager; //VARLER - find unitManager to interact with
 	
     [Header("Integrate to use real unit stats")]
+    [Header("Ronald: Each unit game object will have a GrandmasterUnit component attached containing stats ")]
+
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
     [SerializeField]

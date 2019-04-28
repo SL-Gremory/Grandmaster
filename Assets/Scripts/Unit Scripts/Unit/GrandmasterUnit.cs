@@ -46,15 +46,16 @@ public class GrandmasterUnit : MonoBehaviour
     #endregion
 
 
+    private void Awake()
+    {
+        SetBaseStats();
+    }
+
+
     void Start()
     {
         turnStatus = true;
-        SetBaseStats();
 
-
-        SingletonManagerTest.herosOnTheField.Add(this);
-        Debug.Log("Added self to manager");
-        /*
         if (unitAffiliation == Team.HERO)
         {
             SingletonManagerTest.herosOnTheField.Add(this);
@@ -62,7 +63,6 @@ public class GrandmasterUnit : MonoBehaviour
         {
             SingletonManagerTest.enemiesOnTheField.Add(this);   
         }
-        */
     }
 
     private void Update()
@@ -183,15 +183,15 @@ public class GrandmasterUnit : MonoBehaviour
 
     public void SetBaseStats()
     {
-        LVL = 1;
-        CHP = MHP;
-        CMP = MMP;
-
         for (int i = 0; i < Job.statOrder.Length; ++i)
         {
             StatTypes parameter = Job.statOrder[i];
             SetStat(parameter, unitJob.GetBaseStat(parameter));
         }
+
+        LVL = 1;
+        CHP = MHP;
+        CMP = MMP;
     }
 
     public void LevelUp()
@@ -238,7 +238,7 @@ public class GrandmasterUnit : MonoBehaviour
 
 
 
-    void printStats()
+    public void PrintStats()
     {
         Debug.Log(string.Format("HP:{0}  MP:{1}  ATK:{2}  DEF:{3}  SPR:{4}  SPD:{5}",
             GetStat(Job.statOrder[0]),

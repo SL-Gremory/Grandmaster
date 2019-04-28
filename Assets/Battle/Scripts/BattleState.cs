@@ -5,6 +5,7 @@ using UnityEngine;
 public class BattleState : MonoBehaviour
 {
     //store all player and enemy characters, turns and whatever here
+    // Ronald: "Implementing unit attacking here as well"
 
     [SerializeField]
     BattleEnd end;
@@ -32,6 +33,18 @@ public class BattleState : MonoBehaviour
             ReturnToWorldMap();
         }
     }
+
+
+    
+
+    void AttackUnitAt(int x, int z)
+    {
+        var pos = new Int2(x, z);
+      //  var cell = path[path.Count - 1];
+        //var target = new Vector3(cell.x + 0.5f, LevelGrid.Instance.GetHeight(cell.x, cell.y), cell.y + 0.5f);
+
+    }
+
 
 
     void ReturnToWorldMap()

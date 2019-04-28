@@ -8,7 +8,7 @@ public class BadStateMachine : MonoBehaviour
     GrandmasterUnit[] unitsOnTheField;
     GrandmasterUnit[] herosOnTheField;
     GrandmasterUnit[] enemiesOnTheField;
-    EngageBattleState engageBattleState;
+  
     private BattleStates _currentState;
 
 
