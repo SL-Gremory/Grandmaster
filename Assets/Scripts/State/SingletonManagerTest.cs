@@ -57,7 +57,7 @@ public class SingletonManagerTest : MonoBehaviour
             firstEnemy = enemiesOnTheField[0];
 
             
-            Debug.Log(string.Format("Hero[0] {0} is attacking Enemy[0] {1} for {2} damage", 
+            Debug.Log(string.Format("{0} is attacking {1} for {2} damage", 
                 firstHero.GetUnitName(),
                 firstEnemy.GetUnitName(),
                 Attack.CalculateProjectedDamage(firstHero, firstEnemy)));

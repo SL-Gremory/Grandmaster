@@ -55,7 +55,9 @@ public class GrandmasterUnit : MonoBehaviour
     void Start()
     {
         turnStatus = true;
+        BattleState.AddUnitToList(this);
 
+        /*
         if (unitAffiliation == Team.HERO)
         {
             SingletonManagerTest.herosOnTheField.Add(this);
@@ -63,6 +65,7 @@ public class GrandmasterUnit : MonoBehaviour
         {
             SingletonManagerTest.enemiesOnTheField.Add(this);   
         }
+        */
     }
 
     private void Update()
