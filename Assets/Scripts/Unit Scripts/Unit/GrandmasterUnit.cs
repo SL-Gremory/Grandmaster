@@ -52,10 +52,14 @@ public class GrandmasterUnit : MonoBehaviour
     }
 
 
+    // Register self to manager class instance
     void Start()
     {
         turnStatus = true;
+
         BattleState.AddUnitToList(this);
+
+        //SingletonManagerTest.AddUnitToList(this);
 
         /*
         if (unitAffiliation == Team.HERO)

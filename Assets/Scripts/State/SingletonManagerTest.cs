@@ -7,8 +7,11 @@ public class SingletonManagerTest : MonoBehaviour
 {
     public static SingletonManagerTest Instance { get; private set; }
 
-    public static List<GrandmasterUnit> herosOnTheField;
-    public static List<GrandmasterUnit> enemiesOnTheField;
+    private static List<GrandmasterUnit> herosOnTheField;
+    private static List<GrandmasterUnit> enemiesOnTheField;
+
+    private static List<GrandmasterUnit> unitsOnTheField;
+
     GrandmasterUnit firstHero;
     GrandmasterUnit firstEnemy;
 
@@ -23,34 +26,24 @@ public class SingletonManagerTest : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        herosOnTheField = new List<GrandmasterUnit>();
-        enemiesOnTheField = new List<GrandmasterUnit>();
+        unitsOnTheField = new List<GrandmasterUnit>();
 
     }
 
-
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.S))
         {
-            firstHero = herosOnTheField[0];
-            firstEnemy = enemiesOnTheField[0];
-
-           // Debug.Log("Printing unit statuses");
-
-            foreach (GrandmasterUnit hero in herosOnTheField)
+            foreach (GrandmasterUnit unit in unitsOnTheField)
             {
-                Debug.Log(string.Format("Hero found: {0}", hero.GetUnitName()));
-                hero.PrintStats();
-            }
-
-            foreach (GrandmasterUnit enemy in enemiesOnTheField)
-            {
-                Debug.Log(string.Format("Enemy found: {0}", enemy.GetUnitName()));
-                enemy.PrintStats();
+                Debug.Log(string.Format("Unit found: {0}", unit.GetUnitName()));
+                unit.PrintStats();
             }
         }
+        
 
+        /*
         if (Input.GetKeyDown(KeyCode.D) && herosOnTheField.Count > 0 && enemiesOnTheField.Count > 0)
         {
             firstHero = herosOnTheField[0];
@@ -108,10 +101,15 @@ public class SingletonManagerTest : MonoBehaviour
                 //Debug.Log(string.Format("{0} has died", firstEnemy.GetUnitName()));
                 Destroy(firstEnemy);
             }
-
+            
         }
+        */
 
+    }
 
+    public static void AddUnitToList(GrandmasterUnit unit)
+    {
+        unitsOnTheField.Add(unit);
     }
 
 }
