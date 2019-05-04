@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    [SerializeField]
 	private DoneButton doneButton;
+     [SerializeField]
 	private TurnCountText turnCountText;
 	[SerializeField]
 	private bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
@@ -14,11 +16,18 @@ public class BattleManager : MonoBehaviour
 	internal int enemyUnitCount = 0;
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
+    UnitManager[,] unitsGrid;
+
+    public static BattleManager Instance { get; private set; }
 	
 	void Awake()
 	{
-		doneButton = GameObject.FindObjectOfType<DoneButton>();
-		turnCountText = GameObject.FindObjectOfType<TurnCountText>();
+        if (Instance != null)
+            Debug.LogError("There can't be multiple BattleManagers in the scene.");
+        Instance = this;
+        var mapSize = LevelGrid.Instance.GetMapSize();
+        unitsGrid = new UnitManager[mapSize.x, mapSize.y];
+
 		if (playerFirst)
 		{
 			isPlayerTurn = true;
@@ -92,10 +101,10 @@ public class BattleManager : MonoBehaviour
 			}
 		}
 	}
-	
-	internal void CheckWinConditions()
+
+    // I already have Win/Lose conditions in BattleControl, we should merge them  <--------------------------
+    internal void CheckWinConditions()
 	{
-		
 		if (enemyUnitCount <= 0)
 		{
 			//win
@@ -125,4 +134,24 @@ public class BattleManager : MonoBehaviour
 			//carry on my wayward son
 		}
 	}
+
+    public bool IsEnemyAt(Int2 pos) {
+        return unitsGrid[pos.x, pos.y] != null && !unitsGrid[pos.x, pos.y].IsAlly;
+    }
+
+    public bool IsUnitAt(Int2 pos) {
+        return unitsGrid[pos.x, pos.y] != null;
+    }
+
+    public void AddUnit(Int2 pos, UnitManager unit) {
+        if (unitsGrid[pos.x, pos.y] != null)
+            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].name + ", " + unit.name, this);
+        unitsGrid[pos.x, pos.y] = unit;
+    }
+
+    public void RemoveUnit(Int2 pos) {
+        if (unitsGrid[pos.x, pos.y] == null)
+            Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
+        unitsGrid[pos.x, pos.y] = null;
+    }
 }
