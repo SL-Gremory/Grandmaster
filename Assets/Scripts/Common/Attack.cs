@@ -58,8 +58,8 @@ public static class Attack
         }
 
 
-        Debug.Log(string.Format("{0} has {1} left", attacker.GetUnitName(), attacker.CHP));
-        Debug.Log(string.Format("{0} has {1} left", defender.GetUnitName(), defender.CHP));
+        // Debug.Log(string.Format("{0} has {1} left", attacker.GetUnitName(), attacker.CHP));
+        // Debug.Log(string.Format("{0} has {1} left", defender.GetUnitName(), defender.CHP));
 
     }
 

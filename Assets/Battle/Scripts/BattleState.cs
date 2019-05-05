@@ -13,11 +13,6 @@ public class BattleState : MonoBehaviour
     [HideInInspector]
     public BattleSceneSO BattleData;
 
-  //  [SerializeField]
-  //  private static List<GrandmasterUnit> fieldedUnits; // Contains all references to units on the field
-
-
-
 
     public float RealTimeElapsed { get; private set; }
 
@@ -45,39 +40,6 @@ public class BattleState : MonoBehaviour
             ReturnToWorldMap();
         }
     }
-
-    /*
-    public static void AddUnitToList(GrandmasterUnit unit)
-    {
-      fieldedUnits.Add(unit);
-    }
-*/
-
-    // CHECK TO SEE IF THIS MAKES SENSE
-
-    void AttackUnitAt(int posX, int posZ, GrandmasterUnit attacker)
-    {
-        GrandmasterUnit defender = new GrandmasterUnit();
-        List<GameObject> prefabs = LevelGrid.Instance.GetPrefabsAt(posX, posZ);
-    
-        foreach (GameObject obj in prefabs)
-        {
-            if((defender = obj.GetComponent<GrandmasterUnit>()) != null)
-            {
-                Debug.Log(string.Format("{0} is attacking {1} for {2} damage",
-                    attacker.GetUnitName(),
-                    defender.GetUnitName(),
-                    Attack.CalculateProjectedDamage(attacker, defender)));
-
-                Attack.CommenceBattle(attacker, defender);
-            }
-        }
-
-        // HP checking goes here?
-
-    }
-
-
 
     void ReturnToWorldMap()
     {

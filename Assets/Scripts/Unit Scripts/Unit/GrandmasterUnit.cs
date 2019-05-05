@@ -41,20 +41,7 @@ public class GrandmasterUnit : MonoBehaviour
     }
     #endregion
 
-    #region Miscellaneous Information
-    public string GetUnitName()
-    {
-        return unitName;
-    }
-
- 
-    public Team GetUnitAffiliation()
-    {
-        return unitAffiliation;
-    }
-    #endregion
-
-    #region Parameter fields
+    #region Parameters
 
     // Level
     public int LVL
@@ -144,6 +131,16 @@ public class GrandmasterUnit : MonoBehaviour
 
     #region Setters and Getters
 
+    public string GetUnitName()
+    {
+        return unitName;
+    }
+
+    public Team GetUnitAffiliation()
+    {
+        return unitAffiliation;
+    }
+
     public void SetStat(StatTypes parameter, int value)
     {
         int typeIndex = (int)parameter;
@@ -213,6 +210,7 @@ public class GrandmasterUnit : MonoBehaviour
 
     #endregion
 
+    #region Miscellaneous
 
     public void PrintStats()
     {
@@ -226,5 +224,6 @@ public class GrandmasterUnit : MonoBehaviour
         ));
     }
 
+    #endregion
 
 }
