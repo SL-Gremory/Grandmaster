@@ -215,7 +215,9 @@ public class TerrainHelperEditor : Editor
                             Debug.LogWarning("You must assign a prefab to paint.");
                         }
                         else
+                        {
                             grid.AddPrefab(posX, posZ, paintedPrefab.objectReferenceValue as GameObject);
+                        }
                     }
                     else if (prefabReplace.boolValue)
                     {

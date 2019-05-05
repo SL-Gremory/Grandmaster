@@ -2,23 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *  This class is attached to each unit game object
+ *  This handles unit selection and general unit location in the units grid
+ * 
+ */
+
+
 public class UnitManager : Selectable
 {
 	private BattleNavigate battleNavigate;
+
 	[SerializeField]
 	internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
-	private bool moveIsDone;
-	private bool actionIsDone;
 
     public bool IsAlly { get { return isAlly; } }
-	
+
+    private bool moveIsDone;
+	private bool actionIsDone;
+
+
     void Start()
     {
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
+        RegisterToBattleManager();
         StartUnit();
     }
-	
-	void Update()
+
+
+    void RegisterToBattleManager()
+    {
+        var battleNavigator = this.GetComponentInParent<BattleNavigate>();
+        Int2 unitPosition = battleNavigator.GetUnitPosition();
+
+        BattleManager.Instance.AddUnit(unitPosition, this);
+    }
+
+
+    void Update()
 	{
 		if (isSelected)
 		{

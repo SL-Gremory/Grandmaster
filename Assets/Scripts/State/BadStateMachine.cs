@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BadStateMachine : MonoBehaviour
 {
+    /*
     GrandmasterUnit[] unitsOnTheField;
     GrandmasterUnit[] herosOnTheField;
     GrandmasterUnit[] enemiesOnTheField;
@@ -109,5 +110,5 @@ public class BadStateMachine : MonoBehaviour
         throw new NotImplementedException();
     }
 
-
+    */
 }

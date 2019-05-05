@@ -13,8 +13,8 @@ public class BattleState : MonoBehaviour
     [HideInInspector]
     public BattleSceneSO BattleData;
 
-    [SerializeField]
-    private static List<GrandmasterUnit> fieldedUnits; // Contains all references to units on the field
+  //  [SerializeField]
+  //  private static List<GrandmasterUnit> fieldedUnits; // Contains all references to units on the field
 
 
 
@@ -46,11 +46,12 @@ public class BattleState : MonoBehaviour
         }
     }
 
+    /*
     public static void AddUnitToList(GrandmasterUnit unit)
     {
-        fieldedUnits.Add(unit);
+      fieldedUnits.Add(unit);
     }
-
+*/
 
     // CHECK TO SEE IF THIS MAKES SENSE
 

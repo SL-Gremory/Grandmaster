@@ -262,6 +262,11 @@ public class BattleNavigate : MonoBehaviour
         return Int2.Distance(start, goal); // manhattan distance(per-axis)
     }
 
+
+    public Int2 GetUnitPosition()
+    { 
+        return currentUnitPosition;
+    }
 }
 
 

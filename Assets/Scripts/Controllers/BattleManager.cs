@@ -6,17 +6,19 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField]
 	private DoneButton doneButton;
-     [SerializeField]
+    [SerializeField]
 	private TurnCountText turnCountText;
 	[SerializeField]
 	private bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
+
 	internal bool turnIsDone = false;
 	internal bool isPlayerTurn;
 	internal int playerUnitCount = 0;
 	internal int enemyUnitCount = 0;
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
-    UnitManager[,] unitsGrid;
+
+    public static UnitManager[,] unitsGrid;
 
     public static BattleManager Instance { get; private set; }
 	
@@ -37,27 +39,27 @@ public class BattleManager : MonoBehaviour
 			isPlayerTurn = false;
 		}
 	}
-	
+
     void Update()
     {
         if (turnIsDone)
-		{
-			Debug.Log("Changing turns");
-			ChangeTurns();
-			turnIsDone = false;
-		}
-		
-		if (isPlayerTurn && playerUnitCount == unitsDone)
-		{
-			doneButton.BrightenButton();
-			unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button in every frame even after it has already been brightened
-		}
-		else if (!isPlayerTurn && enemyUnitCount == unitsDone)
-		{
-			turnIsDone = true;
-		}
+        {
+            Debug.Log("Changing turns");
+            ChangeTurns();
+            turnIsDone = false;
+        }
+
+        if (isPlayerTurn && playerUnitCount == unitsDone)
+        {
+            doneButton.BrightenButton();
+            unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button in every frame even after it has already been brightened
+        }
+        else if (!isPlayerTurn && enemyUnitCount == unitsDone)
+        {
+            turnIsDone = true;
+        }
     }
-	
+
 	void ChangeTurns()
 	{	
 		isPlayerTurn = !isPlayerTurn; //current turn is done, at this point forward it is the other side's turn
@@ -153,5 +155,25 @@ public class BattleManager : MonoBehaviour
         if (unitsGrid[pos.x, pos.y] == null)
             Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
         unitsGrid[pos.x, pos.y] = null;
+    }
+
+
+    void AttackUnitAt(int aPosX, int aPosZ, int dPosX, int dPosZ)
+    {
+
+        // This is dirty REEEEE
+        GrandmasterUnit defender = unitsGrid[dPosX, dPosZ].GetComponentInParent<GrandmasterUnit>();
+        GrandmasterUnit attacker = unitsGrid[aPosX, aPosZ].GetComponentInParent<GrandmasterUnit>();
+
+
+        Debug.Log(string.Format("{0} is attacking {1} for {2} damage",
+            attacker.GetUnitName(),
+            defender.GetUnitName(),
+            Attack.CalculateProjectedDamage(attacker, defender)));
+
+        Attack.CommenceBattle(attacker, defender);
+
+        // HP checking goes here?
+
     }
 }

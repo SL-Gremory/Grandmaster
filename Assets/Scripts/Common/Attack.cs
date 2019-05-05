@@ -14,15 +14,15 @@ public static class Attack
         double s1 = (double)attacker.SPD;    // Attacker speed
         double s2 = (double)defender.SPD;    // Defender speed
         double a = (double)attacker.ATK;     // Attack
-        double ad = 1;                  // Attack Debuff
-        double ab = 1;                  // Attack Buff
+        double ad = 1;                       // Attack Debuff
+        double ab = 1;                       // Attack Buff
         double d = (double)defender.DEF;     // Enemy Defense
-        double dd = 1;                  // Defense Debuff
-        double db = 1;                  // Defense Buff
-        double e = 1;                   // Elemental Strength/Weakness
-        double x = 1;                   // Multiplier
-        double t = 1;                   // Triangle bonus +/- 20%
-        double f = 0;                   // Flat damage
+        double dd = 1;                       // Defense Debuff
+        double db = 1;                       // Defense Buff
+        double e = 1;                        // Elemental Strength/Weakness
+        double x = 1;                        // Multiplier
+        double t = 1;                        // Triangle bonus +/- 20%
+        double f = 0;                        // Flat damage
 
         total = (int)Math.Floor(((1 / e) * (t * ((x * (a * (ad + ab))) - (d * (dd + db))))) + f);
 

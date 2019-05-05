@@ -15,7 +15,6 @@ public class SingletonManagerTest : MonoBehaviour
     GrandmasterUnit firstHero;
     GrandmasterUnit firstEnemy;
 
-
     private void Awake()
     {
         if (Instance == null)

@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class GrandmasterUnit : MonoBehaviour
 {
+
+    #region Declarations
+
     [SerializeField]
     string unitName;
 
@@ -22,61 +25,23 @@ public class GrandmasterUnit : MonoBehaviour
 
     private Rank unitRank;
 
-   
-    #region Manager-related functions
-
-    // Indicator that indicates if unit is done or not done with a turn which is done using an indification variable indicating that it is done or not done with a turn
-    bool turnStatus;
-
-    public bool GetTurnStatus()
-    {
-        return turnStatus;
-    }
-
-    public void SetTurnStatus(bool status)
-    {
-        turnStatus = status;
-    }
-
-    public void toggleStatus()
-    {
-        turnStatus = !turnStatus;
-    }
-
     #endregion
 
-
+    #region MonoBehaviour
     private void Awake()
     {
         SetBaseStats();
-    }
 
+    }
 
     // Register self to manager class instance
     void Start()
     {
-        turnStatus = true;
-
-        BattleState.AddUnitToList(this);
-
-        //SingletonManagerTest.AddUnitToList(this);
-
-        /*
-        if (unitAffiliation == Team.HERO)
-        {
-            SingletonManagerTest.herosOnTheField.Add(this);
-        } else if (unitAffiliation == Team.ENEMY)
-        {
-            SingletonManagerTest.enemiesOnTheField.Add(this);   
-        }
-        */
-    }
-
-    private void Update()
-    {
 
     }
+    #endregion
 
+    #region Miscellaneous Information
     public string GetUnitName()
     {
         return unitName;
@@ -87,6 +52,7 @@ public class GrandmasterUnit : MonoBehaviour
     {
         return unitAffiliation;
     }
+    #endregion
 
     #region Parameter fields
 
@@ -176,6 +142,8 @@ public class GrandmasterUnit : MonoBehaviour
 
     #endregion
 
+    #region Setters and Getters
+
     public void SetStat(StatTypes parameter, int value)
     {
         int typeIndex = (int)parameter;
@@ -243,6 +211,7 @@ public class GrandmasterUnit : MonoBehaviour
     }
 
 
+    #endregion
 
 
     public void PrintStats()
@@ -256,4 +225,6 @@ public class GrandmasterUnit : MonoBehaviour
             GetStat(Job.statOrder[5])
         ));
     }
+
+
 }
