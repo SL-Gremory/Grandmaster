@@ -9,8 +9,10 @@ public enum StatTypes
 {
     LVL,    // Level
     EXP,    // Accumulated experience
-    HP,     // Hit points
-    MP,     // "Magic" points
+    CHP,    // Current Hit points
+    MHP,     // Max Hit points
+    CMP,    // Current "Magic" points
+    MMP,    // Max "Magic" points
     ATK,    // Physical/magical attack power
     DEF,    // Physical defense
     SPR,    // Magical defense

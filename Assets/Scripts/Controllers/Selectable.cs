@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Selectable : MonoBehaviour
 {
 	protected Color originalColor;
@@ -9,12 +10,10 @@ public class Selectable : MonoBehaviour
 	protected Color darkColor2;
 	protected bool isActive = true; //if can be selected. WAS FALSE EARLIER
 	protected bool isSelected = false; //if is selected
-	private SelecterIcon selecterIcon;
 	
     void Awake()
     {
-		selecterIcon = GameObject.FindObjectOfType<SelecterIcon>();
-        originalColor = this.GetComponent<SpriteRenderer>().color;
+        originalColor = GetComponent<SpriteRenderer>().color;
 		darkColor1 = new Color(originalColor.r-0.3f, originalColor.g-0.3f, originalColor.b-0.3f);
 		darkColor2 = new Color(originalColor.r-0.6f, originalColor.g-0.6f, originalColor.b-0.6f);
     }
@@ -56,12 +55,12 @@ public class Selectable : MonoBehaviour
 	{
 		if (yes)
 		{
-			selecterIcon.targetObject = this.gameObject;
+			SelecterIcon.targetObject = this.gameObject;
 		}
 		else
 		{
-			selecterIcon.targetObject = null;
-			selecterIcon.ResetPosition();
+            SelecterIcon.targetObject = null;
+            SelecterIcon.ResetPosition();
 		}
 	}
 	
