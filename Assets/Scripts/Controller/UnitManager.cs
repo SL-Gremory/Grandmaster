@@ -26,7 +26,10 @@ public class UnitManager : Selectable
 			//if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
 			if (!moveIsDone)
 			{
-				battleNavigate.Move();
+				if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+				{
+					battleNavigate.Move();
+				}
 			}
 
 			//SPACE to simulate unit performing an action
@@ -75,7 +78,7 @@ public class UnitManager : Selectable
 	{
 		moveIsDone = false;
 		actionIsDone = false;
-		isActive = true; //in the future, do this only for ally Units. Enemies will not be selectable.
+		//isActive = true; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(0);
 	}
 	
@@ -83,7 +86,7 @@ public class UnitManager : Selectable
 	{
 		moveIsDone = true;
 		actionIsDone = true;
-		isActive = false; //in the future, do this only for ally Units. Enemies will not be selectable.
+		//isActive = false; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(2);
 	}
 	

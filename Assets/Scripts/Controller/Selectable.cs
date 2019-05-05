@@ -7,7 +7,7 @@ public class Selectable : MonoBehaviour
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
-	protected bool isActive = false; //if can be selected
+	protected bool isActive = true; //if can be selected. WAS FALSE EARLIER
 	protected bool isSelected = false; //if is selected
 	private SelecterIcon selecterIcon;
 	
