@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UnitManager : Selectable
 {
+	private BattleManager battleManager;
 	private BattleNavigate battleNavigate;
 	[SerializeField]
 	internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
@@ -14,6 +15,7 @@ public class UnitManager : Selectable
 	
     void Start()
     {
+		battleManager = GameObject.FindObjectOfType<BattleManager>();
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
