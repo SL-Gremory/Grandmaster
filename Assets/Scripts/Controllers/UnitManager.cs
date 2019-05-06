@@ -33,66 +33,39 @@ public class UnitManager : Selectable
 
 	void Update()
 	{
-		if (isSelected)
-		{
-			//M to simulate unit moving
-			//if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
-			if (!moveIsDone)
-			{
-				if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
-				{
-					battleNavigate.Move();
-				}
-			}
-
-			//ESCAPE to deselect unit
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				SelectThis(false);
-				Debug.Log("Deselected a selectable via esc");
-			}
-
-
-
-
-    /*
-    void RegisterToBattleManager()
-    {
-        var battleNavigator = this.GetComponentInParent<BattleNavigate>();
-        Int2 unitPosition = battleNavigator.GetUnitPosition();
-
-        BattleManager.Instance.AddUnit(unitPosition, this);
-    }
-    */
-
-    void Update()
-    {
-        // Maybe this shouldn't be here...
-        currentUnitPosition = battleNavigate.GetUnitPosition();
-
         if (isSelected)
         {
             //M to simulate unit moving
             //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
             if (!moveIsDone)
             {
-                battleNavigate.Move();
+                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                {
+                    battleNavigate.Move();
+                }
             }
 
-            //SPACE to simulate unit performing an action
-            if (Input.GetKeyDown("space") && !actionIsDone)
+            //ESCAPE to deselect unit
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                DoneActing();
+                SelectThis(false);
+                Debug.Log("Deselected a selectable via esc");
+            }
+            
+            //SPACE to simulate unit performing an action
+            if(Input.GetKeyDown(KeyCode.Space) && !actionIsDone)
+            {
+                DoneActing(); // Call everytime at the very end after attacking as well
             }
 
-            //D to kill unit
-            /*
-			if (Input.GetKeyDown(KeyCode.K))
-			{
-				KillUnit();
-			}
-            */
+            //K to kill unit
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                KillUnit();
+            }
         }
+
+        
     }
 
     public void AttackUnit(Int2 dPos)
