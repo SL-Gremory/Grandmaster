@@ -15,7 +15,7 @@ public class UnitManager : Selectable
 	
     void Start()
     {
-		battleManager = GameObject.FindObjectOfType<BattleManager>();
+		battleManager = BattleManager.Instance;
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
