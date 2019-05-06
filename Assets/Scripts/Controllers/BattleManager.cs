@@ -6,18 +6,19 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField]
 	private DoneButton doneButton;
-     [SerializeField]
+    [SerializeField]
 	private TurnCountText turnCountText;
 	[SerializeField]
 	private bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
+
 	internal bool turnIsDone = false;
 	internal bool isPlayerTurn;
 	internal int playerUnitCount = 0;
 	internal int enemyUnitCount = 0;
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
-    UnitManager[,] unitsGrid;
 
+    public static UnitManager[,] unitsGrid;
     public static BattleManager Instance { get; private set; }
 	
 	void Awake()
@@ -37,27 +38,50 @@ public class BattleManager : MonoBehaviour
 			isPlayerTurn = false;
 		}
 	}
-	
+
     void Update()
     {
         if (turnIsDone)
-		{
-			Debug.Log("Changing turns");
-			ChangeTurns();
-			turnIsDone = false;
-		}
-		
-		if (isPlayerTurn && playerUnitCount == unitsDone)
-		{
-			doneButton.BrightenButton();
-			unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button in every frame even after it has already been brightened
-		}
-		else if (!isPlayerTurn && enemyUnitCount == unitsDone)
-		{
-			turnIsDone = true;
-		}
+        {
+            Debug.Log("Changing turns");
+            ChangeTurns();
+            turnIsDone = false;
+        }
+
+        if (isPlayerTurn && playerUnitCount == unitsDone)
+        {
+            doneButton.BrightenButton();
+            unitsDone++; //stupid, hacky, but efficient solution that prevents brightening the button in every frame even after it has already been brightened
+        }
+        else if (!isPlayerTurn && enemyUnitCount == unitsDone)
+        {
+            turnIsDone = true;
+        }
     }
-	
+
+
+    public void PrepareAttack(Int2 aPos, Int2 dPos)
+    {
+
+        // This is dirty REEEEE
+        GrandmasterUnit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<GrandmasterUnit>();
+        GrandmasterUnit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<GrandmasterUnit>();
+        Attack.CommenceBattle(attacker, defender);
+
+        if (attacker.CHP <= 0)
+        {
+            Debug.Log(string.Format("{0} has died", attacker.GetUnitName()));
+            //Destroy(attacker);
+        }
+
+        if (defender.CHP <= 0)
+        {
+            Debug.Log(string.Format("{0} has died", defender.GetUnitName()));
+            //Destroy(defender);
+        }
+    }
+
+
 	void ChangeTurns()
 	{	
 		isPlayerTurn = !isPlayerTurn; //current turn is done, at this point forward it is the other side's turn
@@ -70,12 +94,16 @@ public class BattleManager : MonoBehaviour
 		}
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
-		UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
-		foreach (UnitManager unit in units)
+		//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+
+        //foreach (UnitManager unit in units)
+		foreach (UnitManager unit in unitsGrid)
 		{
+            var unitInfo = unit.GetComponentInParent<GrandmasterUnit>();
 			if (isPlayerTurn)
 			{
-				if (unit.isAlly)
+                //if(unit.isAlly)
+				if (unitInfo.GetUnitAffiliation() == Team.HERO)
 				{
 					unit.ReadyUnit();
 					Debug.Log("ally is woke");
@@ -88,7 +116,8 @@ public class BattleManager : MonoBehaviour
 			}
 			else
 			{
-				if (!unit.isAlly)
+                //if(!unit.isAlly)
+				if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
 				{
 					unit.ReadyUnit();
 					Debug.Log("enemy is woke");
@@ -109,9 +138,11 @@ public class BattleManager : MonoBehaviour
 		{
 			//win
 			Debug.Log("player wins");
-			//exhaust units and disable done button
-			UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
-			foreach (UnitManager unit in units)
+            //exhaust units and disable done button
+            //UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+
+            //foreach (UnitManager unit in units)
+            foreach (UnitManager unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -122,8 +153,8 @@ public class BattleManager : MonoBehaviour
 			//loss
 			Debug.Log("enemy wins");
 			//exhaust units and disable done button
-			UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
-			foreach (UnitManager unit in units)
+			//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+			foreach (UnitManager unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -154,4 +185,5 @@ public class BattleManager : MonoBehaviour
             Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
         unitsGrid[pos.x, pos.y] = null;
     }
+
 }

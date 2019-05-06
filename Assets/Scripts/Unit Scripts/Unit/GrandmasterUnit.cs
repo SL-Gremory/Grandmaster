@@ -8,91 +8,42 @@ using UnityEngine;
 
 public class GrandmasterUnit : MonoBehaviour
 {
-    [SerializeField]
-    Job unitJob;
+
+    #region Declarations
 
     [SerializeField]
-    int[] unitStats = new int[(int)StatTypes.Count];
+    string unitName;
 
-    Rank unitRank;
+    [SerializeField]
+    private Job unitJob;
 
+    [SerializeField]
+    private int[] unitStats = new int[(int)StatTypes.Count];
 
-    private float unitModifiedAttack;
-   
+    [SerializeField]
+    private Team unitAffiliation;
 
-    #region Manager-related functions
-
-    // Indicator that indicates if unit is done or not done with a turn which is done using an indification variable indicating that it is done or not done with a turn
-    bool turnStatus;
-
-    public bool GetTurnStatus()
-    {
-        return turnStatus;
-    }
-
-    public void toggleStatus()
-    {
-        turnStatus = !turnStatus;
-    }
+    private Rank unitRank;
 
     #endregion
 
-
-    void Start()
+    #region MonoBehaviour
+    private void Awake()
     {
-        turnStatus = true;
+        if(SingletonManagerTest.Instance != null)
+            SingletonManagerTest.Instance.AddUnit(this);
 
         SetBaseStats();
-        SetModifiedDamageOutput();
-        Debug.Log(string.Format("Damage with {0} would be: {1}", ATK, unitModifiedAttack));
-        // THIS PART IS FOR TESTING
-        // Setting unit to level 10 using a loop
-        // It's awkward I know
-
-        for (int i = 0; i < 10; ++i)
-        {
-            LevelUp();
-        }
-        SetModifiedDamageOutput();
-        Debug.Log(string.Format("Damage with {0} would now be: {1}", ATK, unitModifiedAttack));
 
     }
 
-    void SetModifiedDamageOutput()
+    // Register self to manager class instance
+    void Start()
     {
-        // NOTE THESE VALUES ARE FOR TESTING
-
-        float s = (float)SPD;     // Speed
-        float a = (float)ATK;     // Attack
-        float ad = 1f;             // Attack Debuff
-        float ab = 1f;             // Attack Buff
-        float d = 1f;              // Enemy Defense
-        float dd = 1f;             // Defense Debuff
-        float db = 1f;             // Defense Buff
-        float e = 1f;              // Elemental Strength/Weakness
-        float x = 1f;              // Multiplier
-        float t = 1f;              // Triangle bonus +/- 20%
-        float f = 0f;              // Flat damage
-
-        // (1/e)#(t#((x#(a#(ad+ab)))-(d#(dd+db)))) + f
-
-        unitModifiedAttack = (1 / e)*(t*((x*(a*(ad + ab))) - (d*(dd + db)))) + f;
     }
+    #endregion
 
-    float GetDamageOutput()
-    {
-        return unitModifiedAttack;
-    }
-
-    private void Update()
-    {
-       if(Input.GetKeyDown(KeyCode.L))
-        {
-            LevelUp();
-            //Debug.Log(string.Format("LEVEL UP! PRINTING LEVEL {0} STATS", LVL));
-            //printStats();
-        }
-    }
+    #region Parameters
 
     // Level
     public int LVL
@@ -177,6 +128,21 @@ public class GrandmasterUnit : MonoBehaviour
         get { return GetStat(StatTypes.JMP); }
         set { SetStat(StatTypes.JMP, value); }
     }
+
+    #endregion
+
+    #region Setters and Getters
+
+    public string GetUnitName()
+    {
+        return unitName;
+    }
+
+    public Team GetUnitAffiliation()
+    {
+        return unitAffiliation;
+    }
+
     public void SetStat(StatTypes parameter, int value)
     {
         int typeIndex = (int)parameter;
@@ -191,15 +157,15 @@ public class GrandmasterUnit : MonoBehaviour
 
     public void SetBaseStats()
     {
-        LVL = 1;
-        CHP = MHP;
-        CMP = MMP;
-
         for (int i = 0; i < Job.statOrder.Length; ++i)
         {
             StatTypes parameter = Job.statOrder[i];
             SetStat(parameter, unitJob.GetBaseStat(parameter));
         }
+
+        LVL = 1;
+        CHP = MHP;
+        CMP = MMP;
     }
 
     public void LevelUp()
@@ -221,6 +187,8 @@ public class GrandmasterUnit : MonoBehaviour
         CMP = MMP;
     }
 
+
+    // Semi-random level-up (WIP)
     public void variableLevelUp()
     {
 
@@ -242,9 +210,11 @@ public class GrandmasterUnit : MonoBehaviour
     }
 
 
+    #endregion
 
+    #region Miscellaneous
 
-    void printStats()
+    public void PrintStats()
     {
         Debug.Log(string.Format("HP:{0}  MP:{1}  ATK:{2}  DEF:{3}  SPR:{4}  SPD:{5}",
             GetStat(Job.statOrder[0]),
@@ -255,4 +225,7 @@ public class GrandmasterUnit : MonoBehaviour
             GetStat(Job.statOrder[5])
         ));
     }
+
+    #endregion
+
 }

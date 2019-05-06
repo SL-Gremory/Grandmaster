@@ -5,6 +5,7 @@ using UnityEngine;
 public class BattleState : MonoBehaviour
 {
     //store all player and enemy characters, turns and whatever here
+    // Ronald: "Implementing unit attacking here as well"
 
     [SerializeField]
     BattleEnd end;
@@ -12,7 +13,14 @@ public class BattleState : MonoBehaviour
     [HideInInspector]
     public BattleSceneSO BattleData;
 
+
     public float RealTimeElapsed { get; private set; }
+
+    private void Start()
+    {
+
+    }
+
 
     private void Update()
     {
@@ -32,7 +40,6 @@ public class BattleState : MonoBehaviour
             ReturnToWorldMap();
         }
     }
-
 
     void ReturnToWorldMap()
     {

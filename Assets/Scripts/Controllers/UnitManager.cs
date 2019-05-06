@@ -2,60 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *  This class is attached to each unit game object
+ *  This handles unit selection and general unit location in the units grid
+ *
+ */
+
+
 public class UnitManager : Selectable
 {
 	private BattleManager battleManager;
 	private BattleNavigate battleNavigate;
+
 	[SerializeField]
 	internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
-	private bool moveIsDone;
-	private bool actionIsDone;
 
     public bool IsAlly { get { return isAlly; } }
-	
+
+    private bool moveIsDone;
+	private bool actionIsDone;
+
+    Int2 currentUnitPosition = new Int2();
+
     void Start()
     {
 		battleManager = BattleManager.Instance;
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
-	
+
 	void Update()
 	{
-		if (isSelected)
-		{
-			//M to simulate unit moving
-			//if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
-			if (!moveIsDone)
-			{
-				if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
-				{
-					battleNavigate.Move();
-				}
-			}
-			
-			//ESCAPE to deselect unit
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				SelectThis(false);
-				Debug.Log("Deselected a selectable via esc");
-			}
+        if (isSelected)
+        {
+            //M to simulate unit moving
+            //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+            if (!moveIsDone)
+            {
+                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                {
+                    battleNavigate.Move();
+                }
+            }
 
-			//SPACE to simulate unit performing an action
-			if (Input.GetKeyDown("space") && !actionIsDone)
-			{
-				DoneActing();
-			}
+            //ESCAPE to deselect unit
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SelectThis(false);
+                Debug.Log("Deselected a selectable via esc");
+            }
+            
+            //SPACE to simulate unit performing an action
+            if(Input.GetKeyDown(KeyCode.Space) && !actionIsDone)
+            {
+                DoneActing(); // Call everytime at the very end after attacking as well
+            }
 
-			//D to kill unit
-			if (Input.GetKeyDown(KeyCode.K))
-			{
-				KillUnit();
-			}
-		}
-	}
-	
-	void StartUnit()
+            //K to kill unit
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                KillUnit();
+            }
+        }
+
+        
+    }
+
+    public void AttackUnit(Int2 dPos)
+    {
+        if (Int2.Distance(currentUnitPosition, dPos) > 1)
+        {
+            Debug.Log("That unit is too far to attack");
+            return;
+        }
+
+        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
+    }
+
+    void StartUnit()
 	{
 		if (isAlly)
 		{
@@ -82,21 +106,21 @@ public class UnitManager : Selectable
 			}
 		}
 	}
-	
+
 	internal void ReadyUnit()
 	{
 		moveIsDone = false;
 		actionIsDone = false;
 		ChangeColor(0);
 	}
-	
+
 	internal void ExhaustUnit()
 	{
 		moveIsDone = true;
 		actionIsDone = true;
 		ChangeColor(2);
 	}
-	
+
 	internal void DoneMoving()
 	{
 		if (!moveIsDone)
@@ -106,7 +130,7 @@ public class UnitManager : Selectable
 			Debug.Log("Unit finished moving");
 		}
 	}
-	
+
 	internal void DoneActing()
 	{
 		if (!actionIsDone)
@@ -114,9 +138,9 @@ public class UnitManager : Selectable
 			ExhaustUnit();
 			BattleManager.Instance.unitsDone++;
 			Debug.Log("Unit finished acting");
-		}	
+		}
 	}
-	
+
 	internal void KillUnit()
 	{
 		if (isAlly)

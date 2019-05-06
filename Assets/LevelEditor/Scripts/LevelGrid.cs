@@ -67,6 +67,20 @@ public class LevelGrid : MonoBehaviour
         prefabHolderHolder = new GameObject("PrefabHolderHolderTempShit4674");
     }
 
+    private void Start()
+    {
+        /*
+        Debug.Log("LevelGrid printing now: ");
+        List<GameObject> stuff = GetPrefabsAt(33, 31);
+
+        foreach (GameObject thing in stuff)
+        {
+            Debug.Log(string.Format("{0}", thing.name));
+        }
+        */
+    }
+
+
     private void OnEnable()
     {
         

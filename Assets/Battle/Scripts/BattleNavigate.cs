@@ -8,6 +8,8 @@ public class BattleNavigate : MonoBehaviour
 	private UnitManager unitManager; //VARLER - find unitManager to interact with
 	
     [Header("Integrate to use real unit stats")]
+    [Header("Ronald: Each unit prefab will also have a GrandmasterUnit component attached containing stats ")]
+
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
     [SerializeField]
@@ -264,6 +266,11 @@ public class BattleNavigate : MonoBehaviour
         return Int2.Distance(start, goal); // manhattan distance(per-axis)
     }
 
+
+    public Int2 GetUnitPosition()
+    {
+        return new Int2((int)transform.position.x, (int)transform.position.y);
+    }
 }
 
 
