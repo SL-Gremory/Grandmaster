@@ -52,7 +52,6 @@ public class BattleNavigate : MonoBehaviour
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
             StartCoroutine(Travel(path));
-			unitManager.DoneMoving(); //VARLER - execute code for unit done moving
 			pathHasBeenReset = false; //VARLER - allow path to be reset again
 			return; //VARLER - failsafe for cutting out of function once move is complete
         }
@@ -69,7 +68,9 @@ public class BattleNavigate : MonoBehaviour
 
     IEnumerator Travel(List<Int2> path)
     {
-        traveling = true;
+        unitManager.isActive = false; //VARLER - prevent interaction with moving unit
+		
+		traveling = true;
         BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
         {
@@ -84,6 +85,9 @@ public class BattleNavigate : MonoBehaviour
             Destroy(visualsParent);
         BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unitManager);
         traveling = false;
+		
+		unitManager.isActive = true; //VARLER - allow interaction once move is complete
+		unitManager.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
 
     List<Int2> CalculatePath(Int2 start, Int2 goal)

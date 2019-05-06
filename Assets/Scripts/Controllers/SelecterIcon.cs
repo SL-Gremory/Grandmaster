@@ -19,7 +19,7 @@ public class SelecterIcon : MonoBehaviour
     {
 		if (targetObject != null)
 		{
-			transform.position = targetObject.transform.position + new Vector3(0f, 1f, 0f);
+			transform.position = targetObject.transform.position + new Vector3(0f, 0.125f, 0f);
 			transform.Rotate(0f, 0f, -3f);
 		}
     }
@@ -27,6 +27,7 @@ public class SelecterIcon : MonoBehaviour
 	public static void ResetPosition()
 	{
 		instance.transform.position = Vector3.zero;
-		instance.transform.rotation = Quaternion.identity;
+		//instance.transform.rotation = Quaternion.identity; //reset to full zero angle rotation. I don't want this.
+		instance.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
 	}
 }

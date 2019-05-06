@@ -33,6 +33,13 @@ public class UnitManager : Selectable
 					battleNavigate.Move();
 				}
 			}
+			
+			//ESCAPE to deselect unit
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				SelectThis(false);
+				Debug.Log("Deselected a selectable via esc");
+			}
 
 			//SPACE to simulate unit performing an action
 			if (Input.GetKeyDown("space") && !actionIsDone)
@@ -80,7 +87,6 @@ public class UnitManager : Selectable
 	{
 		moveIsDone = false;
 		actionIsDone = false;
-		//isActive = true; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(0);
 	}
 	
@@ -88,7 +94,6 @@ public class UnitManager : Selectable
 	{
 		moveIsDone = true;
 		actionIsDone = true;
-		//isActive = false; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(2);
 	}
 	
