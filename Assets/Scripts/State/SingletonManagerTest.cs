@@ -10,10 +10,7 @@ public class SingletonManagerTest : MonoBehaviour
     private static List<GrandmasterUnit> herosOnTheField;
     private static List<GrandmasterUnit> enemiesOnTheField;
 
-    private static List<GrandmasterUnit> unitsOnTheField;
-
-    GrandmasterUnit firstHero;
-    GrandmasterUnit firstEnemy;
+    List<GrandmasterUnit> unitsOnTheField;
 
     private void Awake()
     {
@@ -41,72 +38,48 @@ public class SingletonManagerTest : MonoBehaviour
             }
         }
         
-
-        /*
-        if (Input.GetKeyDown(KeyCode.D) && herosOnTheField.Count > 0 && enemiesOnTheField.Count > 0)
+        if(Input.GetKeyDown(KeyCode.D))
         {
-            firstHero = herosOnTheField[0];
-            firstEnemy = enemiesOnTheField[0];
+            Debug.Log(string.Format("{0} is attacking {1} for {2} damage",
+                unitsOnTheField[0].GetUnitName(),
+                unitsOnTheField[1].GetUnitName(),
+                Attack.CalculateProjectedDamage(unitsOnTheField[0], unitsOnTheField[1])));
 
-            
-            Debug.Log(string.Format("{0} is attacking {1} for {2} damage", 
-                firstHero.GetUnitName(),
-                firstEnemy.GetUnitName(),
-                Attack.CalculateProjectedDamage(firstHero, firstEnemy)));
- 
-            Attack.CommenceBattle(firstHero, firstEnemy);
+            Attack.CommenceBattle(unitsOnTheField[0], unitsOnTheField[1]);
 
-            //Debug.Log(string.Format("{0} has {1} left", firstHero.GetUnitName(), firstHero.CHP));
-            //Debug.Log(string.Format("{0} has {1} left", firstEnemy.GetUnitName(), firstEnemy.CHP));
-
-            
-            if (!(firstHero.CHP > 0))
-            {
-                Debug.Log(string.Format("{0} has died", firstHero.GetUnitName()));
-                Destroy(firstHero);
-            }
-            if (!(firstEnemy.CHP > 0))
-            {
-                Debug.Log(string.Format("{0} has died", firstEnemy.GetUnitName()));
-                Destroy(firstEnemy);
-            }
-            
+            Debug.Log(string.Format("{0} has {1} left", unitsOnTheField[0].GetUnitName(), unitsOnTheField[0].CHP));
+            Debug.Log(string.Format("{0} has {1} left", unitsOnTheField[1].GetUnitName(), unitsOnTheField[1].CHP));
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && herosOnTheField.Count > 0 && enemiesOnTheField.Count > 0)
+
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            firstHero = herosOnTheField[0];
-            firstEnemy = enemiesOnTheField[0];
+            Debug.Log(string.Format("{0} is attacking {1} for {2} damage",
+                unitsOnTheField[1].GetUnitName(),
+                unitsOnTheField[0].GetUnitName(),
+                Attack.CalculateProjectedDamage(unitsOnTheField[1], unitsOnTheField[0])));
 
-            
-            Debug.Log(string.Format("Enemy[0] {0} is attacking Hero[0] {1} for {2} damage",
-                firstEnemy.GetUnitName(),
-                firstHero.GetUnitName(),
-                Attack.CalculateProjectedDamage(firstEnemy, firstHero)));
-                
+            Attack.CommenceBattle(unitsOnTheField[1], unitsOnTheField[0]);
 
-            //Attack.CommenceBattle(firstEnemy, firstHero);
-
-            //Debug.Log(string.Format("{0} has {1} HP left", firstHero.GetUnitName(), firstHero.CHP));
-            //Debug.Log(string.Format("{0} has {1} HP left", firstEnemy.GetUnitName(), firstEnemy.CHP));
-
-            if (!(firstHero.CHP > 0))
-            {
-                //Debug.Log(string.Format("{0} has died", firstHero.GetUnitName()));
-                Destroy(firstHero);
-            }
-            if (!(firstEnemy.CHP > 0))
-            {
-                //Debug.Log(string.Format("{0} has died", firstEnemy.GetUnitName()));
-                Destroy(firstEnemy);
-            }
-            
+            Debug.Log(string.Format("{0} has {1} left", unitsOnTheField[1].GetUnitName(), unitsOnTheField[1].CHP));
+            Debug.Log(string.Format("{0} has {1} left", unitsOnTheField[0].GetUnitName(), unitsOnTheField[0].CHP));
         }
-        */
+
+        if(unitsOnTheField[0].CHP == 0)
+        {
+            Destroy(unitsOnTheField[0].GetComponentInParent<GameObject>());
+            Debug.Log(string.Format("{0} has died", unitsOnTheField[0].GetUnitName()));
+        }
+
+        if (unitsOnTheField[1].CHP == 0)
+        {
+            Destroy(unitsOnTheField[1].GetComponentInParent<GameObject>());
+            Debug.Log(string.Format("{0} has died", unitsOnTheField[1].GetUnitName()));
+        }
 
     }
 
-    public static void AddUnitToList(GrandmasterUnit unit)
+    public void AddUnit(GrandmasterUnit unit)
     {
         unitsOnTheField.Add(unit);
     }

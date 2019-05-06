@@ -264,8 +264,8 @@ public class BattleNavigate : MonoBehaviour
 
 
     public Int2 GetUnitPosition()
-    { 
-        return currentUnitPosition;
+    {
+        return new Int2((int)transform.position.x, (int)transform.position.y);
     }
 }
 

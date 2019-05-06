@@ -21,15 +21,18 @@ public class UnitManager : Selectable
     private bool moveIsDone;
 	private bool actionIsDone;
 
+    Int2 currentUnitPosition = new Int2();
 
     void Start()
     {
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
-        RegisterToBattleManager();
         StartUnit();
     }
 
 
+
+
+    /*
     void RegisterToBattleManager()
     {
         var battleNavigator = this.GetComponentInParent<BattleNavigate>();
@@ -37,34 +40,50 @@ public class UnitManager : Selectable
 
         BattleManager.Instance.AddUnit(unitPosition, this);
     }
-
+    */
 
     void Update()
-	{
-		if (isSelected)
-		{
-			//M to simulate unit moving
-			//if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
-			if (!moveIsDone)
-			{
-				battleNavigate.Move();
-			}
+    {
+        // Maybe this shouldn't be here...
+        currentUnitPosition = battleNavigate.GetUnitPosition();
 
-			//SPACE to simulate unit performing an action
-			if (Input.GetKeyDown("space") && !actionIsDone)
-			{
-				DoneActing();
-			}
+        if (isSelected)
+        {
+            //M to simulate unit moving
+            //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+            if (!moveIsDone)
+            {
+                battleNavigate.Move();
+            }
 
-			//D to kill unit
+            //SPACE to simulate unit performing an action
+            if (Input.GetKeyDown("space") && !actionIsDone)
+            {
+                DoneActing();
+            }
+
+            //D to kill unit
+            /*
 			if (Input.GetKeyDown(KeyCode.K))
 			{
 				KillUnit();
 			}
-		}
-	}
-	
-	void StartUnit()
+            */
+        }
+    }
+
+    public void AttackUnit(Int2 dPos)
+    {
+        if (Int2.Distance(currentUnitPosition, dPos) > 1)
+        {
+            Debug.Log("That unit is too far to attack");
+            return;
+        }
+
+        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
+    }
+
+    void StartUnit()
 	{
 		if (isAlly)
 		{

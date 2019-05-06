@@ -30,6 +30,9 @@ public class GrandmasterUnit : MonoBehaviour
     #region MonoBehaviour
     private void Awake()
     {
+        if(SingletonManagerTest.Instance != null)
+            SingletonManagerTest.Instance.AddUnit(this);
+
         SetBaseStats();
 
     }
@@ -37,7 +40,6 @@ public class GrandmasterUnit : MonoBehaviour
     // Register self to manager class instance
     void Start()
     {
-
     }
     #endregion
 

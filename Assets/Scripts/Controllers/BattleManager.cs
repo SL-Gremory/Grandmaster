@@ -19,8 +19,6 @@ public class BattleManager : MonoBehaviour
 	internal int turnCounter = 1;
 
     public static UnitManager[,] unitsGrid;
-
-
     public static BattleManager Instance { get; private set; }
 	
 	void Awake()
@@ -60,6 +58,29 @@ public class BattleManager : MonoBehaviour
             turnIsDone = true;
         }
     }
+
+
+    public void PrepareAttack(Int2 aPos, Int2 dPos)
+    {
+
+        // This is dirty REEEEE
+        GrandmasterUnit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<GrandmasterUnit>();
+        GrandmasterUnit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<GrandmasterUnit>();
+        Attack.CommenceBattle(attacker, defender);
+
+        if (attacker.CHP <= 0)
+        {
+            Debug.Log(string.Format("{0} has died", attacker.GetUnitName()));
+            //Destroy(attacker);
+        }
+
+        if (defender.CHP <= 0)
+        {
+            Debug.Log(string.Format("{0} has died", defender.GetUnitName()));
+            //Destroy(defender);
+        }
+    }
+
 
 	void ChangeTurns()
 	{	
@@ -165,30 +186,4 @@ public class BattleManager : MonoBehaviour
         unitsGrid[pos.x, pos.y] = null;
     }
 
-
-    void UnitAttackingAt(Int2 aPos, Int2 dPos)
-    {
-        if(Int2.Distance(aPos, dPos) > 1)
-        {
-            Debug.Log("That unit is too far to attack");
-            return;
-        }
-
-        // This is dirty REEEEE
-        GrandmasterUnit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<GrandmasterUnit>();
-        GrandmasterUnit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<GrandmasterUnit>();
-        Attack.CommenceBattle(attacker, defender);
-
-        if(attacker.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", attacker.GetUnitName()));
-            Destroy(attacker);
-        }
-
-        if(defender.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", defender.GetUnitName()));
-            Destroy(defender);
-        }
-    }
 }
