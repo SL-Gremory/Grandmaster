@@ -8,7 +8,7 @@ public class Selectable : MonoBehaviour
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
-	protected bool isActive = false; //if can be selected
+	internal bool isActive = true; //if can be selected. for most things it will always be true.
 	protected bool isSelected = false; //if is selected
 	
     void Awake()
@@ -36,18 +36,28 @@ public class Selectable : MonoBehaviour
 		if (isActive && Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Selected a selectable");
-			//find all selectables; if is selected, revert selection
-			Selectable[] selectables = FindObjectsOfType(typeof(Selectable)) as Selectable[];
-			foreach (Selectable selectable in selectables)
+			
+			if (isSelected)
 			{
-				if (selectable.isSelected)
-				{
-					selectable.isSelected = false;
-				}
+				isSelected = false;
+				SelectThis(false);
+				Debug.Log("Deselected a selectable via toggle");
 			}
-			//select only the clicked selectable
-			isSelected = true;
-			SelectThis(true);
+			else
+			{
+				//find all selectables; if is selected, revert selection
+				Selectable[] selectables = FindObjectsOfType(typeof(Selectable)) as Selectable[];
+				foreach (Selectable selectable in selectables)
+				{
+					if (selectable.isSelected)
+					{
+						selectable.isSelected = false;
+					}
+				}
+				//select only the clicked selectable
+				isSelected = true;
+				SelectThis(true);
+			}
 		}
 	}
 	

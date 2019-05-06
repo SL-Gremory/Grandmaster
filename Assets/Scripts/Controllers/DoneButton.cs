@@ -9,7 +9,7 @@ public class DoneButton : Selectable
     // Start is called before the first frame update
     void Start()
     {
-		battleManager = GameObject.FindObjectOfType<BattleManager>();
+		battleManager = BattleManager.Instance;
 		ResetButton(battleManager.isPlayerTurn);
     }
 	

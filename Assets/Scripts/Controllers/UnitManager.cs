@@ -5,12 +5,13 @@ using UnityEngine;
 /*
  *  This class is attached to each unit game object
  *  This handles unit selection and general unit location in the units grid
- * 
+ *
  */
 
 
 public class UnitManager : Selectable
 {
+	private BattleManager battleManager;
 	private BattleNavigate battleNavigate;
 
 	[SerializeField]
@@ -25,9 +26,31 @@ public class UnitManager : Selectable
 
     void Start()
     {
+		battleManager = BattleManager.Instance;
 		battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
+
+	void Update()
+	{
+		if (isSelected)
+		{
+			//M to simulate unit moving
+			//if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+			if (!moveIsDone)
+			{
+				if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+				{
+					battleNavigate.Move();
+				}
+			}
+
+			//ESCAPE to deselect unit
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				SelectThis(false);
+				Debug.Log("Deselected a selectable via esc");
+			}
 
 
 
@@ -110,23 +133,21 @@ public class UnitManager : Selectable
 			}
 		}
 	}
-	
+
 	internal void ReadyUnit()
 	{
 		moveIsDone = false;
 		actionIsDone = false;
-		isActive = true; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(0);
 	}
-	
+
 	internal void ExhaustUnit()
 	{
 		moveIsDone = true;
 		actionIsDone = true;
-		isActive = false; //in the future, do this only for ally Units. Enemies will not be selectable.
 		ChangeColor(2);
 	}
-	
+
 	internal void DoneMoving()
 	{
 		if (!moveIsDone)
@@ -136,7 +157,7 @@ public class UnitManager : Selectable
 			Debug.Log("Unit finished moving");
 		}
 	}
-	
+
 	internal void DoneActing()
 	{
 		if (!actionIsDone)
@@ -144,9 +165,9 @@ public class UnitManager : Selectable
 			ExhaustUnit();
 			BattleManager.Instance.unitsDone++;
 			Debug.Log("Unit finished acting");
-		}	
+		}
 	}
-	
+
 	internal void KillUnit()
 	{
 		if (isAlly)

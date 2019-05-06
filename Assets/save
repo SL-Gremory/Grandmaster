@@ -3,21 +3,21 @@
     "nickname": "",
     "description": "",
     "splashArt": {
-        "instanceID": 14454
+        "instanceID": 18754
     },
     "portraitArtMain": {
-        "instanceID": 14580
+        "instanceID": 18756
     },
     "portraitArtHappy": {
-        "instanceID": 14580
+        "instanceID": 18756
     },
     "portraitArtSad": {
-        "instanceID": 14666
+        "instanceID": 18758
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 14496
+        "instanceID": 18760
     },
     "portraitArtAngry": {
-        "instanceID": 14424
+        "instanceID": 18762
     }
 }
