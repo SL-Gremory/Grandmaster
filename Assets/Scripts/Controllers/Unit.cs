@@ -37,8 +37,9 @@ public class Unit : Selectable
 
     #region Initialization
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         SetBaseStats();     // Temporary thing, should load stats from a file
 
     }

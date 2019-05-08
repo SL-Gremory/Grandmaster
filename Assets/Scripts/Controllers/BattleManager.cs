@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour
     public static Unit[,] unitsGrid;
     public static BattleManager Instance { get; private set; }
 	
-	void Awake()
+	void Start()
 	{
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
