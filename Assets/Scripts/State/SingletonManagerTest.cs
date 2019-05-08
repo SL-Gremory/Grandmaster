@@ -7,10 +7,10 @@ public class SingletonManagerTest : MonoBehaviour
 {
     public static SingletonManagerTest Instance { get; private set; }
 
-    private static List<GrandmasterUnit> herosOnTheField;
-    private static List<GrandmasterUnit> enemiesOnTheField;
+    private static List<Unit> herosOnTheField;
+    private static List<Unit> enemiesOnTheField;
 
-    List<GrandmasterUnit> unitsOnTheField;
+    List<Unit> unitsOnTheField;
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class SingletonManagerTest : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        unitsOnTheField = new List<GrandmasterUnit>();
+        unitsOnTheField = new List<Unit>();
 
     }
 
@@ -31,7 +31,7 @@ public class SingletonManagerTest : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.S))
         {
-            foreach (GrandmasterUnit unit in unitsOnTheField)
+            foreach (Unit unit in unitsOnTheField)
             {
                 Debug.Log(string.Format("Unit found: {0}", unit.GetUnitName()));
                 unit.PrintStats();
@@ -79,7 +79,7 @@ public class SingletonManagerTest : MonoBehaviour
 
     }
 
-    public void AddUnit(GrandmasterUnit unit)
+    public void AddUnit(Unit unit)
     {
         unitsOnTheField.Add(unit);
     }

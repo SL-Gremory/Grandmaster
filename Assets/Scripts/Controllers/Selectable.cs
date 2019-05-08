@@ -11,9 +11,9 @@ public class Selectable : MonoBehaviour
 	internal bool isActive = true; //if can be selected. for most things it will always be true.
 	protected bool isSelected = false; //if is selected
 	
-    void Awake()
+    protected virtual void Awake()
     {
-        originalColor = GetComponent<SpriteRenderer>().color;
+        originalColor = this.GetComponent<SpriteRenderer>().color;
 		darkColor1 = new Color(originalColor.r-0.3f, originalColor.g-0.3f, originalColor.b-0.3f);
 		darkColor2 = new Color(originalColor.r-0.6f, originalColor.g-0.6f, originalColor.b-0.6f);
     }

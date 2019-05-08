@@ -18,16 +18,16 @@ public class BattleManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    public static UnitManager[,] unitsGrid;
+    public static Unit[,] unitsGrid;
     public static BattleManager Instance { get; private set; }
 	
-	void Awake()
+	void Start()
 	{
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
         Instance = this;
         var mapSize = LevelGrid.Instance.GetMapSize();
-        unitsGrid = new UnitManager[mapSize.x, mapSize.y];
+        unitsGrid = new Unit[mapSize.x, mapSize.y];
 
 		if (playerFirst)
 		{
@@ -64,8 +64,8 @@ public class BattleManager : MonoBehaviour
     {
 
         // This is dirty REEEEE
-        GrandmasterUnit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<GrandmasterUnit>();
-        GrandmasterUnit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<GrandmasterUnit>();
+        Unit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<Unit>();
+        Unit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<Unit>();
         Attack.CommenceBattle(attacker, defender);
 
         if (attacker.CHP <= 0)
@@ -94,12 +94,13 @@ public class BattleManager : MonoBehaviour
 		}
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
-		//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
-        //foreach (UnitManager unit in units)
-		foreach (UnitManager unit in unitsGrid)
+        foreach (Unit unit in units)
+		//foreach (Unit unit in unitsGrid)
 		{
-            var unitInfo = unit.GetComponentInParent<GrandmasterUnit>();
+			Debug.Log("finded a unit");
+            var unitInfo = unit.GetComponentInParent<Unit>();
 			if (isPlayerTurn)
 			{
                 //if(unit.isAlly)
@@ -139,10 +140,10 @@ public class BattleManager : MonoBehaviour
 			//win
 			Debug.Log("player wins");
             //exhaust units and disable done button
-            //UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
+            //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
-            //foreach (UnitManager unit in units)
-            foreach (UnitManager unit in unitsGrid)
+            //foreach (Unit unit in units)
+            foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -153,8 +154,8 @@ public class BattleManager : MonoBehaviour
 			//loss
 			Debug.Log("enemy wins");
 			//exhaust units and disable done button
-			//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
-			foreach (UnitManager unit in unitsGrid)
+			//Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
+			foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -174,7 +175,7 @@ public class BattleManager : MonoBehaviour
         return unitsGrid[pos.x, pos.y] != null;
     }
 
-    public void AddUnit(Int2 pos, UnitManager unit) {
+    public void AddUnit(Int2 pos, Unit unit) {
         if (unitsGrid[pos.x, pos.y] != null)
             Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].name + ", " + unit.name, this);
         unitsGrid[pos.x, pos.y] = unit;

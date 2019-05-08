@@ -6,7 +6,7 @@ using UnityEngine;
 public static class Attack
 {
 
-    public static int CalculateProjectedDamage(GrandmasterUnit attacker, GrandmasterUnit defender)
+    public static int CalculateProjectedDamage(Unit attacker, Unit defender)
     {
         // Speed not being used to calculate doubled damage yet
 
@@ -30,7 +30,7 @@ public static class Attack
     }
 
 
-    public static void CommenceBattle(GrandmasterUnit attacker, GrandmasterUnit defender)
+    public static void CommenceBattle(Unit attacker, Unit defender)
     {
         // NOTE: The attacker will always strike first currently
         //       Anything skills/items involving priority-manipulation 
