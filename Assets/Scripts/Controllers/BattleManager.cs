@@ -21,8 +21,8 @@ public class BattleManager : MonoBehaviour
 
     public static Unit[,] unitsGrid;
     public static BattleManager Instance { get; private set; }
-	
-	void Awake()
+
+	void Start()
 	{
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
@@ -84,7 +84,7 @@ public class BattleManager : MonoBehaviour
 
 
 	void ChangeTurns()
-	{	
+	{
 		isPlayerTurn = !isPlayerTurn; //current turn is done, at this point forward it is the other side's turn
 		unitsDone = 0;
 		doneButton.ResetButton(isPlayerTurn);
@@ -93,12 +93,15 @@ public class BattleManager : MonoBehaviour
 			turnCounter++; //only increments when it is becoming the player's turn
 			turnCountText.DisplayNewTurn();
 		}
-		
-		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
 
-		foreach (Unit unit in unitsGrid)
+		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
+		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
+
+        foreach (Unit unit in units)
+		//foreach (Unit unit in unitsGrid)
 		{
-            var unitInfo = unit.GetComponent<Unit>();
+			Debug.Log("finded a unit");
+            var unitInfo = unit.GetComponentInParent<Unit>();
 			if (isPlayerTurn)
 			{
                 if(unit.isAlly)
@@ -138,7 +141,9 @@ public class BattleManager : MonoBehaviour
 			//win
 			Debug.Log("player wins");
             //exhaust units and disable done button
+            //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
+            //foreach (Unit unit in units)
             foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
@@ -149,6 +154,8 @@ public class BattleManager : MonoBehaviour
 		{
 			//loss
 			Debug.Log("enemy wins");
+			//exhaust units and disable done button
+			//Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 			foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();

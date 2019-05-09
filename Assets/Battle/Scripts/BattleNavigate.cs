@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleNavigate : MonoBehaviour
-{	
-	private Unit unit; //VARLER - find Unit to interact with
-	
+{
+	private Unit unit; //VARLER - find unit to interact with
+
     [Header("Integrate to use real unit stats")]
     [Header("Ronald: Each unit prefab will also have a Unit component attached containing stats ")]
 
@@ -34,7 +34,7 @@ public class BattleNavigate : MonoBehaviour
     {
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
-		
+
 		//VARLER - find unit manager to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
         BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
@@ -50,7 +50,7 @@ public class BattleNavigate : MonoBehaviour
 			path = null;
 			pathHasBeenReset = true;
 		}
-		
+
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
             StartCoroutine(Travel(path));
@@ -71,7 +71,7 @@ public class BattleNavigate : MonoBehaviour
     IEnumerator Travel(List<Int2> path)
     {
         unit.isActive = false; //VARLER - prevent interaction with moving unit
-		
+
 		traveling = true;
         BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
@@ -87,7 +87,7 @@ public class BattleNavigate : MonoBehaviour
             Destroy(visualsParent);
         BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
-		
+
 		unit.isActive = true; //VARLER - allow interaction once move is complete
 		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
@@ -272,7 +272,3 @@ public class BattleNavigate : MonoBehaviour
         return new Int2((int)transform.position.x, (int)transform.position.y);
     }
 }
-
-
-
-
