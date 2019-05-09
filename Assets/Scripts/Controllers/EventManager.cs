@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    /*
 	private DoneButton doneButton;
 	private TurnCountText turnCountText;
 	public bool playerFirst; //must define as true or false in editor, on prefab, or when spawning object
@@ -124,4 +125,5 @@ public class EventManager : MonoBehaviour
 			//carry on my wayward son
 		}
 	}
+    */
 }

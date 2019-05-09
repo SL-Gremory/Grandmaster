@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+
     [SerializeField]
 	private DoneButton doneButton;
     [SerializeField]
@@ -18,7 +19,7 @@ public class BattleManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    public static UnitManager[,] unitsGrid;
+    public static Unit[,] unitsGrid;
     public static BattleManager Instance { get; private set; }
 	
 	void Awake()
@@ -27,7 +28,7 @@ public class BattleManager : MonoBehaviour
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
         Instance = this;
         var mapSize = LevelGrid.Instance.GetMapSize();
-        unitsGrid = new UnitManager[mapSize.x, mapSize.y];
+        unitsGrid = new Unit[mapSize.x, mapSize.y];
 
 		if (playerFirst)
 		{
@@ -64,8 +65,8 @@ public class BattleManager : MonoBehaviour
     {
 
         // This is dirty REEEEE
-        GrandmasterUnit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<GrandmasterUnit>();
-        GrandmasterUnit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<GrandmasterUnit>();
+        Unit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<Unit>();
+        Unit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<Unit>();
         Attack.CommenceBattle(attacker, defender);
 
         if (attacker.CHP <= 0)
@@ -94,16 +95,14 @@ public class BattleManager : MonoBehaviour
 		}
 		
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
-		//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
 
-        //foreach (UnitManager unit in units)
-		foreach (UnitManager unit in unitsGrid)
+		foreach (Unit unit in unitsGrid)
 		{
-            var unitInfo = unit.GetComponentInParent<GrandmasterUnit>();
+            var unitInfo = unit.GetComponent<Unit>();
 			if (isPlayerTurn)
 			{
-                //if(unit.isAlly)
-				if (unitInfo.GetUnitAffiliation() == Team.HERO)
+                if(unit.isAlly)
+				//if (unitInfo.GetUnitAffiliation() == Team.HERO)
 				{
 					unit.ReadyUnit();
 					Debug.Log("ally is woke");
@@ -116,8 +115,8 @@ public class BattleManager : MonoBehaviour
 			}
 			else
 			{
-                //if(!unit.isAlly)
-				if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
+                if(!unit.isAlly)
+				//if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
 				{
 					unit.ReadyUnit();
 					Debug.Log("enemy is woke");
@@ -139,10 +138,8 @@ public class BattleManager : MonoBehaviour
 			//win
 			Debug.Log("player wins");
             //exhaust units and disable done button
-            //UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
 
-            //foreach (UnitManager unit in units)
-            foreach (UnitManager unit in unitsGrid)
+            foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -152,9 +149,7 @@ public class BattleManager : MonoBehaviour
 		{
 			//loss
 			Debug.Log("enemy wins");
-			//exhaust units and disable done button
-			//UnitManager[] units = FindObjectsOfType(typeof(UnitManager)) as UnitManager[];
-			foreach (UnitManager unit in unitsGrid)
+			foreach (Unit unit in unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -174,9 +169,9 @@ public class BattleManager : MonoBehaviour
         return unitsGrid[pos.x, pos.y] != null;
     }
 
-    public void AddUnit(Int2 pos, UnitManager unit) {
+    public void AddUnit(Int2 pos, Unit unit) {
         if (unitsGrid[pos.x, pos.y] != null)
-            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].name + ", " + unit.name, this);
+            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetUnitName() + ", " + unit.GetUnitName(), this);
         unitsGrid[pos.x, pos.y] = unit;
     }
 

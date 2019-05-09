@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
+/*
+ *  Must attach this script to each game object
+ */
 
-// Add this script as a component to an object then attach a Job using one of the files in the Units/Job folder
-
-public class GrandmasterUnit : MonoBehaviour
+public class Unit : Selectable
 {
-
     #region Declarations
 
     [SerializeField]
@@ -25,22 +24,64 @@ public class GrandmasterUnit : MonoBehaviour
 
     private Rank unitRank;
 
+    private BattleManager battleManager;
+    private BattleNavigate battleNavigate;
+
+    [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
+
+    public bool IsAlly { get { return isAlly; } }
+
+    private bool moveIsDone;
+    private bool actionIsDone;
+    Int2 currentUnitPosition = new Int2();
+
+
     #endregion
 
-    #region MonoBehaviour
+    #region Initialization
+
     private void Awake()
     {
-        if(SingletonManagerTest.Instance != null)
-            SingletonManagerTest.Instance.AddUnit(this);
-
-        SetBaseStats();
+        SetBaseStats();     // Temporary thing, should load stats from a file
 
     }
 
-    // Register self to manager class instance
     void Start()
     {
+        battleManager = BattleManager.Instance;
+        battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
+        StartUnit();
     }
+
+    void StartUnit()
+    {
+        if (isAlly)
+        {
+            BattleManager.Instance.playerUnitCount++;
+            if (BattleManager.Instance.isPlayerTurn)
+            {
+                ReadyUnit();
+            }
+            else
+            {
+                ExhaustUnit();
+            }
+        }
+        else
+        {
+            BattleManager.Instance.enemyUnitCount++;
+            if (!BattleManager.Instance.isPlayerTurn)
+            {
+                ReadyUnit();
+            }
+            else
+            {
+                ExhaustUnit();
+            }
+        }
+    }
+
+
     #endregion
 
     #region Parameters
@@ -212,7 +253,112 @@ public class GrandmasterUnit : MonoBehaviour
 
     #endregion
 
+    #region Unit State Controls
+
+    void Update()
+    {
+        if (isSelected)
+        {
+            //M to simulate unit moving
+            //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+            if (!moveIsDone)
+            {
+                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                {
+                    battleNavigate.Move();
+                }
+            }
+
+            //ESCAPE to deselect unit
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SelectThis(false);
+                Debug.Log("Deselected a selectable via esc");
+            }
+
+            //SPACE to simulate unit performing an action
+            if (Input.GetKeyDown(KeyCode.Space) && !actionIsDone)
+            {
+                DoneActing(); // Call everytime at the very end after attacking as well
+            }
+
+            //K to kill unit
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                KillUnit();
+            }
+        }
+    }
+
+
+
+    internal void ReadyUnit()
+    {
+        moveIsDone = false;
+        actionIsDone = false;
+        ChangeColor(0);
+    }
+
+    internal void ExhaustUnit()
+    {
+        moveIsDone = true;
+        actionIsDone = true;
+        ChangeColor(2);
+    }
+
+    internal void DoneMoving()
+    {
+        if (!moveIsDone)
+        {
+            moveIsDone = true;
+            ChangeColor(1);
+            Debug.Log("Unit finished moving");
+        }
+    }
+
+    internal void DoneActing()
+    {
+        if (!actionIsDone)
+        {
+            ExhaustUnit();
+            BattleManager.Instance.unitsDone++;
+            Debug.Log("Unit finished acting");
+        }
+    }
+
+    internal void KillUnit()
+    {
+        if (isAlly)
+        {
+            BattleManager.Instance.playerUnitCount--;
+        }
+        else
+        {
+            BattleManager.Instance.enemyUnitCount--;
+        }
+        Destroy(gameObject);
+        BattleManager.Instance.CheckWinConditions();
+        Debug.Log("Unit has died to death");
+    }
+
+    #endregion
+
     #region Miscellaneous
+
+
+    public void AttackUnit(Int2 dPos)
+    {
+        //(transform.position.x, transform.position.y)
+        if (Int2.Distance(currentUnitPosition, dPos) > 1)
+        {
+            Debug.Log("That unit is too far to attack");
+            return;
+        }
+
+        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
+    }
+
+
 
     public void PrintStats()
     {
@@ -229,3 +375,4 @@ public class GrandmasterUnit : MonoBehaviour
     #endregion
 
 }
+

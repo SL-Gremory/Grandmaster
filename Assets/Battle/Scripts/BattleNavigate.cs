@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class BattleNavigate : MonoBehaviour
 {	
-	private UnitManager unitManager; //VARLER - find unitManager to interact with
+	private Unit unit; //VARLER - find Unit to interact with
 	
     [Header("Integrate to use real unit stats")]
-    [Header("Ronald: Each unit prefab will also have a GrandmasterUnit component attached containing stats ")]
+    [Header("Ronald: Each unit prefab will also have a Unit component attached containing stats ")]
 
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
@@ -36,8 +36,8 @@ public class BattleNavigate : MonoBehaviour
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
 		
 		//VARLER - find unit manager to interact with
-		unitManager = gameObject.GetComponentInParent<UnitManager>();
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unitManager);
+		unit = gameObject.GetComponentInParent<Unit>();
+        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
 
     }
 
@@ -70,7 +70,7 @@ public class BattleNavigate : MonoBehaviour
 
     IEnumerator Travel(List<Int2> path)
     {
-        unitManager.isActive = false; //VARLER - prevent interaction with moving unit
+        unit.isActive = false; //VARLER - prevent interaction with moving unit
 		
 		traveling = true;
         BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
@@ -85,11 +85,11 @@ public class BattleNavigate : MonoBehaviour
         }
         if (visualsParent != null)
             Destroy(visualsParent);
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unitManager);
+        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
 		
-		unitManager.isActive = true; //VARLER - allow interaction once move is complete
-		unitManager.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
+		unit.isActive = true; //VARLER - allow interaction once move is complete
+		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
 
     List<Int2> CalculatePath(Int2 start, Int2 goal)

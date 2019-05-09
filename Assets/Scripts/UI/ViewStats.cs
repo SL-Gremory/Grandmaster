@@ -17,7 +17,7 @@ public class ViewStats : MonoBehaviour
     [SerializeField] Text JMP;
 
 
-    public void Display(GrandmasterUnit unit)
+    public void Display(Unit unit)
     {
         this.LVL.text = "Lvl:\t" + unit.LVL.ToString();
         this.EXP.text = "Exp:\t" + unit.EXP.ToString();
