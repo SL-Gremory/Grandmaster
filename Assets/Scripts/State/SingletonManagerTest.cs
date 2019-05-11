@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SingletonManagerTest : MonoBehaviour
 {
+    /*
     public static SingletonManagerTest Instance { get; private set; }
 
     private static List<Unit> herosOnTheField;
@@ -83,5 +84,5 @@ public class SingletonManagerTest : MonoBehaviour
     {
         unitsOnTheField.Add(unit);
     }
-
+    */
 }

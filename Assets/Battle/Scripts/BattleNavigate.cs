@@ -1,12 +1,13 @@
 ﻿using Priority_Queue;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleNavigate : MonoBehaviour
-{	
+{
 	private Unit unit; //VARLER - find unit to interact with
-	
+
     [Header("Integrate to use real unit stats")]
     [Header("Ronald: Each unit prefab will also have a Unit component attached containing stats ")]
 
@@ -30,27 +31,35 @@ public class BattleNavigate : MonoBehaviour
 	bool pathHasBeenReset; //VARLER - for resetting the path prior to entering Move()
     TerrainData levelTerrain;
 
+    public static Unit[,] unitsGrid;
+
     private void Start()
     {
+        if (unitsGrid == null)
+        {
+            var mapSize = LevelGrid.Instance.GetMapSize();
+            unitsGrid = new Unit[mapSize.x, mapSize.y];
+        }
+
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
-		
+
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
 
     }
 
     internal void Move()
     {
-		Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
+		//Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
 		//VARLER - if statement ensures path has been reset before re-entering Move()
 		if (!pathHasBeenReset)
 		{
 			path = null;
 			pathHasBeenReset = true;
 		}
-		
+
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
             StartCoroutine(Travel(path));
@@ -59,7 +68,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
         {
-			Debug.Log("Looking at paths");
+		//	Debug.Log("Looking at paths");
             var goal = new Int2((int)hit.point.x, (int)hit.point.z);
             if (goal == lastGoal)
                 return;
@@ -71,9 +80,9 @@ public class BattleNavigate : MonoBehaviour
     IEnumerator Travel(List<Int2> path)
     {
         unit.isActive = false; //VARLER - prevent interaction with moving unit
-		
+
 		traveling = true;
-        BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
+        RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
         {
             var cell = path[path.Count - 1];
@@ -85,9 +94,9 @@ public class BattleNavigate : MonoBehaviour
         }
         if (visualsParent != null)
             Destroy(visualsParent);
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
-		
+
 		unit.isActive = true; //VARLER - allow interaction once move is complete
 		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
@@ -101,7 +110,7 @@ public class BattleNavigate : MonoBehaviour
             return null;
         if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
             return null;
-        if (BattleManager.Instance.IsUnitAt(goal))
+        if (IsUnitAt(goal))
             return null;
         //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
@@ -189,7 +198,8 @@ public class BattleNavigate : MonoBehaviour
         }
     }
 
-    static List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
+    // Ronald: I made this non-static, would that break something?
+    List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
     {
 
         HashSet<Int2> closedSet = new HashSet<Int2>();
@@ -227,7 +237,7 @@ public class BattleNavigate : MonoBehaviour
                     continue;
                 if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
                     continue;
-                if (BattleManager.Instance.IsEnemyAt(neighbor))
+                if (IsNonAllyAt(neighbor)) // cell is occupied by a different team unit
                     continue;
 
                 var tentativegScore = gScore[current] + 1;
@@ -245,6 +255,7 @@ public class BattleNavigate : MonoBehaviour
         }
         return null;
     }
+
 
     static List<Int2> ReconstructPath(Dictionary<Int2, Int2> cameFrom, Int2 current, int maxDistance)
     {
@@ -266,13 +277,33 @@ public class BattleNavigate : MonoBehaviour
         return Int2.Distance(start, goal); // manhattan distance(per-axis)
     }
 
-
     public Int2 GetUnitPosition()
     {
         return new Int2((int)transform.position.x, (int)transform.position.y);
     }
+
+    public bool IsNonAllyAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation != unit.unitAffiliation;
+    }
+
+    public static bool IsUnitAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null;
+    }
+
+
+    public void AddUnit(Int2 pos, Unit unit)
+    {
+        if (unitsGrid[pos.x, pos.y] != null)
+            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetUnitName() + ", " + unit.GetUnitName(), this);
+        unitsGrid[pos.x, pos.y] = unit;
+    }
+
+    public void RemoveUnit(Int2 pos)
+    {
+        if (unitsGrid[pos.x, pos.y] == null)
+            Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
+        unitsGrid[pos.x, pos.y] = null;
+    }
 }
-
-
-
-

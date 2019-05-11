@@ -8,11 +8,15 @@ public class Selectable : MonoBehaviour
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
-	internal bool isActive = true; //if can be selected. for most things it will always be true.
-	protected bool isSelected = false; //if is selected
+	internal bool isActive; //if can be selected. for most things it will always be true.
+	protected bool isSelected; //if is selected
 	
     protected virtual void Awake()
     {
+        isActive = true;
+        isSelected = false;
+
+
         originalColor = this.GetComponent<SpriteRenderer>().color;
 		darkColor1 = new Color(originalColor.r-0.3f, originalColor.g-0.3f, originalColor.b-0.3f);
 		darkColor2 = new Color(originalColor.r-0.6f, originalColor.g-0.6f, originalColor.b-0.6f);
@@ -59,7 +63,9 @@ public class Selectable : MonoBehaviour
 				SelectThis(true);
 			}
 		}
-	}
+
+
+    }
 	
 	protected void SelectThis(bool yes)
 	{
@@ -74,6 +80,9 @@ public class Selectable : MonoBehaviour
 		}
 	}
 	
+
+
+
 	protected void Highlight(bool highlighted)
 	{
 		//not a true highlight, just changes the transparency

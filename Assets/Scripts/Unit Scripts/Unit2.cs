@@ -24,7 +24,7 @@ public class Unit2 : Selectable
 
     private Rank unitRank;
 
-    private BattleManager battleManager;
+    private TurnManager turnManager;
     private BattleNavigate battleNavigate;
 
     [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
@@ -47,7 +47,7 @@ public class Unit2 : Selectable
 
     void Start()
     {
-        battleManager = BattleManager.Instance;
+        turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
     }
@@ -56,8 +56,8 @@ public class Unit2 : Selectable
     {
         if (isAlly)
         {
-            BattleManager.Instance.playerUnitCount++;
-            if (BattleManager.Instance.isPlayerTurn)
+            TurnManager.Instance.playerUnitCount++;
+            if (TurnManager.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -68,8 +68,8 @@ public class Unit2 : Selectable
         }
         else
         {
-            BattleManager.Instance.enemyUnitCount++;
-            if (!BattleManager.Instance.isPlayerTurn)
+            TurnManager.Instance.enemyUnitCount++;
+            if (!TurnManager.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -262,7 +262,7 @@ public class Unit2 : Selectable
             //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
             if (!moveIsDone)
             {
-                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                if (turnManager.isPlayerTurn && isAlly || !turnManager.isPlayerTurn && !isAlly)
                 {
                     battleNavigate.Move();
                 }
@@ -320,7 +320,7 @@ public class Unit2 : Selectable
         if (!actionIsDone)
         {
             ExhaustUnit();
-            BattleManager.Instance.unitsDone++;
+            TurnManager.Instance.unitsDone++;
             Debug.Log("Unit finished acting");
         }
     }
@@ -329,47 +329,52 @@ public class Unit2 : Selectable
     {
         if (isAlly)
         {
-            BattleManager.Instance.playerUnitCount--;
+            TurnManager.Instance.playerUnitCount--;
         }
         else
         {
-            BattleManager.Instance.enemyUnitCount--;
+            TurnManager.Instance.enemyUnitCount--;
         }
         Destroy(gameObject);
-        BattleManager.Instance.CheckWinConditions();
+        TurnManager.Instance.CheckWinConditions();
         Debug.Log("Unit has died to death");
     }
 
     #endregion
 
+
     #region Miscellaneous
 
-
-    public void AttackUnit(Int2 dPos)
+    /*
+    private void PrepareAttackOn(Unit defender)
     {
-        //(transform.position.x, transform.position.y)
-        if (Int2.Distance(currentUnitPosition, dPos) > 1)
+
+        Int2 aPos = new Int2(
+                    (int)Mathf.Floor(this.transform.position.x),
+                    (int)Mathf.Floor(this.transform.position.z));
+
+        Int2 dPos = new Int2(
+                    (int)Mathf.Floor(defender.transform.position.x),
+                    (int)Mathf.Floor(defender.transform.position.z));
+
+        if (this.unitAffiliation == defender.unitAffiliation)
         {
-            Debug.Log("That unit is too far to attack");
+            Debug.Log("Cannot attack an ally!");
             return;
         }
 
-        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
-    }
+        if (Int2.Distance(aPos, dPos) > 1)
+        {
+            Debug.Log("Cannot attack a unit that is out of range!");
+            return;
+        }
 
+        Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(this, defender) + " damage but will take " +
+            Attack.CalculateProjectedDamage(defender, this) + " damage.");
 
-
-    public void PrintStats()
-    {
-        Debug.Log(string.Format("HP:{0}  MP:{1}  ATK:{2}  DEF:{3}  SPR:{4}  SPD:{5}",
-            GetStat(Job.statOrder[0]),
-            GetStat(Job.statOrder[1]),
-            GetStat(Job.statOrder[2]),
-            GetStat(Job.statOrder[3]),
-            GetStat(Job.statOrder[4]),
-            GetStat(Job.statOrder[5])
-        ));
-    }
+        Attack.CommenceBattle(this, defender);
+        Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
+    }*/
 
     #endregion
 

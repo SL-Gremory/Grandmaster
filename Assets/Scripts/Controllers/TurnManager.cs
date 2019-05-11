@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleManager : MonoBehaviour
+public class TurnManager : MonoBehaviour
 {
+
     [SerializeField]
 	private DoneButton doneButton;
     [SerializeField]
@@ -18,16 +19,16 @@ public class BattleManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    public static Unit[,] unitsGrid;
-    public static BattleManager Instance { get; private set; }
-	
+    //public static Unit[,] unitsGrid;
+    public static TurnManager Instance { get; private set; }
+
 	void Start()
 	{
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
         Instance = this;
-        var mapSize = LevelGrid.Instance.GetMapSize();
-        unitsGrid = new Unit[mapSize.x, mapSize.y];
+        //var mapSize = LevelGrid.Instance.GetMapSize();
+        //unitsGrid = new Unit[mapSize.x, mapSize.y];
 
 		if (playerFirst)
 		{
@@ -60,30 +61,8 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    public void PrepareAttack(Int2 aPos, Int2 dPos)
-    {
-
-        // This is dirty REEEEE
-        Unit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<Unit>();
-        Unit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<Unit>();
-        Attack.CommenceBattle(attacker, defender);
-
-        if (attacker.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", attacker.GetUnitName()));
-            //Destroy(attacker);
-        }
-
-        if (defender.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", defender.GetUnitName()));
-            //Destroy(defender);
-        }
-    }
-
-
 	void ChangeTurns()
-	{	
+	{
 		isPlayerTurn = !isPlayerTurn; //current turn is done, at this point forward it is the other side's turn
 		unitsDone = 0;
 		doneButton.ResetButton(isPlayerTurn);
@@ -92,7 +71,7 @@ public class BattleManager : MonoBehaviour
 			turnCounter++; //only increments when it is becoming the player's turn
 			turnCountText.DisplayNewTurn();
 		}
-		
+
 		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
 		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
@@ -141,7 +120,7 @@ public class BattleManager : MonoBehaviour
             //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
             //foreach (Unit unit in units)
-            foreach (Unit unit in unitsGrid)
+            foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -153,7 +132,7 @@ public class BattleManager : MonoBehaviour
 			Debug.Log("enemy wins");
 			//exhaust units and disable done button
 			//Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
-			foreach (Unit unit in unitsGrid)
+			foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -164,25 +143,5 @@ public class BattleManager : MonoBehaviour
 			//carry on my wayward son
 		}
 	}
-
-    public bool IsEnemyAt(Int2 pos) {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
-    }
-
-    public bool IsUnitAt(Int2 pos) {
-        return unitsGrid[pos.x, pos.y] != null;
-    }
-
-    public void AddUnit(Int2 pos, Unit unit) {
-        if (unitsGrid[pos.x, pos.y] != null)
-            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].name + ", " + unit.name, this);
-        unitsGrid[pos.x, pos.y] = unit;
-    }
-
-    public void RemoveUnit(Int2 pos) {
-        if (unitsGrid[pos.x, pos.y] == null)
-            Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
-        unitsGrid[pos.x, pos.y] = null;
-    }
 
 }
