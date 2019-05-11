@@ -256,7 +256,7 @@ public class Unit : Selectable
 
     void Update()
     {
-        
+        hpBar.localScale.x = CHP * .005f; // Rocky HPbar stuff
 
         if (isSelected)
         {
@@ -294,8 +294,7 @@ public class Unit : Selectable
 			{
 				//set CHP to 5 less
 
-				CHP = CHP -5;
-                hpBar.localScale.x = CHP / 20; // Rocky HPbar stuff
+				CHP = CHP - 5;
                 hpBar.Update();
 
                 Debug.Log(CHP);
