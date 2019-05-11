@@ -41,7 +41,6 @@ public class Unit : Selectable
     {
         base.Awake();
         SetBaseStats();     // Temporary thing, should load stats from a file
-
     }
 
     void Start()
@@ -78,7 +77,6 @@ public class Unit : Selectable
             }
         }
     }
-
 
     #endregion
 
@@ -285,10 +283,20 @@ public class Unit : Selectable
             {
                 KillUnit();
             }
+			
+			//Simulate a unit getting damaged
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				//set CHP to 5 less
+				CHP = CHP -5;
+				Debug.Log(CHP);
+				if (CHP <= 0)
+				{
+					KillUnit();
+				}
+			}
         }
     }
-
-
 
     internal void ReadyUnit()
     {
@@ -334,6 +342,7 @@ public class Unit : Selectable
         {
             BattleManager.Instance.enemyUnitCount--;
         }
+		SelectThis(false);
         Destroy(gameObject);
         BattleManager.Instance.CheckWinConditions();
         Debug.Log("Unit has died to death");
@@ -342,7 +351,6 @@ public class Unit : Selectable
     #endregion
 
     #region Miscellaneous
-
 
     public void AttackUnit(Int2 dPos)
     {
@@ -355,8 +363,6 @@ public class Unit : Selectable
 
         BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
     }
-
-
 
     public void PrintStats()
     {
@@ -371,6 +377,5 @@ public class Unit : Selectable
     }
 
     #endregion
-
 }
 
