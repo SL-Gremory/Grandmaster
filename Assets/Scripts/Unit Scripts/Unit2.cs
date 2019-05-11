@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 /*
  *  Must attach this script to each game object
  */
 
-public class Unit : Selectable
+public class Unit2 : Selectable
 {
-
     #region Declarations
 
     [SerializeField]
-    private string unitName;
+    string unitName;
 
     [SerializeField]
     private Job unitJob;
@@ -24,55 +20,44 @@ public class Unit : Selectable
     private int[] unitStats = new int[(int)StatTypes.Count];
 
     [SerializeField]
-    internal Team unitAffiliation; //private
-
-
-    UnitInfoUI unitInfo;
-
+    private Team unitAffiliation;
 
     private Rank unitRank;
 
-    private TurnManager turnManager;
+    private BattleManager battleManager;
     private BattleNavigate battleNavigate;
+
+    [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
+
+    public bool IsAlly { get { return isAlly; } }
+
     private bool moveIsDone;
     private bool actionIsDone;
-    private bool isAttacking;
     Int2 currentUnitPosition = new Int2();
-
-    // Rocky Hp bar code stuff
-    private HPScript hpBar;
 
 
     #endregion
 
     #region Initialization
-
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         SetBaseStats();     // Temporary thing, should load stats from a file
-        hpBar = GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
+
     }
 
     void Start()
     {
-        // Ronald: This is a bad way of finding a GO in a different scene
-        //          Should change this later
-        unitInfo = GameObject.Find("UnitInfoUIText").GetComponent<UnitInfoUI>();
-
-        turnManager = TurnManager.Instance;
+        battleManager = BattleManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
-        //SetBaseStats();
         StartUnit();
-        hpBar.Start();
     }
 
     void StartUnit()
     {
-        if (unitAffiliation == Team.HERO)
+        if (isAlly)
         {
-            TurnManager.Instance.playerUnitCount++;
-            if (TurnManager.Instance.isPlayerTurn)
+            BattleManager.Instance.playerUnitCount++;
+            if (BattleManager.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -81,10 +66,10 @@ public class Unit : Selectable
                 ExhaustUnit();
             }
         }
-        else if (unitAffiliation == Team.ENEMY)
+        else
         {
-            TurnManager.Instance.enemyUnitCount++;
-            if (!TurnManager.Instance.isPlayerTurn)
+            BattleManager.Instance.enemyUnitCount++;
+            if (!BattleManager.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -94,6 +79,7 @@ public class Unit : Selectable
             }
         }
     }
+
 
     #endregion
 
@@ -270,47 +256,13 @@ public class Unit : Selectable
 
     void Update()
     {
-        hpBar.localScale.x = CHP * .005f;
-        // Unit is in attacking phase
-        if (isAttacking)
+        if (isSelected)
         {
-
-            // Unit wants to attack
-            if (Input.GetMouseButton(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                // IS MUY BUGGY
-                if (Physics.Raycast(ray, out hit, 1000f))
-                {
-                    Unit foundUnit = hit.transform.gameObject.GetComponent<Unit>();
-
-                    if (foundUnit != null)
-                    {
-                        PrepareAttackOn(foundUnit);
-                        foundUnit.SelectThis(false);    // I need these next three lines here for now
-                        foundUnit.isSelected = false;
-                        this.SelectThis(true);
-                    }
-                }
-            }
-
-            // Unit cancels the attack
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                Debug.Log(this.unitName + " is not atacc");
-                this.SelectThis(true);
-                isAttacking = false;
-            }
-
-        }
-        else if (isSelected)
-        {
-            unitInfo.DisplayStats(this);
+            //M to simulate unit moving
+            //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
             if (!moveIsDone)
             {
-                if (turnManager.isPlayerTurn && unitAffiliation == Team.HERO || !turnManager.isPlayerTurn && unitAffiliation == Team.ENEMY)
+                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
                 {
                     battleNavigate.Move();
                 }
@@ -326,56 +278,19 @@ public class Unit : Selectable
             //SPACE to simulate unit performing an action
             if (Input.GetKeyDown(KeyCode.Space) && !actionIsDone)
             {
-                DoneActing();
+                DoneActing(); // Call everytime at the very end after attacking as well
             }
 
-            //Simulate a unit getting damaged
-            if (Input.GetKeyDown(KeyCode.F))
+            //K to kill unit
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                CHP = CHP - 5;
-                Debug.Log(CHP);
-                if (CHP <= 0)
-                {
-                    KillUnit();
-                }
+                KillUnit();
             }
-
-            //Hit Z to simulated a selected unit to be in attacking phase
-            if (Input.GetKeyDown(KeyCode.Z) && !actionIsDone)
-            {
-                Debug.Log(this.unitName + " is atacc");
-                isAttacking = true;
-            }
-
         }
-
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("Found units being printed now");
-            foreach(Unit foundUnit in BattleNavigate.unitsGrid)
-            {
-                Debug.Log(foundUnit.unitName);
-            }
-
-			  //Simulate a unit getting damaged
-			  if (Input.GetKeyDown(KeyCode.F))
-			  {
-				  //set CHP to 10 less
-
-	  		  	CHP = CHP - 10;
-            hpBar.Update();
-
-            Debug.Log(CHP);
-				    if (CHP <= 0)
-				    {
-					      KillUnit();
-				    }
-			   }
-      }
-
     }
 
-    // Can move and attack
+
+
     internal void ReadyUnit()
     {
         moveIsDone = false;
@@ -383,16 +298,13 @@ public class Unit : Selectable
         ChangeColor(0);
     }
 
-    // Cannot move or attack
     internal void ExhaustUnit()
     {
-        this.SelectThis(false);
         moveIsDone = true;
         actionIsDone = true;
         ChangeColor(2);
     }
 
-    // Cannot move but can attack
     internal void DoneMoving()
     {
         if (!moveIsDone)
@@ -403,67 +315,63 @@ public class Unit : Selectable
         }
     }
 
-    // Cannot move and attack
     internal void DoneActing()
     {
         if (!actionIsDone)
         {
-            isAttacking = false;
             ExhaustUnit();
-            TurnManager.Instance.unitsDone++;
+            BattleManager.Instance.unitsDone++;
             Debug.Log("Unit finished acting");
         }
     }
 
     internal void KillUnit()
     {
-        if (unitAffiliation == Team.HERO)
+        if (isAlly)
         {
-            TurnManager.Instance.playerUnitCount--;
+            BattleManager.Instance.playerUnitCount--;
         }
-        else if (unitAffiliation == Team.ENEMY)
+        else
         {
-            TurnManager.Instance.enemyUnitCount--;
+            BattleManager.Instance.enemyUnitCount--;
         }
-		SelectThis(false);
         Destroy(gameObject);
-        TurnManager.Instance.CheckWinConditions();
-        Debug.Log(string.Format("{0} has died to death", this.unitName));
+        BattleManager.Instance.CheckWinConditions();
+        Debug.Log("Unit has died to death");
     }
 
     #endregion
 
     #region Miscellaneous
 
-    private void PrepareAttackOn(Unit defender)
+
+    public void AttackUnit(Int2 dPos)
     {
-
-        Int2 aPos = new Int2(
-                    (int)Mathf.Floor(this.transform.position.x),
-                    (int)Mathf.Floor(this.transform.position.z));
-
-        Int2 dPos = new Int2(
-                    (int)Mathf.Floor(defender.transform.position.x),
-                    (int)Mathf.Floor(defender.transform.position.z));
-
-        if (this.unitAffiliation == defender.unitAffiliation)
+        //(transform.position.x, transform.position.y)
+        if (Int2.Distance(currentUnitPosition, dPos) > 1)
         {
-            Debug.Log("Cannot attack an ally!");
+            Debug.Log("That unit is too far to attack");
             return;
         }
 
-        if (Int2.Distance(aPos, dPos) > 1)
-        {
-            Debug.Log("Cannot attack a unit that is out of range!");
-            return;
-        }
+        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
+    }
 
-         Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(this, defender) + " damage but will take " +
-             Attack.CalculateProjectedDamage(defender, this) + " damage.");
 
-         Attack.CommenceBattle(this, defender);
-         Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
+
+    public void PrintStats()
+    {
+        Debug.Log(string.Format("HP:{0}  MP:{1}  ATK:{2}  DEF:{3}  SPR:{4}  SPD:{5}",
+            GetStat(Job.statOrder[0]),
+            GetStat(Job.statOrder[1]),
+            GetStat(Job.statOrder[2]),
+            GetStat(Job.statOrder[3]),
+            GetStat(Job.statOrder[4]),
+            GetStat(Job.statOrder[5])
+        ));
     }
 
     #endregion
+
 }
+
