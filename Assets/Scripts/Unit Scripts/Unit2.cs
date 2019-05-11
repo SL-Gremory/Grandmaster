@@ -6,7 +6,7 @@ using UnityEngine;
  *  Must attach this script to each game object
  */
 
-public class Unit : Selectable
+public class Unit2 : Selectable
 {
     #region Declarations
 
@@ -20,29 +20,29 @@ public class Unit : Selectable
     private int[] unitStats = new int[(int)StatTypes.Count];
 
     [SerializeField]
-    internal Team unitAffiliation; //private
-	
+    private Team unitAffiliation;
+
     private Rank unitRank;
 
     private BattleManager battleManager;
     private BattleNavigate battleNavigate;
+
+    [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
+
+    public bool IsAlly { get { return isAlly; } }
+
     private bool moveIsDone;
     private bool actionIsDone;
     Int2 currentUnitPosition = new Int2();
 
-    // Rocky Hp bar code stuff
-    private HPScript hpBar;
-	
-	
+
     #endregion
 
     #region Initialization
-
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         SetBaseStats();     // Temporary thing, should load stats from a file
-        hpBar = GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
+
     }
 
     void Start()
@@ -50,12 +50,11 @@ public class Unit : Selectable
         battleManager = BattleManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
-        hpBar.Start();
     }
 
     void StartUnit()
     {
-        if (unitAffiliation == Team.HERO)
+        if (isAlly)
         {
             BattleManager.Instance.playerUnitCount++;
             if (BattleManager.Instance.isPlayerTurn)
@@ -67,7 +66,7 @@ public class Unit : Selectable
                 ExhaustUnit();
             }
         }
-        else if (unitAffiliation == Team.ENEMY)
+        else
         {
             BattleManager.Instance.enemyUnitCount++;
             if (!BattleManager.Instance.isPlayerTurn)
@@ -80,6 +79,7 @@ public class Unit : Selectable
             }
         }
     }
+
 
     #endregion
 
@@ -256,15 +256,13 @@ public class Unit : Selectable
 
     void Update()
     {
-        
-
         if (isSelected)
         {
             //M to simulate unit moving
             //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
             if (!moveIsDone)
             {
-                if (battleManager.isPlayerTurn && unitAffiliation == Team.HERO || !battleManager.isPlayerTurn && unitAffiliation == Team.ENEMY)
+                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
                 {
                     battleNavigate.Move();
                 }
@@ -288,25 +286,10 @@ public class Unit : Selectable
             {
                 KillUnit();
             }
-			
-			//Simulate a unit getting damaged
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				//set CHP to 5 less
-
-				CHP = CHP -5;
-                hpBar.localScale.x = CHP / 20; // Rocky HPbar stuff
-                hpBar.Update();
-
-                Debug.Log(CHP);
-				if (CHP <= 0)
-				{
-					KillUnit();
-				}
-			}
         }
-        
     }
+
+
 
     internal void ReadyUnit()
     {
@@ -344,15 +327,14 @@ public class Unit : Selectable
 
     internal void KillUnit()
     {
-        if (unitAffiliation == Team.HERO)
+        if (isAlly)
         {
             BattleManager.Instance.playerUnitCount--;
         }
-        else if (unitAffiliation == Team.ENEMY)
+        else
         {
             BattleManager.Instance.enemyUnitCount--;
         }
-		SelectThis(false);
         Destroy(gameObject);
         BattleManager.Instance.CheckWinConditions();
         Debug.Log("Unit has died to death");
@@ -361,6 +343,7 @@ public class Unit : Selectable
     #endregion
 
     #region Miscellaneous
+
 
     public void AttackUnit(Int2 dPos)
     {
@@ -373,6 +356,8 @@ public class Unit : Selectable
 
         BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
     }
+
+
 
     public void PrintStats()
     {
@@ -387,5 +372,6 @@ public class Unit : Selectable
     }
 
     #endregion
+
 }
 
