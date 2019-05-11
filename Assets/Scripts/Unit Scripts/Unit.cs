@@ -332,7 +332,7 @@ public class Unit : Selectable
             //Simulate a unit getting damaged
             if (Input.GetKeyDown(KeyCode.F))
             {
-                CHP = CHP - 5;
+                CHP -= 10;
                 Debug.Log(CHP);
                 if (CHP <= 0)
                 {
