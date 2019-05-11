@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleManager : MonoBehaviour
+public class TurnManager : MonoBehaviour
 {
 
     [SerializeField]
@@ -20,7 +20,7 @@ public class BattleManager : MonoBehaviour
 	internal int turnCounter = 1;
 
     public static Unit[,] unitsGrid;
-    public static BattleManager Instance { get; private set; }
+    public static TurnManager Instance { get; private set; }
 
 	void Start()
 	{
@@ -57,28 +57,6 @@ public class BattleManager : MonoBehaviour
         else if (!isPlayerTurn && enemyUnitCount == unitsDone)
         {
             turnIsDone = true;
-        }
-    }
-
-
-    public void PrepareAttack(Int2 aPos, Int2 dPos)
-    {
-
-        // This is dirty REEEEE
-        Unit defender = unitsGrid[dPos.x, dPos.y].GetComponentInParent<Unit>();
-        Unit attacker = unitsGrid[aPos.x, aPos.y].GetComponentInParent<Unit>();
-        Attack.CommenceBattle(attacker, defender);
-
-        if (attacker.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", attacker.GetUnitName()));
-            //Destroy(attacker);
-        }
-
-        if (defender.CHP <= 0)
-        {
-            Debug.Log(string.Format("{0} has died", defender.GetUnitName()));
-            //Destroy(defender);
         }
     }
 
@@ -166,13 +144,30 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
+    
     public bool IsEnemyAt(Int2 pos) {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.ENEMY;
+    }
+
+    public bool IsHeroAt(Int2 pos)
+    {
         return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
+    }
+
+    public bool IsNeutralAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.NEUTRAL;
+    }
+
+    public bool IsObstacleAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.OBSTACLE;
     }
 
     public bool IsUnitAt(Int2 pos) {
         return unitsGrid[pos.x, pos.y] != null;
     }
+    
 
     public void AddUnit(Int2 pos, Unit unit) {
         if (unitsGrid[pos.x, pos.y] != null)

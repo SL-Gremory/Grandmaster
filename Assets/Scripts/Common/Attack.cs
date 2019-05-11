@@ -43,6 +43,8 @@ public static class Attack
         {
             defender.CHP -= attackerDamage;
 
+
+            // Note: defender may have shorter range than attack
             if (attacker.CHP > defenderDamage)
             {
                 attacker.CHP -= defenderDamage;
@@ -50,13 +52,18 @@ public static class Attack
             else
             {
                 attacker.CHP = 0;
+                attacker.KillUnit();
             }
         }
         else
         {
             defender.CHP = 0;
+            defender.KillUnit();
+
         }
 
+
+        attacker.DoneActing();
 
         // Debug.Log(string.Format("{0} has {1} left", attacker.GetUnitName(), attacker.CHP));
         // Debug.Log(string.Format("{0} has {1} left", defender.GetUnitName(), defender.CHP));

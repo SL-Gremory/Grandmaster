@@ -37,7 +37,7 @@ public class BattleNavigate : MonoBehaviour
 
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        TurnManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
 
     }
 
@@ -73,7 +73,7 @@ public class BattleNavigate : MonoBehaviour
         unit.isActive = false; //VARLER - prevent interaction with moving unit
 
 		traveling = true;
-        BattleManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
+        TurnManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
         {
             var cell = path[path.Count - 1];
@@ -85,7 +85,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (visualsParent != null)
             Destroy(visualsParent);
-        BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        TurnManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
 
 		unit.isActive = true; //VARLER - allow interaction once move is complete
@@ -101,7 +101,7 @@ public class BattleNavigate : MonoBehaviour
             return null;
         if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
             return null;
-        if (BattleManager.Instance.IsUnitAt(goal))
+        if (TurnManager.Instance.IsUnitAt(goal))
             return null;
         //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
@@ -227,7 +227,7 @@ public class BattleNavigate : MonoBehaviour
                     continue;
                 if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
                     continue;
-                if (BattleManager.Instance.IsEnemyAt(neighbor))
+                if (TurnManager.Instance.IsEnemyAt(neighbor))
                     continue;
 
                 var tentativegScore = gScore[current] + 1;

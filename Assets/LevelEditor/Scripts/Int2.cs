@@ -13,11 +13,13 @@ public struct Int2 : System.IEquatable<Int2>
     public static readonly Int2 zero = new Int2(0, 0);
     public static readonly Int2 one = new Int2(1, 1);
     public static readonly Int2 two = new Int2(2, 2);
+
     public Int2(int X, int Y)
     {
         x = X;
         y = Y;
     }
+
     public override string ToString()
     {
 
@@ -47,6 +49,7 @@ public struct Int2 : System.IEquatable<Int2>
         if (y < 0) y *= -1;
         return x + y;
     }
+
 
     bool IEquatable<Int2>.Equals(Int2 other)
     {
