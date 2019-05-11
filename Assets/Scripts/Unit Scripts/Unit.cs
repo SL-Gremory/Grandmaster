@@ -328,6 +328,14 @@ public class Unit : Selectable
 
         }
 
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("Found units being printed now");
+            foreach(Unit foundUnit in BattleNavigate.unitsGrid)
+            {
+                Debug.Log(foundUnit.unitName);
+            }
+        }
     }
 
     // Can move and attack

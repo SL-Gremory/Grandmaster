@@ -19,7 +19,7 @@ public class TurnManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    public static Unit[,] unitsGrid;
+    //public static Unit[,] unitsGrid;
     public static TurnManager Instance { get; private set; }
 
 	void Start()
@@ -27,8 +27,8 @@ public class TurnManager : MonoBehaviour
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
         Instance = this;
-        var mapSize = LevelGrid.Instance.GetMapSize();
-        unitsGrid = new Unit[mapSize.x, mapSize.y];
+        //var mapSize = LevelGrid.Instance.GetMapSize();
+        //unitsGrid = new Unit[mapSize.x, mapSize.y];
 
 		if (playerFirst)
 		{
@@ -120,7 +120,7 @@ public class TurnManager : MonoBehaviour
             //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 
             //foreach (Unit unit in units)
-            foreach (Unit unit in unitsGrid)
+            foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -132,7 +132,7 @@ public class TurnManager : MonoBehaviour
 			Debug.Log("enemy wins");
 			//exhaust units and disable done button
 			//Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
-			foreach (Unit unit in unitsGrid)
+			foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
 			}
@@ -143,42 +143,5 @@ public class TurnManager : MonoBehaviour
 			//carry on my wayward son
 		}
 	}
-
-    
-    public bool IsEnemyAt(Int2 pos) {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.ENEMY;
-    }
-
-    public bool IsHeroAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
-    }
-
-    public bool IsNeutralAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.NEUTRAL;
-    }
-
-    public bool IsObstacleAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.OBSTACLE;
-    }
-
-    public bool IsUnitAt(Int2 pos) {
-        return unitsGrid[pos.x, pos.y] != null;
-    }
-    
-
-    public void AddUnit(Int2 pos, Unit unit) {
-        if (unitsGrid[pos.x, pos.y] != null)
-            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetUnitName() + ", " + unit.GetUnitName(), this);
-        unitsGrid[pos.x, pos.y] = unit;
-    }
-
-    public void RemoveUnit(Int2 pos) {
-        if (unitsGrid[pos.x, pos.y] == null)
-            Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
-        unitsGrid[pos.x, pos.y] = null;
-    }
 
 }

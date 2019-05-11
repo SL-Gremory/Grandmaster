@@ -30,14 +30,23 @@ public class BattleNavigate : MonoBehaviour
 	bool pathHasBeenReset; //VARLER - for resetting the path prior to entering Move()
     TerrainData levelTerrain;
 
+    public static Unit[,] unitsGrid;
+
+
     private void Start()
     {
+        if (unitsGrid == null)
+        {
+            var mapSize = LevelGrid.Instance.GetMapSize();
+            unitsGrid = new Unit[mapSize.x, mapSize.y];
+        }
+
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
 
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
-        TurnManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
 
     }
 
@@ -73,7 +82,7 @@ public class BattleNavigate : MonoBehaviour
         unit.isActive = false; //VARLER - prevent interaction with moving unit
 
 		traveling = true;
-        TurnManager.Instance.RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
+        RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
         while (path.Count > 0)
         {
             var cell = path[path.Count - 1];
@@ -85,7 +94,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (visualsParent != null)
             Destroy(visualsParent);
-        TurnManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
 
 		unit.isActive = true; //VARLER - allow interaction once move is complete
@@ -101,7 +110,7 @@ public class BattleNavigate : MonoBehaviour
             return null;
         if (goal.x < 0 || goal.y < 0 || goal.x >= LevelGrid.Instance.GetMapSize().x || goal.y >= LevelGrid.Instance.GetMapSize().y)
             return null;
-        if (TurnManager.Instance.IsUnitAt(goal))
+        if (IsUnitAt(goal))
             return null;
         //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
@@ -227,7 +236,7 @@ public class BattleNavigate : MonoBehaviour
                     continue;
                 if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
                     continue;
-                if (TurnManager.Instance.IsEnemyAt(neighbor))
+                if (IsEnemyAt(neighbor))
                     continue;
 
                 var tentativegScore = gScore[current] + 1;
@@ -270,5 +279,47 @@ public class BattleNavigate : MonoBehaviour
     public Int2 GetUnitPosition()
     {
         return new Int2((int)transform.position.x, (int)transform.position.y);
+    }
+
+
+
+    public static bool IsEnemyAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.ENEMY;
+    }
+
+    public static bool IsHeroAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
+    }
+
+    public static bool IsNeutralAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.NEUTRAL;
+    }
+
+    public static bool IsObstacleAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.OBSTACLE;
+    }
+
+    public static bool IsUnitAt(Int2 pos)
+    {
+        return unitsGrid[pos.x, pos.y] != null;
+    }
+
+
+    public void AddUnit(Int2 pos, Unit unit)
+    {
+        if (unitsGrid[pos.x, pos.y] != null)
+            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetUnitName() + ", " + unit.GetUnitName(), this);
+        unitsGrid[pos.x, pos.y] = unit;
+    }
+
+    public void RemoveUnit(Int2 pos)
+    {
+        if (unitsGrid[pos.x, pos.y] == null)
+            Debug.LogWarning("Trying to remove a unit from empty position, probably an error. " + pos, this);
+        unitsGrid[pos.x, pos.y] = null;
     }
 }
