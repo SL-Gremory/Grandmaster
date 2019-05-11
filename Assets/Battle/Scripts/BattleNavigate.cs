@@ -35,7 +35,7 @@ public class BattleNavigate : MonoBehaviour
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
 
-		//VARLER - find unit manager to interact with
+		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
         BattleManager.Instance.AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
 

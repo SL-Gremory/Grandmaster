@@ -21,17 +21,12 @@ public class Unit : Selectable
     private int[] unitStats = new int[(int)StatTypes.Count];
 
     [SerializeField]
-    private Team unitAffiliation;
+    internal Team unitAffiliation; //private
 
     private Rank unitRank;
 
     private BattleManager battleManager;
     private BattleNavigate battleNavigate;
-
-    [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
-
-    public bool IsAlly { get { return isAlly; } }
-
     private bool moveIsDone;
     private bool actionIsDone;
     private bool isAttacking;
@@ -42,25 +37,23 @@ public class Unit : Selectable
 
     #region Initialization
 
-    //private void Awake()
-    //{
-     //   SetBaseStats();     // Temporary thing, should load stats from a file
-
-   // }
+    protected override void Awake()
+    {
+        base.Awake();
+        SetBaseStats();     // Temporary thing, should load stats from a file
+    }
 
     void Start()
     {
         battleManager = BattleManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
-        SetBaseStats();
+        //SetBaseStats();
         StartUnit();
     }
 
     void StartUnit()
     {
-        isAttacking = false;
-
-        if (isAlly)
+        if (unitAffiliation == Team.HERO)
         {
             BattleManager.Instance.playerUnitCount++;
             if (BattleManager.Instance.isPlayerTurn)
@@ -72,7 +65,7 @@ public class Unit : Selectable
                 ExhaustUnit();
             }
         }
-        else
+        else if (unitAffiliation == Team.ENEMY)
         {
             BattleManager.Instance.enemyUnitCount++;
             if (!BattleManager.Instance.isPlayerTurn)
@@ -85,7 +78,6 @@ public class Unit : Selectable
             }
         }
     }
-
 
     #endregion
 
@@ -269,10 +261,10 @@ public class Unit : Selectable
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
- 
+
 
                 if(Physics.Raycast(ray, out hit))
-                { 
+                {
                     Unit foundUnit = hit.transform.gameObject.GetComponent<Unit>();
 
                     if (foundUnit != null)
@@ -292,7 +284,7 @@ public class Unit : Selectable
         {
             if (!moveIsDone)
             {
-                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                if (battleManager.isPlayerTurn && unitAffiliation == Team.HERO || !battleManager.isPlayerTurn && unitAffiliation == Team.ENEMY)
                 {
                     battleNavigate.Move();
                 }
@@ -323,8 +315,22 @@ public class Unit : Selectable
             {
                 AttackingPhase();
             }
-        }
+
+
+            //Simulate a unit getting damaged
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+              //set CHP to 5 less
+              CHP = CHP -5;
+              Debug.Log(CHP);
+              if (CHP <= 0)
+              {
+                KillUnit();
+              }
+            }
+          }
     }
+
 
     private void AttackingPhase()
     {
@@ -372,14 +378,15 @@ public class Unit : Selectable
 
     internal void KillUnit()
     {
-        if (isAlly)
+        if (unitAffiliation == Team.HERO)
         {
             BattleManager.Instance.playerUnitCount--;
         }
-        else
+        else if (unitAffiliation == Team.ENEMY)
         {
             BattleManager.Instance.enemyUnitCount--;
         }
+		SelectThis(false);
         Destroy(gameObject);
         BattleManager.Instance.CheckWinConditions();
         Debug.Log("Unit has died to death");
@@ -432,6 +439,4 @@ public class Unit : Selectable
     }
 
     #endregion
-
 }
-

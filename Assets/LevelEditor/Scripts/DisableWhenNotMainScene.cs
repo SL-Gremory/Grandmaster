@@ -8,6 +8,7 @@ public class DisableWhenNotMainScene : MonoBehaviour
     void Awake() {
 		if (SceneManager.sceneCount > 1) {
             gameObject.SetActive(false);
+			//gameObject.GetComponent<AudioListener>().enabled = false;
         }
     }
 }
