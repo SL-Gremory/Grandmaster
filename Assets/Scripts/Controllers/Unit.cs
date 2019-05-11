@@ -292,9 +292,9 @@ public class Unit : Selectable
 			//Simulate a unit getting damaged
 			if (Input.GetKeyDown(KeyCode.F))
 			{
-				//set CHP to 5 less
+				//set CHP to 10 less
 
-				CHP = CHP - 5;
+				CHP = CHP - 10;
                 hpBar.Update();
 
                 Debug.Log(CHP);
