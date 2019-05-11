@@ -20,19 +20,17 @@ public class Unit : Selectable
     private int[] unitStats = new int[(int)StatTypes.Count];
 
     [SerializeField]
-    private Team unitAffiliation;
-
+    internal Team unitAffiliation; //private
+	
     private Rank unitRank;
 
     private BattleManager battleManager;
     private BattleNavigate battleNavigate;
-    [SerializeField] internal bool isAlly; //must define as true or false in editor, on prefab, or when spawning object
-    public bool IsAlly { get { return isAlly; } }
     private bool moveIsDone;
     private bool actionIsDone;
     Int2 currentUnitPosition = new Int2();
-
-
+	
+	
     #endregion
 
     #region Initialization
@@ -52,7 +50,7 @@ public class Unit : Selectable
 
     void StartUnit()
     {
-        if (isAlly)
+        if (unitAffiliation == Team.HERO)
         {
             BattleManager.Instance.playerUnitCount++;
             if (BattleManager.Instance.isPlayerTurn)
@@ -64,7 +62,7 @@ public class Unit : Selectable
                 ExhaustUnit();
             }
         }
-        else
+        else if (unitAffiliation == Team.ENEMY)
         {
             BattleManager.Instance.enemyUnitCount++;
             if (!BattleManager.Instance.isPlayerTurn)
@@ -259,7 +257,7 @@ public class Unit : Selectable
             //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
             if (!moveIsDone)
             {
-                if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
+                if (battleManager.isPlayerTurn && unitAffiliation == Team.HERO || !battleManager.isPlayerTurn && unitAffiliation == Team.ENEMY)
                 {
                     battleNavigate.Move();
                 }
@@ -334,11 +332,11 @@ public class Unit : Selectable
 
     internal void KillUnit()
     {
-        if (isAlly)
+        if (unitAffiliation == Team.HERO)
         {
             BattleManager.Instance.playerUnitCount--;
         }
-        else
+        else if (unitAffiliation == Team.ENEMY)
         {
             BattleManager.Instance.enemyUnitCount--;
         }

@@ -103,7 +103,6 @@ public class BattleManager : MonoBehaviour
             var unitInfo = unit.GetComponentInParent<Unit>();
 			if (isPlayerTurn)
 			{
-                //if(unit.isAlly)
 				if (unitInfo.GetUnitAffiliation() == Team.HERO)
 				{
 					unit.ReadyUnit();
@@ -117,7 +116,6 @@ public class BattleManager : MonoBehaviour
 			}
 			else
 			{
-                //if(!unit.isAlly)
 				if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
 				{
 					unit.ReadyUnit();
@@ -168,7 +166,7 @@ public class BattleManager : MonoBehaviour
 	}
 
     public bool IsEnemyAt(Int2 pos) {
-        return unitsGrid[pos.x, pos.y] != null && !unitsGrid[pos.x, pos.y].IsAlly;
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
     }
 
     public bool IsUnitAt(Int2 pos) {
