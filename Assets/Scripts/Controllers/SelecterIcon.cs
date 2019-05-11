@@ -20,7 +20,7 @@ public class SelecterIcon : MonoBehaviour
 		if (targetObject != null)
 		{
 			transform.position = targetObject.transform.position + new Vector3(0f, 0.125f, 0f);
-			transform.Rotate(0f, 0f, -3f);
+			transform.Rotate(0f, 0f, -3f * 60f * Time.deltaTime);
 		}
     }
 	
