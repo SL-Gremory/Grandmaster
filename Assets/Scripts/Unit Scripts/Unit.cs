@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,6 +34,7 @@ public class Unit : Selectable
 
     private bool moveIsDone;
     private bool actionIsDone;
+    private bool isAttacking;
     Int2 currentUnitPosition = new Int2();
 
 
@@ -40,21 +42,24 @@ public class Unit : Selectable
 
     #region Initialization
 
-    private void Awake()
-    {
-        SetBaseStats();     // Temporary thing, should load stats from a file
+    //private void Awake()
+    //{
+     //   SetBaseStats();     // Temporary thing, should load stats from a file
 
-    }
+   // }
 
     void Start()
     {
         battleManager = BattleManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
+        SetBaseStats();
         StartUnit();
     }
 
     void StartUnit()
     {
+        isAttacking = false;
+
         if (isAlly)
         {
             BattleManager.Instance.playerUnitCount++;
@@ -257,10 +262,34 @@ public class Unit : Selectable
 
     void Update()
     {
-        if (isSelected)
+
+        if(isAttacking)
         {
-            //M to simulate unit moving
-            //if (Input.GetKeyDown(KeyCode.M) && !moveIsDone)
+            if(Input.GetMouseButton(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+ 
+
+                if(Physics.Raycast(ray, out hit))
+                { 
+                    Unit foundUnit = hit.transform.gameObject.GetComponent<Unit>();
+
+                    if (foundUnit != null)
+                    {
+                        PrepareAttackOn(foundUnit);
+                    }
+                }
+            }
+
+            if(Input.GetKeyDown(KeyCode.X))
+            {
+                AttackingPhase();
+            }
+
+        }
+        else if (isSelected)
+        {
             if (!moveIsDone)
             {
                 if (battleManager.isPlayerTurn && isAlly || !battleManager.isPlayerTurn && !isAlly)
@@ -282,15 +311,30 @@ public class Unit : Selectable
                 DoneActing(); // Call everytime at the very end after attacking as well
             }
 
+            /*
             //K to kill unit
             if (Input.GetKeyDown(KeyCode.K))
             {
                 KillUnit();
             }
+            */
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                AttackingPhase();
+            }
         }
     }
 
+    private void AttackingPhase()
+    {
+        if (!isAttacking)
+            Debug.Log("Unit is attacking. Click on a unit to attack or type 'x' to cancel attack");
+        else
+            Debug.Log("Unit is not attacking");
 
+        isAttacking = !isAttacking;
+    }
 
     internal void ReadyUnit()
     {
@@ -345,19 +389,34 @@ public class Unit : Selectable
 
     #region Miscellaneous
 
-
-    public void AttackUnit(Int2 dPos)
+    private void PrepareAttackOn(Unit defender)
     {
-        //(transform.position.x, transform.position.y)
-        if (Int2.Distance(currentUnitPosition, dPos) > 1)
+        Int2 aPos = new Int2((int)this.transform.position.x, (int)this.transform.position.y);
+        Int2 dPos = new Int2((int)defender.transform.position.x, (int)defender.transform.position.y);
+
+        // Check defender affiliation
+        if (this.GetUnitAffiliation() == defender.GetUnitAffiliation())
         {
-            Debug.Log("That unit is too far to attack");
+            Debug.Log("Cannot attack an ally!");
             return;
         }
 
-        BattleManager.Instance.PrepareAttack(currentUnitPosition, dPos);
-    }
 
+        if (Int2.Distance(aPos, dPos) > 1)
+        {
+            Debug.Log("Cannot attack a unit that is out of range!");
+            return;
+        }
+        else
+        {
+            Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(this, defender));
+            Debug.Log("Unit will take " + Attack.CalculateProjectedDamage(defender, this) + " in the process.");
+
+            Attack.CommenceBattle(this, defender);
+            Debug.Log(this.GetUnitName() + " is now at " + this.CHP + " HP and " + defender.GetUnitName() + " now has " + defender.CHP);
+        }
+
+    }
 
 
     public void PrintStats()

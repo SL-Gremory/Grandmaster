@@ -43,7 +43,7 @@ public class BattleNavigate : MonoBehaviour
 
     internal void Move()
     {
-		Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
+		//Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
 		//VARLER - if statement ensures path has been reset before re-entering Move()
 		if (!pathHasBeenReset)
 		{
@@ -59,7 +59,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
         {
-			Debug.Log("Looking at paths");
+		//	Debug.Log("Looking at paths");
             var goal = new Int2((int)hit.point.x, (int)hit.point.z);
             if (goal == lastGoal)
                 return;
