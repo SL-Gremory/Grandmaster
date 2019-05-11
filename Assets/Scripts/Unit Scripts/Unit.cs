@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /*
  *  Must attach this script to each game object
@@ -9,6 +11,7 @@ using UnityEngine;
 
 public class Unit : Selectable
 {
+
     #region Declarations
 
     [SerializeField]
@@ -22,6 +25,10 @@ public class Unit : Selectable
 
     [SerializeField]
     internal Team unitAffiliation; //private
+
+  
+    UnitInfoUI unitInfo;
+
 
     private Rank unitRank;
 
@@ -45,6 +52,10 @@ public class Unit : Selectable
 
     void Start()
     {
+        // Ronald: This is a bad way of finding a GO in a different scene
+        //          Should change this later
+        unitInfo = GameObject.Find("UnitInfoUIText").GetComponent<UnitInfoUI>();
+
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         //SetBaseStats();
@@ -265,13 +276,16 @@ public class Unit : Selectable
                 RaycastHit hit;
 
                 // IS MUY BUGGY
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, 1000f))
                 {
                     Unit foundUnit = hit.transform.gameObject.GetComponent<Unit>();
 
                     if (foundUnit != null)
                     {
-                        PrepareAttackOn(foundUnit);
+                        PrepareAttackOn(foundUnit);     
+                        foundUnit.SelectThis(false);    // I need these next three lines here for now
+                        foundUnit.isSelected = false;
+                        this.SelectThis(true);
                     }
                 }
             }
@@ -287,6 +301,7 @@ public class Unit : Selectable
         }
         else if (isSelected)
         {
+            unitInfo.DisplayStats(this);
             if (!moveIsDone)
             {
                 if (turnManager.isPlayerTurn && unitAffiliation == Team.HERO || !turnManager.isPlayerTurn && unitAffiliation == Team.ENEMY)
@@ -409,8 +424,6 @@ public class Unit : Selectable
                     (int)Mathf.Floor(defender.transform.position.x), 
                     (int)Mathf.Floor(defender.transform.position.z));
 
-
-        // Check defender affiliation
         if (this.unitAffiliation == defender.unitAffiliation)
         {
             Debug.Log("Cannot attack an ally!");
@@ -422,28 +435,12 @@ public class Unit : Selectable
             Debug.Log("Cannot attack a unit that is out of range!");
             return;
         }
-        else
-        {
-            Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(this, defender));
-            Debug.Log("Unit will take " + Attack.CalculateProjectedDamage(defender, this) + " in the process.");
 
-            Attack.CommenceBattle(this, defender);
-            Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
-        }
+         Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(this, defender) + " damage but will take " + 
+             Attack.CalculateProjectedDamage(defender, this) + " damage.");
 
-    }
-
-
-    public void PrintStats()
-    {
-        Debug.Log(string.Format("HP:{0}  MP:{1}  ATK:{2}  DEF:{3}  SPR:{4}  SPD:{5}",
-            GetStat(Job.statOrder[0]),
-            GetStat(Job.statOrder[1]),
-            GetStat(Job.statOrder[2]),
-            GetStat(Job.statOrder[3]),
-            GetStat(Job.statOrder[4]),
-            GetStat(Job.statOrder[5])
-        ));
+         Attack.CommenceBattle(this, defender);
+         Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
     }
 
     #endregion

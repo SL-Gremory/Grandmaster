@@ -1,4 +1,5 @@
 ﻿using Priority_Queue;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,6 @@ public class BattleNavigate : MonoBehaviour
     TerrainData levelTerrain;
 
     public static Unit[,] unitsGrid;
-
 
     private void Start()
     {
@@ -198,7 +198,8 @@ public class BattleNavigate : MonoBehaviour
         }
     }
 
-    static List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
+    // Ronald: I made this non-static, would that break something?
+    List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
     {
 
         HashSet<Int2> closedSet = new HashSet<Int2>();
@@ -236,7 +237,7 @@ public class BattleNavigate : MonoBehaviour
                     continue;
                 if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
                     continue;
-                if (IsEnemyAt(neighbor))
+                if (IsNonAllyAt(neighbor)) // cell is occupied by a different team unit
                     continue;
 
                 var tentativegScore = gScore[current] + 1;
@@ -254,6 +255,7 @@ public class BattleNavigate : MonoBehaviour
         }
         return null;
     }
+
 
     static List<Int2> ReconstructPath(Dictionary<Int2, Int2> cameFrom, Int2 current, int maxDistance)
     {
@@ -275,32 +277,14 @@ public class BattleNavigate : MonoBehaviour
         return Int2.Distance(start, goal); // manhattan distance(per-axis)
     }
 
-
     public Int2 GetUnitPosition()
     {
         return new Int2((int)transform.position.x, (int)transform.position.y);
     }
 
-
-
-    public static bool IsEnemyAt(Int2 pos)
+    public bool IsNonAllyAt(Int2 pos)
     {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.ENEMY;
-    }
-
-    public static bool IsHeroAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.HERO;
-    }
-
-    public static bool IsNeutralAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.NEUTRAL;
-    }
-
-    public static bool IsObstacleAt(Int2 pos)
-    {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation == Team.OBSTACLE;
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation != unit.unitAffiliation;
     }
 
     public static bool IsUnitAt(Int2 pos)
