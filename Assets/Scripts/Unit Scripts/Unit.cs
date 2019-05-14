@@ -37,7 +37,7 @@ public class Unit : Selectable
     private bool moveIsDone;
     private bool actionIsDone;
     private bool isAttacking;
-    Int2 currentUnitPosition = new Int2();
+    SpriteRenderer renderer;
 
     // Rocky Hp bar code stuff
     private HPScript hpBar;
@@ -59,7 +59,7 @@ public class Unit : Selectable
         // Ronald: This is a bad way of finding a GO in a different scene
         //          Should change this later
         unitInfo = GameObject.Find("UnitInfoUIText").GetComponent<UnitInfoUI>();
-
+        renderer = GetComponent<SpriteRenderer>();
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
@@ -269,7 +269,7 @@ public class Unit : Selectable
 
     void Update()
     {
-
+        // HP bar UI functions
         if (hpBar._localScale.x > (float)CHP / (float)MHP)
         {
             hpBar.ChangeLocalScale((float)CHP / (float)MHP);
@@ -280,7 +280,6 @@ public class Unit : Selectable
         {
             Unit foundUnit = null;
 
-            // Unit wants to attack
             if (Input.GetMouseButton(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -302,7 +301,6 @@ public class Unit : Selectable
                 }
             }
 
-            // Unit cancels the attack
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Debug.Log("Deselected " + this.unitName + " via attack cancel");
@@ -312,9 +310,7 @@ public class Unit : Selectable
                     foundUnit.DeselectUnit();
                 }
 
-                //this.DeselectUnit();
                 isAttacking = false;
-
             }
 
         }
@@ -345,8 +341,8 @@ public class Unit : Selectable
             //Simulate a unit getting damaged
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log(CHP);
                 CHP -= 10;
+                Debug.Log(CHP);
                 if (CHP <= 0)
                 {
                     KillUnit();
@@ -384,7 +380,15 @@ public class Unit : Selectable
     // Cannot move or attack
     internal void ExhaustUnit()
     {
-        this.SelectThis(false);
+        SelectThis(false);
+        moveIsDone = true;
+        actionIsDone = true;
+        ChangeColor(2);
+    }
+
+    // Unit cannot move or attack but selector is still active (used for death animation)
+    internal void FinishUnit()
+    {
         moveIsDone = true;
         actionIsDone = true;
         ChangeColor(2);
@@ -404,6 +408,8 @@ public class Unit : Selectable
     // Cannot move and attack
     internal void DoneActing()
     {
+        SelectThis(false);
+        battleNavigate.ResetNavigator();
         if (!actionIsDone)
         {
             isAttacking = false;
@@ -415,6 +421,8 @@ public class Unit : Selectable
 
     internal void KillUnit()
     {
+        FinishUnit();
+        battleNavigate.ResetNavigator();
         if (unitAffiliation == Team.HERO)
         {
             TurnManager.Instance.playerUnitCount--;
@@ -422,16 +430,29 @@ public class Unit : Selectable
         else if (unitAffiliation == Team.ENEMY)
         {
             TurnManager.Instance.enemyUnitCount--;
-        }
-		SelectThis(false);
-        Destroy(gameObject);
+        }  
         TurnManager.Instance.CheckWinConditions();
         Debug.Log(string.Format("{0} has died to death", this.unitName));
+        StartCoroutine(DeathAnimation());
     }
 
     #endregion
 
     #region Miscellaneous
+
+    IEnumerator DeathAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for (float f = 1f; f >= -0.05; f -= 0.10f)
+        {
+            Color c = renderer.material.color;
+            c.a = f;
+            renderer.material.color = c;
+            yield return new WaitForSeconds(0.05f);
+        }
+        SelectThis(false);
+        Destroy(gameObject);
+    }
 
     private void PrepareAttackOn(Unit defender)
     {

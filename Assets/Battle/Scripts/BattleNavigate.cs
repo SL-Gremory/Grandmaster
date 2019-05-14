@@ -68,7 +68,7 @@ public class BattleNavigate : MonoBehaviour
         }
         if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
         {
-		//	Debug.Log("Looking at paths");
+			//Debug.Log("Looking at paths");
             var goal = new Int2((int)hit.point.x, (int)hit.point.z);
             if (goal == lastGoal)
                 return;
@@ -100,6 +100,7 @@ public class BattleNavigate : MonoBehaviour
 		unit.isActive = true; //VARLER - allow interaction once move is complete
 		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
+
 
     List<Int2> CalculatePath(Int2 start, Int2 goal)
     {
@@ -269,6 +270,14 @@ public class BattleNavigate : MonoBehaviour
         if (maxDistance < 0)
             return null;
         return path;
+    }
+
+    public void ResetNavigator()
+    {
+        if (visualsParent != null)
+            Destroy(visualsParent);
+
+        traveling = false;
     }
 
     static float Heuristic(Int2 start, Int2 goal)

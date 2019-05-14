@@ -18,6 +18,10 @@ public class HPScript : MonoBehaviour
     {
         // Rate of change * framerate coefficient
         _localScale.x -= ((_localScale.x - ratio) / 69f + 0.00420f) * (60f * Time.deltaTime);
+
+        if (_localScale.x <= 0)
+            _localScale.x = 0;
+
     }
 
     // Update is called once per frame
