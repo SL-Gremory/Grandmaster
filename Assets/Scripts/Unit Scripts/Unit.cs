@@ -16,21 +16,16 @@ public class Unit : Selectable
 
     [SerializeField]
     private string unitName;
-
     [SerializeField]
     private Job unitJob;
-
     [SerializeField]
     private int[] unitStats = new int[(int)StatTypes.Count];
-
     [SerializeField]
     internal Team unitAffiliation; //private
+    Rank unitRank;
 
 
     UnitInfoUI unitInfo;
-
-
-    private Rank unitRank;
 
     private TurnManager turnManager;
     private BattleNavigate battleNavigate;
@@ -46,6 +41,32 @@ public class Unit : Selectable
     #endregion
 
     #region Initialization
+
+    // Create a new unit using attached GrandmasterJob asset
+    public Unit()
+    {
+        SetBaseStats();
+    }
+
+    // Copy existing unit
+    public Unit(Unit u)
+    {
+        unitName = u.unitName;
+        unitAffiliation = u.unitAffiliation;
+        unitRank = u.unitRank;
+        LVL = u.LVL;
+        EXP = u.EXP;
+        CHP = u.CHP;
+        MHP = u.MHP;
+        CMP = u.CMP;
+        MMP = u.MMP;
+        ATK = u.ATK;
+        DEF = u.DEF;
+        SPR = u.SPR;
+        SPD = u.SPD;
+        MOV = u.MOV;
+        JMP = u.JMP;
+    }
 
     protected override void Awake()
     {
@@ -219,7 +240,10 @@ public class Unit : Selectable
         LVL = 1;
         CHP = MHP;
         CMP = MMP;
+        unitRank = new Rank();
+        unitRank.
     }
+
 
     public void LevelUp()
     {
@@ -356,6 +380,12 @@ public class Unit : Selectable
                 isAttacking = true;
             }
 
+            if(Input.GetKeyDown(KeyCode.B) && moveIsDone && !actionIsDone)
+            {
+                battleNavigate.Return();
+                moveIsDone = false;
+            }
+
         }
     }
 
@@ -433,7 +463,7 @@ public class Unit : Selectable
         }  
         TurnManager.Instance.CheckWinConditions();
         Debug.Log(string.Format("{0} has died to death", this.unitName));
-        StartCoroutine(DeathAnimation());
+        StartCoroutine("DeathAnimation");
     }
 
     #endregion

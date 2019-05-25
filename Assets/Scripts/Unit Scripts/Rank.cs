@@ -12,11 +12,13 @@ public class Rank : MonoBehaviour
     #region Consts
 
     public const int minLevel = 1;
-    public const int maxLevel = 40;         // THIS MIGHT CHANGE
+    public const int maxLevel = 99;         // THIS MIGHT CHANGE
     public const int maxTotalExp = 40127;   // THIS MIGHT CHANGE
 
     #endregion
 
+
+    /*
     #region Fields & Properties
     public int LVL
     {
@@ -43,6 +45,7 @@ public class Rank : MonoBehaviour
         stats = GetComponent<Stats>();
     }
     #endregion
+    */
 
     #region Event Handlers
     void OnExpChanged(object sender, object args)

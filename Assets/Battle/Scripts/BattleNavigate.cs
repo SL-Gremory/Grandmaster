@@ -13,6 +13,10 @@ public class BattleNavigate : MonoBehaviour
 
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
+
+
+    Vector3 previousUnitPosition; // used when cancelling movement made
+
     [SerializeField]
     int maxDistance;
     [SerializeField]
@@ -62,6 +66,7 @@ public class BattleNavigate : MonoBehaviour
 
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
+            previousUnitPosition = transform.position;
             StartCoroutine(Travel(path));
 			pathHasBeenReset = false; //VARLER - allow path to be reset again
 			return; //VARLER - failsafe for cutting out of function once move is complete
@@ -75,6 +80,14 @@ public class BattleNavigate : MonoBehaviour
             lastGoal = goal;
             path = CalculatePath(new Int2((int)transform.position.x, (int)transform.position.z), goal);
         }
+    }
+
+    internal void Return()
+    {
+        if(previousUnitPosition != null)
+            transform.position = previousUnitPosition;
+
+        pathHasBeenReset = true;
     }
 
     IEnumerator Travel(List<Int2> path)
