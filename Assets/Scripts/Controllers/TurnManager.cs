@@ -19,7 +19,6 @@ public class TurnManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    //public static Unit[,] unitsGrid;
     public static TurnManager Instance { get; private set; }
 
 	void Start()

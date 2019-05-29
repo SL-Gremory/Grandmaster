@@ -22,8 +22,6 @@ public class Unit : Selectable
     private int[] unitStats = new int[(int)StatTypes.Count];
     [SerializeField]
     internal Team unitAffiliation; //private
-    Rank unitRank;
-
 
     UnitInfoUI unitInfo;
 
@@ -45,7 +43,7 @@ public class Unit : Selectable
     // Create a new unit using attached GrandmasterJob asset
     public Unit()
     {
-        SetBaseStats();
+        //SetBaseStats();
     }
 
     // Copy existing unit
@@ -53,7 +51,6 @@ public class Unit : Selectable
     {
         unitName = u.unitName;
         unitAffiliation = u.unitAffiliation;
-        unitRank = u.unitRank;
         LVL = u.LVL;
         EXP = u.EXP;
         CHP = u.CHP;
@@ -77,8 +74,7 @@ public class Unit : Selectable
 
     void Start()
     {
-        // Ronald: This is a bad way of finding a GO in a different scene
-        //          Should change this later
+        // Ronald: This is a bad way of finding a GO in a different scene. Should change this later
         unitInfo = GameObject.Find("UnitInfoUIText").GetComponent<UnitInfoUI>();
         renderer = GetComponent<SpriteRenderer>();
         turnManager = TurnManager.Instance;
@@ -126,7 +122,7 @@ public class Unit : Selectable
         set { SetStat(StatTypes.LVL, value); }
     }
 
-    // Experience
+    // Current Experience
     public int EXP
     {
         get { return GetStat(StatTypes.EXP); }
@@ -231,22 +227,23 @@ public class Unit : Selectable
 
     public void SetBaseStats()
     {
+        EXP = 0;
+        LVL++;
+
         for (int i = 0; i < Job.statOrder.Length; ++i)
         {
             StatTypes parameter = Job.statOrder[i];
             SetStat(parameter, unitJob.GetBaseStat(parameter));
         }
 
-        LVL = 1;
         CHP = MHP;
         CMP = MMP;
-        unitRank = new Rank();
-        unitRank.
     }
 
 
     public void LevelUp()
     {
+        EXP = EXP + Experience.ExperienceForLevel(LVL) - Experience.ExperienceForLevel(LVL + 1);
         LVL++;
 
         for (int i = 0; i < Job.statOrder.Length; ++i)
