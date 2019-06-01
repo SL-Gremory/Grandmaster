@@ -35,6 +35,9 @@ public class Unit : Selectable
     // Rocky Hp bar code stuff
     private HPScript hpBar;
 
+    // List of weapons the character is allowed to wield
+    [SerializeField]
+    internal List<WeaponType> weaponPermissions;
 
     #endregion
 
@@ -510,6 +513,7 @@ public class Unit : Selectable
          Attack.CommenceBattle(this, defender);
          Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
     }
+
 
     #endregion
 }

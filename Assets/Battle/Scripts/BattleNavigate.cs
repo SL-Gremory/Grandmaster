@@ -17,7 +17,7 @@ public class BattleNavigate : MonoBehaviour
 
     Vector3 previousUnitPosition; // used when cancelling movement made
 
-    [SerializeField]
+ //   [SerializeField]
     int maxDistance;
     [SerializeField]
     float maxJump;
@@ -51,6 +51,7 @@ public class BattleNavigate : MonoBehaviour
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        maxDistance = unit.MOV;
 
     }
 

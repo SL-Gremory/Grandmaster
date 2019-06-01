@@ -14,7 +14,6 @@ public class PartyManager : MonoBehaviour
 
     public static PartyManager Instance { get; private set; }
     public static List<Unit> CurrentParty;
-    int slotCount = 3;
     const float minLevelBonus = 1.5f;
     const float maxLevelBonus = 0.5f;
     List<Unit> _unitsInScene;
@@ -52,11 +51,11 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-
     public static void AddToParty(Unit u)
     {
         CurrentParty.Add(u);
     }
+
 
     public static void RemoveFromParty(Unit u)
     {
