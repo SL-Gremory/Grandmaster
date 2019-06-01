@@ -62,7 +62,6 @@ public class Unit : Selectable
 
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
-        //SetBaseStats();
         StartUnit();
         hpBar.Start();
     }
@@ -270,10 +269,16 @@ public class Unit : Selectable
 
     void Update()
     {
-        hpBar.localScale.x = CHP * .005f;
+
+        if (hpBar._localScale.x > (float)CHP / (float)MHP)
+        {
+            hpBar.ChangeLocalScale((float)CHP / (float)MHP);
+        }
+
         // Unit is in attacking phase
         if (isAttacking)
         {
+            Unit foundUnit = null;
 
             // Unit wants to attack
             if (Input.GetMouseButton(0))
@@ -281,16 +286,17 @@ public class Unit : Selectable
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                // IS MUY BUGGY
                 if (Physics.Raycast(ray, out hit, 1000f))
                 {
-                    Unit foundUnit = hit.transform.gameObject.GetComponent<Unit>();
+                    foundUnit = hit.transform.gameObject.GetComponent<Unit>();
 
+
+                    // If attack is impossible, deselect the found unit
+                    // and put selector back to this unit
                     if (foundUnit != null)
                     {
                         PrepareAttackOn(foundUnit);
-                        foundUnit.SelectThis(false);    // I need these next three lines here for now
-                        foundUnit.isSelected = false;
+                        foundUnit.DeselectUnit();
                         this.SelectThis(true);
                     }
                 }
@@ -299,9 +305,16 @@ public class Unit : Selectable
             // Unit cancels the attack
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Debug.Log(this.unitName + " is not atacc");
-                this.SelectThis(true);
+                Debug.Log("Deselected " + this.unitName + " via attack cancel");
+
+                if(foundUnit != null)
+                {
+                    foundUnit.DeselectUnit();
+                }
+
+                //this.DeselectUnit();
                 isAttacking = false;
+
             }
 
         }
@@ -332,8 +345,8 @@ public class Unit : Selectable
             //Simulate a unit getting damaged
             if (Input.GetKeyDown(KeyCode.F))
             {
-                CHP -= 10;
                 Debug.Log(CHP);
+                CHP -= 10;
                 if (CHP <= 0)
                 {
                     KillUnit();
@@ -348,32 +361,17 @@ public class Unit : Selectable
             }
 
         }
-
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("Found units being printed now");
-            foreach(Unit foundUnit in BattleNavigate.unitsGrid)
-            {
-                Debug.Log(foundUnit.unitName);
-            }
-
-			  //Simulate a unit getting damaged
-			  if (Input.GetKeyDown(KeyCode.F))
-			  {
-				  //set CHP to 10 less
-
-	  		  	CHP = CHP - 10;
-            hpBar.Update();
-
-            Debug.Log(CHP);
-				    if (CHP <= 0)
-				    {
-					      KillUnit();
-				    }
-			   }
-      }
-
     }
+
+
+    // Called when cancelling a unit's selection via attack toggle, etc
+    internal void DeselectUnit()
+    {
+        isSelected = false;
+        SelectThis(false);
+        isAttacking = false;
+    }
+
 
     // Can move and attack
     internal void ReadyUnit()

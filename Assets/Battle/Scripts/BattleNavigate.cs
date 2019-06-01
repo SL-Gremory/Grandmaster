@@ -201,7 +201,6 @@ public class BattleNavigate : MonoBehaviour
     // Ronald: I made this non-static, would that break something?
     List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
     {
-
         HashSet<Int2> closedSet = new HashSet<Int2>();
         var openSet = new SimplePriorityQueue<Int2>();
 
