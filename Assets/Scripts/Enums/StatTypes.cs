@@ -8,9 +8,9 @@ using UnityEngine;
 public enum StatTypes
 {
     LVL,    // Level
-    EXP,    // Accumulated experience
+    EXP,   // Current experience
     CHP,    // Current Hit points
-    MHP,     // Max Hit points
+    MHP,    // Max Hit points
     CMP,    // Current "Magic" points
     MMP,    // Max "Magic" points
     ATK,    // Physical/magical attack power

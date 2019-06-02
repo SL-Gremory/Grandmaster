@@ -19,7 +19,6 @@ public class TurnManager : MonoBehaviour
 	internal int unitsDone = 0;
 	internal int turnCounter = 1;
 
-    //public static Unit[,] unitsGrid;
     public static TurnManager Instance { get; private set; }
 
 	void Start()
@@ -114,12 +113,7 @@ public class TurnManager : MonoBehaviour
 	{
 		if (enemyUnitCount <= 0)
 		{
-			//win
 			Debug.Log("player wins");
-            //exhaust units and disable done button
-            //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
-
-            //foreach (Unit unit in units)
             foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
@@ -130,8 +124,6 @@ public class TurnManager : MonoBehaviour
 		{
 			//loss
 			Debug.Log("enemy wins");
-			//exhaust units and disable done button
-			//Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
 			foreach (Unit unit in BattleNavigate.unitsGrid)
 			{
 				unit.ExhaustUnit();
