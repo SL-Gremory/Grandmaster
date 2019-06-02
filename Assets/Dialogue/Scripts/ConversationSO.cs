@@ -47,7 +47,9 @@ public class ConversationSO : ScriptableObject, ISequence
 {
     [SerializeField]
     NameAndCharacter[] actors;
-
+	[SerializeField]
+	AudioClip[] voiceActing;
+	public AudioClip[] VoiceActing { get => voiceActing; }
 
     public bool Loaded { get; private set; }
     public NameAndCharacter[] Actors { get => actors; }
