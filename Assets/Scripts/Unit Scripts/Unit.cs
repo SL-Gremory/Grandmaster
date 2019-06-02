@@ -39,6 +39,8 @@ public class Unit : Selectable
     [SerializeField]
     internal List<WeaponType> weaponPermissions;
 
+    Weapon weapon;
+
     #endregion
 
     #region Initialization
@@ -514,6 +516,47 @@ public class Unit : Selectable
          Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
     }
 
+    void Equip(Weapon item)
+    {
+        if (weapon != null)
+            Unequip(weapon);
+        weapon = item;
+
+        if (MHP == CHP)
+            CHP += item.hp_mod;
+        MHP += item.hp_mod;
+
+        if (MMP == CMP)
+            CMP += item.hp_mod;
+        MMP += item.mp_mod;
+
+        ATK += item.atk_mod;
+        DEF += item.def_mod;
+        SPR += item.spr_mod;
+        SPD += item.spd_mod;
+        MOV += item.mov_mod;
+
+    }
+
+    void Unequip(Weapon weapon)
+    {
+
+        // Should filter this through a stat modifier script
+        MHP -= weapon.hp_mod;
+        MMP -= weapon.mp_mod;
+        ATK -= weapon.atk_mod;
+        DEF -= weapon.def_mod;
+        SPR -= weapon.spr_mod;
+        SPD -= weapon.spd_mod;
+        MOV -= weapon.mov_mod;
+
+        if (MHP < CHP)
+            CHP = MHP;
+        if (MMP < CMP)
+            CMP = MMP;
+
+        weapon = null;
+    }
 
     #endregion
 }

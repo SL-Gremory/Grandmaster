@@ -28,4 +28,7 @@ public class Weapon : ScriptableObject
     public int mov_mod;
 
 
+
+
+
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New ItemDatabase", menuName = "ItemDatabase")]
 public class ItemDatabase : ScriptableObject
 {
     public List<Weapon> WeaponsDB;
@@ -14,5 +15,7 @@ public class ItemDatabase : ScriptableObject
         if (ConsumablesDB == null)
             ConsumablesDB = new List<Consumable>();
     }
+
+
 
 }
