@@ -16,36 +16,59 @@ public class Unit : Selectable
 
     [SerializeField]
     private string unitName;
-
     [SerializeField]
     private Job unitJob;
-
     [SerializeField]
     private int[] unitStats = new int[(int)StatTypes.Count];
-
     [SerializeField]
     internal Team unitAffiliation; //private
 
-
     UnitInfoUI unitInfo;
-
-
-    private Rank unitRank;
 
     private TurnManager turnManager;
     private BattleNavigate battleNavigate;
     private bool moveIsDone;
     private bool actionIsDone;
     private bool isAttacking;
-    Int2 currentUnitPosition = new Int2();
+    SpriteRenderer renderer;
 
     // Rocky Hp bar code stuff
     private HPScript hpBar;
 
+    // List of weapons the character is allowed to wield
+    [SerializeField]
+    internal List<WeaponType> weaponPermissions;
+
+    Weapon weapon;
 
     #endregion
 
     #region Initialization
+
+    // Create a new unit using attached GrandmasterJob asset
+    public Unit()
+    {
+        //SetBaseStats();
+    }
+
+    // Copy existing unit
+    public Unit(Unit u)
+    {
+        unitName = u.unitName;
+        unitAffiliation = u.unitAffiliation;
+        LVL = u.LVL;
+        EXP = u.EXP;
+        CHP = u.CHP;
+        MHP = u.MHP;
+        CMP = u.CMP;
+        MMP = u.MMP;
+        ATK = u.ATK;
+        DEF = u.DEF;
+        SPR = u.SPR;
+        SPD = u.SPD;
+        MOV = u.MOV;
+        JMP = u.JMP;
+    }
 
     protected override void Awake()
     {
@@ -56,10 +79,9 @@ public class Unit : Selectable
 
     void Start()
     {
-        // Ronald: This is a bad way of finding a GO in a different scene
-        //          Should change this later
+        // Ronald: This is a bad way of finding a GO in a different scene. Should change this later
         unitInfo = GameObject.Find("UnitInfoUIText").GetComponent<UnitInfoUI>();
-
+        renderer = GetComponent<SpriteRenderer>();
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         StartUnit();
@@ -105,7 +127,7 @@ public class Unit : Selectable
         set { SetStat(StatTypes.LVL, value); }
     }
 
-    // Experience
+    // Current Experience
     public int EXP
     {
         get { return GetStat(StatTypes.EXP); }
@@ -210,19 +232,23 @@ public class Unit : Selectable
 
     public void SetBaseStats()
     {
+        EXP = 0;
+        LVL++;
+
         for (int i = 0; i < Job.statOrder.Length; ++i)
         {
             StatTypes parameter = Job.statOrder[i];
             SetStat(parameter, unitJob.GetBaseStat(parameter));
         }
 
-        LVL = 1;
         CHP = MHP;
         CMP = MMP;
     }
 
+
     public void LevelUp()
     {
+        EXP = EXP + Experience.ExperienceForLevel(LVL) - Experience.ExperienceForLevel(LVL + 1);
         LVL++;
 
         for (int i = 0; i < Job.statOrder.Length; ++i)
@@ -269,7 +295,7 @@ public class Unit : Selectable
 
     void Update()
     {
-
+        // HP bar UI functions
         if (hpBar._localScale.x > (float)CHP / (float)MHP)
         {
             hpBar.ChangeLocalScale((float)CHP / (float)MHP);
@@ -280,7 +306,6 @@ public class Unit : Selectable
         {
             Unit foundUnit = null;
 
-            // Unit wants to attack
             if (Input.GetMouseButton(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -302,7 +327,6 @@ public class Unit : Selectable
                 }
             }
 
-            // Unit cancels the attack
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Debug.Log("Deselected " + this.unitName + " via attack cancel");
@@ -312,9 +336,7 @@ public class Unit : Selectable
                     foundUnit.DeselectUnit();
                 }
 
-                //this.DeselectUnit();
                 isAttacking = false;
-
             }
 
         }
@@ -345,8 +367,8 @@ public class Unit : Selectable
             //Simulate a unit getting damaged
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log(CHP);
                 CHP -= 10;
+                Debug.Log(CHP);
                 if (CHP <= 0)
                 {
                     KillUnit();
@@ -358,6 +380,12 @@ public class Unit : Selectable
             {
                 Debug.Log(this.unitName + " is atacc");
                 isAttacking = true;
+            }
+
+            if(Input.GetKeyDown(KeyCode.B) && moveIsDone && !actionIsDone)
+            {
+                battleNavigate.Return();
+                moveIsDone = false;
             }
 
         }
@@ -384,7 +412,15 @@ public class Unit : Selectable
     // Cannot move or attack
     internal void ExhaustUnit()
     {
-        this.SelectThis(false);
+        SelectThis(false);
+        moveIsDone = true;
+        actionIsDone = true;
+        ChangeColor(2);
+    }
+
+    // Unit cannot move or attack but selector is still active (used for death animation)
+    internal void FinishUnit()
+    {
         moveIsDone = true;
         actionIsDone = true;
         ChangeColor(2);
@@ -404,6 +440,8 @@ public class Unit : Selectable
     // Cannot move and attack
     internal void DoneActing()
     {
+        SelectThis(false);
+        battleNavigate.ResetNavigator();
         if (!actionIsDone)
         {
             isAttacking = false;
@@ -415,6 +453,8 @@ public class Unit : Selectable
 
     internal void KillUnit()
     {
+        FinishUnit();
+        battleNavigate.ResetNavigator();
         if (unitAffiliation == Team.HERO)
         {
             TurnManager.Instance.playerUnitCount--;
@@ -422,16 +462,29 @@ public class Unit : Selectable
         else if (unitAffiliation == Team.ENEMY)
         {
             TurnManager.Instance.enemyUnitCount--;
-        }
-		SelectThis(false);
-        Destroy(gameObject);
+        }  
         TurnManager.Instance.CheckWinConditions();
         Debug.Log(string.Format("{0} has died to death", this.unitName));
+        StartCoroutine("DeathAnimation");
     }
 
     #endregion
 
     #region Miscellaneous
+
+    IEnumerator DeathAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for (float f = 1f; f >= -0.05; f -= 0.10f)
+        {
+            Color c = renderer.material.color;
+            c.a = f;
+            renderer.material.color = c;
+            yield return new WaitForSeconds(0.05f);
+        }
+        SelectThis(false);
+        Destroy(gameObject);
+    }
 
     private void PrepareAttackOn(Unit defender)
     {
@@ -461,6 +514,48 @@ public class Unit : Selectable
 
          Attack.CommenceBattle(this, defender);
          Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
+    }
+
+    void Equip(Weapon item)
+    {
+        if (weapon != null)
+            Unequip(weapon);
+        weapon = item;
+
+        if (MHP == CHP)
+            CHP += item.hp_mod;
+        MHP += item.hp_mod;
+
+        if (MMP == CMP)
+            CMP += item.hp_mod;
+        MMP += item.mp_mod;
+
+        ATK += item.atk_mod;
+        DEF += item.def_mod;
+        SPR += item.spr_mod;
+        SPD += item.spd_mod;
+        MOV += item.mov_mod;
+
+    }
+
+    void Unequip(Weapon weapon)
+    {
+
+        // Should filter this through a stat modifier script
+        MHP -= weapon.hp_mod;
+        MMP -= weapon.mp_mod;
+        ATK -= weapon.atk_mod;
+        DEF -= weapon.def_mod;
+        SPR -= weapon.spr_mod;
+        SPD -= weapon.spd_mod;
+        MOV -= weapon.mov_mod;
+
+        if (MHP < CHP)
+            CHP = MHP;
+        if (MMP < CMP)
+            CMP = MMP;
+
+        weapon = null;
     }
 
     #endregion

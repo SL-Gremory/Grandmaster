@@ -9,11 +9,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Grandmaster Job")]
 public class Job : ScriptableObject
 {
-
     public static readonly StatTypes[] statOrder = new StatTypes[]
     {
-        // StatTypes.LVL,    // Level
-        // StatTypes.EXP,    // Accumulated experience
         StatTypes.MHP,     // Hit points
         StatTypes.MMP,     // "Magic" points
         StatTypes.ATK,    // Physical/magical attack power
@@ -22,14 +19,10 @@ public class Job : ScriptableObject
         StatTypes.SPD,     // Speed
         StatTypes.MOV,    // Move count
         StatTypes.JMP
-        //StatTypes.Count
     };
 
     public int[] baseStats = new int[statOrder.Length];
     public int[] statGrowths = new int[statOrder.Length];
-
-    Stats stats;
-
 
     public int GetBaseStat(StatTypes parameter)
     {
@@ -79,12 +72,6 @@ public class Job : ScriptableObject
 
     private int IndexForStat(StatTypes parameter)
     {
-        /*
-        if(type == StatTypes.HP)
-        {
-            return 0;
-        }
-        */
 
         switch(parameter)
         {
@@ -107,29 +94,6 @@ public class Job : ScriptableObject
         }
         return -1;
     }
-
-
-    /*
-    public void Employ()
-    {
-        stats = gameObject.GetComponentInParent<Stats>();
-        Feature[] features = GetComponentsInChildren<Feature>();
-        for (int i = 0; i < features.Length; ++i)
-        {
-            features[i].Activate(gameObject);
-        }
-    }
-
-    public void UnEmploy()
-    {
-        Feature[] features = GetComponentsInChildren<Feature>();
-        for (int i = 0; i < features.Length; ++i)
-        {
-            features[i].Deactivate();
-        }
-        stats = null;
-    }
-    */
 
 
 }

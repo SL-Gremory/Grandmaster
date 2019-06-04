@@ -13,7 +13,11 @@ public class BattleNavigate : MonoBehaviour
 
     [SerializeField]
     Int2 currentUnitPosition; // old, used for calculating all paths in area
-    [SerializeField]
+
+
+    Vector3 previousUnitPosition; // used when cancelling movement made
+
+ //   [SerializeField]
     int maxDistance;
     [SerializeField]
     float maxJump;
@@ -47,6 +51,7 @@ public class BattleNavigate : MonoBehaviour
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        maxDistance = unit.MOV;
 
     }
 
@@ -62,19 +67,28 @@ public class BattleNavigate : MonoBehaviour
 
         if (!traveling && Input.GetMouseButtonDown(0) && path != null)
         {
+            previousUnitPosition = transform.position;
             StartCoroutine(Travel(path));
 			pathHasBeenReset = false; //VARLER - allow path to be reset again
 			return; //VARLER - failsafe for cutting out of function once move is complete
         }
         if (!traveling && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f))
         {
-		//	Debug.Log("Looking at paths");
+			//Debug.Log("Looking at paths");
             var goal = new Int2((int)hit.point.x, (int)hit.point.z);
             if (goal == lastGoal)
                 return;
             lastGoal = goal;
             path = CalculatePath(new Int2((int)transform.position.x, (int)transform.position.z), goal);
         }
+    }
+
+    internal void Return()
+    {
+        if(previousUnitPosition != null)
+            transform.position = previousUnitPosition;
+
+        pathHasBeenReset = true;
     }
 
     IEnumerator Travel(List<Int2> path)
@@ -100,6 +114,7 @@ public class BattleNavigate : MonoBehaviour
 		unit.isActive = true; //VARLER - allow interaction once move is complete
 		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
+
 
     List<Int2> CalculatePath(Int2 start, Int2 goal)
     {
@@ -269,6 +284,14 @@ public class BattleNavigate : MonoBehaviour
         if (maxDistance < 0)
             return null;
         return path;
+    }
+
+    public void ResetNavigator()
+    {
+        if (visualsParent != null)
+            Destroy(visualsParent);
+
+        traveling = false;
     }
 
     static float Heuristic(Int2 start, Int2 goal)

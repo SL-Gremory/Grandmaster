@@ -25,6 +25,7 @@ public class ConversationSOEditor : Editor
         else if (t.Loaded)
         {
             var actors = serializedObject.FindProperty("actors");
+			var voiceActing = serializedObject.FindProperty("voiceActing");
             for (int i = 0; i < actors.arraySize; i++)
             {
                 EditorGUILayout.PropertyField(actors.GetArrayElementAtIndex(i));
@@ -35,7 +36,10 @@ public class ConversationSOEditor : Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(t.Conversation[i].speaker + ":");
-                EditorGUILayout.LabelField("(" + t.Conversation[i].expression + ")", GUILayout.MaxWidth(100));
+                EditorGUILayout.LabelField("(" + t.Conversation[i].expression + ")", GUILayout.MaxWidth(50));
+				if (voiceActing.arraySize - 1 < i)
+					voiceActing.InsertArrayElementAtIndex(i);
+				EditorGUILayout.PropertyField(voiceActing.GetArrayElementAtIndex(i),new GUIContent(), GUILayout.MaxWidth(100));
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.LabelField(t.Conversation[i].speech);
                 GUILayout.Space(10);
