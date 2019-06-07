@@ -1,23 +1,23 @@
 {
-    "characterName": "Emmy",
+    "characterName": "Anonym Ous",
     "nickname": "",
     "description": "",
     "splashArt": {
-        "instanceID": 12192
+        "instanceID": 11658
     },
     "portraitArtMain": {
-        "instanceID": 11856
+        "instanceID": 11660
     },
     "portraitArtHappy": {
-        "instanceID": 11856
+        "instanceID": 11662
     },
     "portraitArtSad": {
-        "instanceID": 12274
+        "instanceID": 11662
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 12754
+        "instanceID": 11662
     },
     "portraitArtAngry": {
-        "instanceID": 12444
+        "instanceID": 11662
     }
 }
