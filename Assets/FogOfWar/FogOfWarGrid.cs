@@ -36,37 +36,13 @@ public class FogOfWarGrid : MonoBehaviour
         
         //TEST
 
-        for (int x = 10; x < 25; x++)
+        for (int x = 0; x < 64; x++)
         {
-            for (int y = 10; y < 25; y++)
+            for (int y = 0; y < 64; y++)
             {
                 SetVisible(new Int2(x, y));
             }
         }
-        for (int x = 25; x < 60; x++)
-        {
-            for (int y = 25; y < 50; y++)
-            {
-                SetVisible(new Int2(x, y));
-            }
-        }
-        /*
-        for (int x = 20; x < 50; x++)
-        {
-            for (int y = 20; y < 50; y++)
-            {
-                if ((x - 35) * (x - 35) + (y - 35) * (y - 35) < 50)
-                    SetFog(new Int2(x, y), 1);
-            }
-        }
-        for (int x = 20; x < 50; x++)
-        {
-            for (int y = 20; y < 50; y++)
-            {
-                if ((x - 25) * (x - 25) + (y - 25) * (y - 25) < 50)
-                    SetFog(new Int2(x, y), 2);
-            }
-        }*/
 
     }
 
