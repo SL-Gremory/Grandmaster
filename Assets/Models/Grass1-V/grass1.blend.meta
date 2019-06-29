@@ -1,12 +1,17 @@
 fileFormatVersion: 2
-guid: c6e0138d89a5e404a8643e9bb59ee032
+guid: 0fc6c39a56f792f4b80fdabba01d3e61
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1989289236423521904
     second: Default Take
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grass1-material__grass1-texture_png
+    second: {fileID: 2100000, guid: 2a68d68c71d29a342939c3583980fb19, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

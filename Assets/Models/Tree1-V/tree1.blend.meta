@@ -1,12 +1,17 @@
 fileFormatVersion: 2
-guid: 73485217b2420ea41b4e010608084ba8
+guid: 50aa3698cfba8a24297f1bd7541d13ec
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1989289236423521904
     second: Default Take
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_001__tree1-texture_png
+    second: {fileID: 2100000, guid: 5de79d9e90f3c3f48929719636a45f5d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

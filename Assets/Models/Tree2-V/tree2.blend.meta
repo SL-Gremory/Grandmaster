@@ -1,12 +1,22 @@
 fileFormatVersion: 2
-guid: 7d8002e43a27dae4897a476ace27c164
+guid: 89da0943320bcb34ebd8b3c2c650992f
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1989289236423521904
     second: Default Take
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tree2-barkmaterial__tree2-barktexture_png
+    second: {fileID: 2100000, guid: 9ebeb56cbccd2c84f82f337d61d06d27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tree2-leafmaterial__tree2-leaftexture_png
+    second: {fileID: 2100000, guid: a5c3bda9036774146907182f00f6ba4e, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
