@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "characterName": "Another One",
     "nickname": "",
     "description": "",
@@ -19,5 +20,27 @@
     },
     "portraitArtAngry": {
         "instanceID": 12522
+=======
+    "characterName": "Anonym Ous",
+    "nickname": "",
+    "description": "",
+    "splashArt": {
+        "instanceID": 11614
+    },
+    "portraitArtMain": {
+        "instanceID": 11616
+    },
+    "portraitArtHappy": {
+        "instanceID": 11618
+    },
+    "portraitArtSad": {
+        "instanceID": 11618
+    },
+    "portraitArtEmbarrassed": {
+        "instanceID": 11618
+    },
+    "portraitArtAngry": {
+        "instanceID": 11618
+>>>>>>> b47eeb9896698be87183d9dc3d3d0007e208b858
     }
 }
