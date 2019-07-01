@@ -25,6 +25,7 @@ Shader "Unlit/WorldGridEffect"
 		#pragma multi_compile_fog
 
 		#include "UnityCG.cginc"
+		#include "Lighting.cginc"
 
 		struct appdata
 		{
@@ -48,7 +49,7 @@ Shader "Unlit/WorldGridEffect"
 
 		fixed4 frag(v2f i) : SV_Target
 		{
-			fixed4 col = fixed4(0.5,0.5,0.5,1) * pow(1.5*max(abs(((i.worldPos.x) % 1 - 0.5)), abs(((i.worldPos.z) % 1 - 0.5))), 7.5);
+			fixed4 col = fixed4(0.5,0.5,0.5,1) * pow(1.5*max(abs(((i.worldPos.x) % 1 - 0.5)), abs(((i.worldPos.z) % 1 - 0.5))), 7.5) * _LightColor0;
 			return col;
 		}
 		ENDCG
