@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
@@ -18,11 +19,14 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Image portrait;
 
+	new AudioSource audio;
+
     void Awake()
     {
         if (Instance != null)
             Debug.LogError("Can't have multiple DialogueManager instances.");
         Instance = this;
+		audio = GetComponent<AudioSource>();
         gameObject.SetActive(false);
     }
 
@@ -84,6 +88,10 @@ public class DialogueManager : MonoBehaviour
             {
                 ApplyCharacter(character);
             }
+			var clip = currConv.VoiceActing[speechIndex];
+			audio.Stop();
+			if (clip != null)
+				audio.PlayOneShot(clip);
         }
         else
         {
