@@ -51,15 +51,15 @@ public class BattleNavigate : MonoBehaviour
 		//VARLER - find unit to interact with
 		unit = gameObject.GetComponentInParent<Unit>();
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
-        maxDistance = unit.MOV;
-
     }
 
     internal void Move()
     {
-		//Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
-		//VARLER - if statement ensures path has been reset before re-entering Move()
-		if (!pathHasBeenReset)
+        maxDistance = unit.MOV;
+
+        //Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
+        //VARLER - if statement ensures path has been reset before re-entering Move()
+        if (!pathHasBeenReset)
 		{
 			path = null;
 			pathHasBeenReset = true;

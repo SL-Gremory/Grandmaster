@@ -1,5 +1,7 @@
-﻿public enum WeaponType
+﻿/*
+public enum WeaponType
 {
+    
     SWORD,
     MACE,
     LANCE,
@@ -15,4 +17,13 @@
     CLAW,
     WRAPS,
     WHIP
+}
+*/
+
+public enum WeaponType
+{
+    RANGED_PHYS,
+    RANGED_MAG,
+    MELEE_PHYS,
+    MELEE_AURA
 }

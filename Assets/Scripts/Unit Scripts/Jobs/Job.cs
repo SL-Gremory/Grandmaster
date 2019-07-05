@@ -9,6 +9,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Grandmaster Job")]
 public class Job : ScriptableObject
 {
+    [SerializeField]
+    internal List<WeaponType> weaponPermissions;
+
     public static readonly StatTypes[] statOrder = new StatTypes[]
     {
         StatTypes.MHP,     // Hit points

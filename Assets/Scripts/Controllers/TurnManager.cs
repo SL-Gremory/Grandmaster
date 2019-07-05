@@ -84,12 +84,12 @@ public class TurnManager : MonoBehaviour
 				if (unitInfo.GetUnitAffiliation() == Team.HERO)
 				{
 					unit.ReadyUnit();
-					Debug.Log("ally is woke");
+					//Debug.Log("ally is woke");
 				}
 				else
 				{
 					unit.ExhaustUnit();
-					Debug.Log("enemy is exhausted");
+					//Debug.Log("enemy is exhausted");
 				}
 			}
 			else
@@ -97,12 +97,12 @@ public class TurnManager : MonoBehaviour
 				if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
 				{
 					unit.ReadyUnit();
-					Debug.Log("enemy is woke");
+					//Debug.Log("enemy is woke");
 				}
 				else
 				{
 					unit.ExhaustUnit();
-					Debug.Log("ally is exhausted");
+					//Debug.Log("ally is exhausted");
 				}
 			}
 		}

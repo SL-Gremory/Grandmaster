@@ -10,8 +10,21 @@ public class Selectable : MonoBehaviour
 	protected Color darkColor2;
 	internal bool isActive; //if can be selected. for most things it will always be true.
 	protected bool isSelected; //if is selected
-	
-    protected virtual void Awake()
+
+
+    public void SetSelectStatus(bool status)
+    {
+        isSelected = status;
+    }
+
+
+    public bool GetSelectStatus()
+    {
+        return isSelected;
+    }
+
+
+    public virtual void Awake()
     {
         isActive = true;
         isSelected = false;
@@ -35,7 +48,7 @@ public class Selectable : MonoBehaviour
 		Highlight(false);
 	}
 	
-	protected void OnMouseOver()
+	public void OnMouseOver()
 	{
 		if (isActive && Input.GetMouseButtonDown(0))
 		{
@@ -66,8 +79,8 @@ public class Selectable : MonoBehaviour
 
 
     }
-	
-	protected void SelectThis(bool yes)
+
+	public void SelectThis(bool yes)
 	{
 		if (yes)
 		{
@@ -83,7 +96,7 @@ public class Selectable : MonoBehaviour
 
 
 
-	protected void Highlight(bool highlighted)
+	public void Highlight(bool highlighted)
 	{
 		//not a true highlight, just changes the transparency
 		Color tmp = this.GetComponent<SpriteRenderer>().color;
@@ -98,7 +111,7 @@ public class Selectable : MonoBehaviour
 		this.GetComponent<SpriteRenderer>().color = tmp;
 	}
 	
-	protected void ChangeColor(int choice)
+	public void ChangeColor(int choice)
 	{
 		if (choice == 0)
 		{

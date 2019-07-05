@@ -14,23 +14,33 @@ public class Unit : Selectable
 
     #region Declarations
 
+    private TurnManager turnManager;
+    private BattleNavigate battleNavigate;
+
     [SerializeField]
     private string unitName;
     [SerializeField]
     private Job unitJob;
     [SerializeField]
-    private int[] unitStats = new int[(int)StatTypes.Count];
+    private List<int> unitStats = new List<int>((int)StatTypes.Count);
+    //private int[] unitStats = new int[(int)StatTypes.Count];
+
+    
+
+    private List<Modifier>[] statModifiers = new List<Modifier>[(int)StatTypes.Count];
+
     [SerializeField]
     internal Team unitAffiliation; //private
 
+    // UI-related things
+    SpriteRenderer renderer;
     UnitInfoUI unitInfo;
 
-    private TurnManager turnManager;
-    private BattleNavigate battleNavigate;
+    // Booleans
     private bool moveIsDone;
     private bool actionIsDone;
     private bool isAttacking;
-    SpriteRenderer renderer;
+
 
     // Rocky Hp bar code stuff
     private HPScript hpBar;
@@ -39,7 +49,11 @@ public class Unit : Selectable
     [SerializeField]
     internal List<WeaponType> weaponPermissions;
 
+    // Equipment & Skills
     Weapon weapon;
+    List<Skill> skills = new List<Skill>();
+
+
 
     #endregion
 
@@ -70,7 +84,7 @@ public class Unit : Selectable
         JMP = u.JMP;
     }
 
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         SetBaseStats();     // Temporary thing, should load stats from a file
@@ -84,6 +98,7 @@ public class Unit : Selectable
         renderer = GetComponent<SpriteRenderer>();
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
+
         StartUnit();
         hpBar.Start();
     }
@@ -224,14 +239,76 @@ public class Unit : Selectable
         unitStats[typeIndex] = value;
     }
 
+    // Probably shouldn't calculate modded values each time
     public int GetStat(StatTypes parameter)
     {
         int typeIndex = (int)parameter;
-        return unitStats[typeIndex];
+        float modValue = unitStats[typeIndex];
+
+        // Add together any modifiers for that stat
+        for (int i = 0; i < statModifiers[typeIndex].Count; i++)
+        {
+            Modifier mod = statModifiers[typeIndex][i];
+
+            if (mod.Type == StatModType.Flat)
+            {
+                modValue += statModifiers[typeIndex][i].Value;
+            }
+            else if (mod.Type == StatModType.Percent)
+            {
+                modValue *= 1 + mod.Value;
+            }
+        }
+
+        return (int)Math.Floor(modValue);
     }
+
+    public void AddModifier(ModApplication mod)
+    {
+        int typeIndex = (int)mod.sType;
+
+        statModifiers[typeIndex].Add(new Modifier(mod.Value, mod.mType));
+        statModifiers[typeIndex].Sort(ModifierOrder);
+    }
+
+    public void RemoveModifier(Modifier mod)
+    {
+        int typeIndex = (int)mod.Type;
+
+        // FIX THIS
+        statModifiers[typeIndex].Remove(mod);
+    }
+
+    private int ModifierOrder(Modifier a, Modifier b)
+    {
+        if (a.Order < b.Order)
+            return -1;
+        else if (a.Order > b.Order)
+            return 1;
+        else
+            return 0;
+    }
+
 
     public void SetBaseStats()
     {
+        /* For reference, the stat order for units is
+         * 
+         *       LVL,    // Level
+         *       EXP,   // Current experience
+         *       CHP,    // Current Hit points
+         *       MHP,    // Max Hit points
+         *       CMP,    // Current "Magic" points
+         *       MMP,    // Max "Magic" points
+         *       ATK,    // Physical/magical attack power
+         *       DEF,    // Physical defense
+         *       SPR,    // Magical defense
+         *       SPD,    // Speed
+         *       MOV,    // Move count
+         *       JMP,    // Max amount able to change height,
+         *       
+         */
+
         EXP = 0;
         LVL++;
 
@@ -244,7 +321,6 @@ public class Unit : Selectable
         CHP = MHP;
         CMP = MMP;
     }
-
 
     public void LevelUp()
     {
@@ -265,29 +341,6 @@ public class Unit : Selectable
         CHP = MHP;
         CMP = MMP;
     }
-
-
-    // Semi-random level-up (WIP)
-    public void variableLevelUp()
-    {
-
-        LVL++;
-
-        for (int i = 0; i < Job.statOrder.Length; ++i)
-        {
-            StatTypes parameter = Job.statOrder[i];
-
-            int currentStat = GetStat(parameter);
-            int growthStat = unitJob.GetGrowthStat(parameter);
-            int newStat = currentStat + growthStat;
-
-            SetStat(parameter, currentStat + growthStat);
-        }
-
-        CHP = MHP;
-        CMP = MMP;
-    }
-
 
     #endregion
 
@@ -433,7 +486,7 @@ public class Unit : Selectable
         {
             moveIsDone = true;
             ChangeColor(1);
-            Debug.Log("Unit finished moving");
+            //Debug.Log("Unit finished moving");
         }
     }
 
@@ -447,7 +500,7 @@ public class Unit : Selectable
             isAttacking = false;
             ExhaustUnit();
             TurnManager.Instance.unitsDone++;
-            Debug.Log("Unit finished acting");
+            //Debug.Log("Unit finished acting");
         }
     }
 
@@ -514,6 +567,33 @@ public class Unit : Selectable
 
          Attack.CommenceBattle(this, defender);
          Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
+    }
+
+
+    void AddSkill(Skill skill)
+    {
+        if (skills.Count >= 3)
+            return;
+
+        skills.Add(skill);
+
+        List<ModApplication> toApply = skills[skills.Count - 1].Activate();
+        
+        foreach (ModApplication mod in toApply)
+        {
+            AddModifier(mod);
+        }
+
+    }
+
+    void RemoveSkill(Skill skill)
+    {
+        if (skills.Contains(skill))
+        {
+            int removeIndex = skills.IndexOf(skill);
+            skills[removeIndex].Deactivate();
+            skills.Remove(skill);
+        }
     }
 
     void Equip(Weapon item)
