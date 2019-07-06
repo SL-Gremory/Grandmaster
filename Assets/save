@@ -1,46 +1,23 @@
 {
-<<<<<<< HEAD
-    "characterName": "Another One",
-    "nickname": "",
-    "description": "",
-    "splashArt": {
-        "instanceID": 11620
-    },
-    "portraitArtMain": {
-        "instanceID": 12682
-    },
-    "portraitArtHappy": {
-        "instanceID": 11898
-    },
-    "portraitArtSad": {
-        "instanceID": 12344
-    },
-    "portraitArtEmbarrassed": {
-        "instanceID": 12864
-    },
-    "portraitArtAngry": {
-        "instanceID": 12522
-=======
     "characterName": "Anonym Ous",
     "nickname": "",
     "description": "",
     "splashArt": {
-        "instanceID": 11614
+        "instanceID": 14864
     },
     "portraitArtMain": {
-        "instanceID": 11616
+        "instanceID": 14872
     },
     "portraitArtHappy": {
-        "instanceID": 11618
+        "instanceID": 14880
     },
     "portraitArtSad": {
-        "instanceID": 11618
+        "instanceID": 14880
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 11618
+        "instanceID": 14880
     },
     "portraitArtAngry": {
-        "instanceID": 11618
->>>>>>> b47eeb9896698be87183d9dc3d3d0007e208b858
+        "instanceID": 14880
     }
 }

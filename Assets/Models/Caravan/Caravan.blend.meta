@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 939511467fcb9a54e91524d33fe42a97
+guid: acc90bdecd2c58647ad1f0ca1b16bc5e
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
@@ -10,23 +10,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 54a681fda73e44f49966c54810b52971, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material_001
-    second: {fileID: 2100000, guid: 915af37cb401be94f835a573bb942078, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material_002
-    second: {fileID: 2100000, guid: e5e90f9b49ffe204e81e9e8d0a44bf6e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: unnamed
-    second: {fileID: 2100000, guid: 38031af9259baf94a859b41c29dda453, type: 2}
+      name: Wagon_tile__Wagon_tile_png_001
+    second: {fileID: 2100000, guid: bba85ae15eb7b2c47949f71195198970, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
