@@ -139,7 +139,6 @@ Shader "Fog Of War"
 
 				float depth = 1 - (tex2D(_CameraDepthTexture, pixelize(duv)).r);
 				depth = depth * 100 + 0.5; // near and far clip planes
-
 				fixed3 col = tex2D(_MainTex, i.uv); // Color of the scene before this shader was run
 				fixed4 add = raymarch(ro + rd * (depth - 10), rd, 10);
 				//add.rgb = add.rgb - add.rgb % (1 / 32.0) + 1/64.0;
