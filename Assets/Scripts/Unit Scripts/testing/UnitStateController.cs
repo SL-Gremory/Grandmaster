@@ -34,17 +34,16 @@ public class UnitStateController : MonoBehaviour
         unitData = gameObject.GetComponent<UnitData>();
         unitSelectable = gameObject.GetComponent<Selectable>();
         unitParameters = gameObject.GetComponent<Parameters>();
-        hpBar = gameObject.GetComponent<HPScript>(); // Rocky HP bar stuff
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
+        hpBar = gameObject.GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
+
         StartUnit();
         hpBar.Start();
     }
 
     void Update()
     {
-
-
 
         // HP bar UI functions
         if (hpBar._localScale.x > (float)unitParameters.CHP / (float)unitParameters.MHP)
@@ -305,11 +304,23 @@ public class UnitStateController : MonoBehaviour
         }
     }
 
+    // Cannot move but can attack
+    internal void DoneMoving()
+    {
+        if (!moveIsDone)
+        {
+            moveIsDone = true;
+            unitSelectable.ChangeColor(1);
+            //Debug.Log("Unit finished moving");
+        }
+    }
+
+
 
     IEnumerator DeathAnimation()
     {
 
-        SpriteRenderer render = gameObject.GetComponent<UnitData>().UnitRender;
+        SpriteRenderer render = gameObject.GetComponent<SpriteRenderer>();
 
         yield return new WaitForSeconds(0.5f);
         for (float f = 1f; f >= -0.05; f -= 0.10f)

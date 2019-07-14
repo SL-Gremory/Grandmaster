@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public static class Attack
 {
 
@@ -67,3 +68,4 @@ public static class Attack
     }
 
 }
+*/

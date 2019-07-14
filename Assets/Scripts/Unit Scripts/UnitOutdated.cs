@@ -8,8 +8,8 @@ using UnityEngine.UI;
 /*
  *  Must attach this script to each game object
  */
-
-public class Unit : Selectable
+ /*
+public class UnitOutdated : Selectable
 {
 
     #region Declarations
@@ -83,7 +83,7 @@ public class Unit : Selectable
         MOV = u.MOV;
         JMP = u.JMP;
     }
-
+    
     public override void Awake()
     {
         base.Awake();
@@ -292,22 +292,6 @@ public class Unit : Selectable
 
     public void SetBaseStats()
     {
-        /* For reference, the stat order for units is
-         * 
-         *       LVL,    // Level
-         *       EXP,   // Current experience
-         *       CHP,    // Current Hit points
-         *       MHP,    // Max Hit points
-         *       CMP,    // Current "Magic" points
-         *       MMP,    // Max "Magic" points
-         *       ATK,    // Physical/magical attack power
-         *       DEF,    // Physical defense
-         *       SPR,    // Magical defense
-         *       SPD,    // Speed
-         *       MOV,    // Move count
-         *       JMP,    // Max amount able to change height,
-         *       
-         */
 
         EXP = 0;
         LVL++;
@@ -539,6 +523,7 @@ public class Unit : Selectable
         Destroy(gameObject);
     }
 
+    
     private void PrepareAttackOn(Unit defender)
     {
 
@@ -569,7 +554,7 @@ public class Unit : Selectable
          Debug.Log(this.unitName + " is now at " + this.CHP + " HP and " + defender.unitName + " now has " + defender.CHP);
     }
 
-
+    
     void AddSkill(Skill skill)
     {
         if (skills.Count >= 3)
@@ -640,3 +625,5 @@ public class Unit : Selectable
 
     #endregion
 }
+
+*/

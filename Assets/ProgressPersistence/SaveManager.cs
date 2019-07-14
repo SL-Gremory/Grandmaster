@@ -9,8 +9,7 @@ public class GameSave
     public string[] flags;
     public string currentNode; // must be name of GameObject in world map with Node component
     public int currentSequence;
-    public List<Unit> currentParty;
-    //public Inventory[] inventory;    // Will be added later
+    public List<GameObject> currentParty;
 
 }
 

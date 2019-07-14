@@ -6,7 +6,13 @@ using UnityEngine;
 
 public class BattleNavigate : MonoBehaviour
 {
-	private Unit unit; //VARLER - find unit to interact with
+    //private Unit unit; //VARLER - find unit to interact with
+    private GameObject unit;
+    UnitData unitData;
+    Selectable unitSelectable;
+    UnitStateController unitState;
+    Parameters unitParameters;
+
 
     [Header("Integrate to use real unit stats")]
     [Header("Ronald: Each unit prefab will also have a Unit component attached containing stats ")]
@@ -35,27 +41,36 @@ public class BattleNavigate : MonoBehaviour
 	bool pathHasBeenReset; //VARLER - for resetting the path prior to entering Move()
     TerrainData levelTerrain;
 
-    public static Unit[,] unitsGrid;
+    //public static Unit[,] unitsGrid;
+    public static GameObject[,] unitsGrid;
 
     private void Start()
     {
+        unit = gameObject;
+        unitData = unit.GetComponent<UnitData>();
+        unitSelectable = unit.GetComponent<Selectable>();
+        unitState = unit.GetComponent<UnitStateController>();
+        unitParameters = unit.GetComponent<Parameters>();
+
         if (unitsGrid == null)
         {
             var mapSize = LevelGrid.Instance.GetMapSize();
-            unitsGrid = new Unit[mapSize.x, mapSize.y];
+            //unitsGrid = new Unit[mapSize.x, mapSize.y];
+            unitsGrid = new GameObject[mapSize.x, mapSize.y];
         }
 
         levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
         //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
 
-		//VARLER - find unit to interact with
-		unit = gameObject.GetComponentInParent<Unit>();
-        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        //VARLER - find unit to interact with
+        //unit = gameObject.GetComponentInParent<Unit>();
+        //AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), gameObject);
     }
 
     internal void Move()
     {
-        maxDistance = unit.MOV;
+        maxDistance = unitParameters.MOV;
 
         //Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
         //VARLER - if statement ensures path has been reset before re-entering Move()
@@ -93,7 +108,9 @@ public class BattleNavigate : MonoBehaviour
 
     IEnumerator Travel(List<Int2> path)
     {
-        unit.isActive = false; //VARLER - prevent interaction with moving unit
+        //unit.isActive = false; //VARLER - prevent interaction with moving unit
+        unitSelectable.isActive = false;
+
 
 		traveling = true;
         RemoveUnit(new Int2((int)transform.position.x, (int)transform.position.z));
@@ -111,8 +128,8 @@ public class BattleNavigate : MonoBehaviour
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
         traveling = false;
 
-		unit.isActive = true; //VARLER - allow interaction once move is complete
-		unit.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
+		unitSelectable.isActive = true; //VARLER - allow interaction once move is complete
+        unitState.DoneMoving(); //VARLER - execute code for unit done moving upon completion of coroutine
     }
 
 
@@ -306,7 +323,8 @@ public class BattleNavigate : MonoBehaviour
 
     public bool IsNonAllyAt(Int2 pos)
     {
-        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation != unit.unitAffiliation;
+        //return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].unitAffiliation != unit.unitAffiliation;
+        return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].GetComponent<UnitData>().UnitTeam != unitData.UnitTeam;
     }
 
     public static bool IsUnitAt(Int2 pos)
@@ -315,12 +333,22 @@ public class BattleNavigate : MonoBehaviour
     }
 
 
+    /*
     public void AddUnit(Int2 pos, Unit unit)
     {
         if (unitsGrid[pos.x, pos.y] != null)
             Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetUnitName() + ", " + unit.GetUnitName(), this);
         unitsGrid[pos.x, pos.y] = unit;
     }
+    */
+
+    public void AddUnit(Int2 pos, GameObject unit)
+    {
+        if (unitsGrid[pos.x, pos.y] != null)
+            Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetComponent<UnitData>().UnitName, this);
+        unitsGrid[pos.x, pos.y] = unit;
+    }
+     
 
     public void RemoveUnit(Int2 pos)
     {

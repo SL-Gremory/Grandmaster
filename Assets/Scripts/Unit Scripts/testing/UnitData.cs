@@ -15,14 +15,19 @@ public class UnitData : MonoBehaviour
     /*
      *   DEFINING CHARACTERISTICS
      */
-
-    internal string UnitName;
+    
+    [SerializeField]
+    internal readonly string UnitName;
     //public readonly Sprite UnitSprite;
-    internal Job UnitJob;
-    internal Team UnitTeam;
 
     [SerializeField]
-    private SpriteRenderer UnitRender;
+    internal Job UnitJob;
+
+    [SerializeField]
+    internal Team UnitTeam;
+
+    //[SerializeField]
+    //internal SpriteRenderer UnitRender;
 
     //public CharacterSkill UnitCharacterSkill;
     //public RaceSkill UnitRaceSkill;

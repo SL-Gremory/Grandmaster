@@ -34,29 +34,40 @@ public class Parameters : MonoBehaviour
 
     // Base (unmodified) stats
     [SerializeField]
-    private List<int> baseStats;
+    private int[] baseStats;
+    //    private List<int> baseStats = new List<int>((int)StatTypes.Count);
+
 
 
     // Real (modified) stats
     [SerializeField]
-    private List<int> realStats;
+    private int[] realStats;
+    //private List<int> realStats = new List<int>((int)StatTypes.Count);
 
-    private List<Modifier>[] statModifiers = new List<Modifier>[(int)StatTypes.Count];
+    private List<Modifier>[] statModifiers;
 
+    bool created = false;
+
+
+    public void Awake()
+    {
+
+        // USE PLAYERPREFS FOR LOADING UNIT DATA
+
+        baseStats = new int[(int)StatTypes.Count];
+        realStats = new int[(int)StatTypes.Count];
+        currentJob = gameObject.GetComponent<UnitData>().UnitJob;
+
+        statModifiers = new List<Modifier>[(int)StatTypes.Count];
+
+
+        // This means this is a new unit, so it needs new stats
+        Initialize();
+    }
 
 
     public void Start()
     {
-        currentJob = gameObject.GetComponent<UnitData>().UnitJob;
-
-
-        // This means this is a new unit, so it needs new stats
-        if(baseStats == null)
-        {
-            baseStats = new List<int>();
-            realStats = new List<int>();
-            Initialize();
-        }
 
     }
 
@@ -99,17 +110,24 @@ public class Parameters : MonoBehaviour
     // Set stats for a brand new unit
     public void Initialize()
     {
+        EXPb = 0;
         EXP = 0;
+        LVLb = 1;
         LVL = 1;
-
+        
+        
         for (int i = 0; i < Job.statOrder.Length; i++)
         {
             StatTypes parameter = Job.statOrder[i];
+            SetBaseStat(parameter, currentJob.GetBaseStat(parameter));
             SetStat(parameter, currentJob.GetBaseStat(parameter));
         }
 
         CHP = MHP;
+        CHPb = MHPb;
         CMP = MMP;
+        CMPb = MMPb;
+        
     }
 
 
@@ -145,12 +163,15 @@ public class Parameters : MonoBehaviour
         statModifiers[typeIndex].Sort(ModifierOrder);
     }
 
-    public void RemoveModifier(Modifier mod)
+    public void RemoveModifier(ModApplication mod)
     {
-        int typeIndex = (int)mod.Type;
+        int typeIndex = (int)mod.sType;
+        Modifier toRemove = new Modifier(mod.Value, mod.mType, (int)mod.mType);
 
-        // FIX THIS
-        statModifiers[typeIndex].Remove(mod);
+        if(statModifiers[typeIndex].Contains(toRemove))
+            statModifiers[typeIndex].Remove(toRemove);
+
+        statModifiers[typeIndex].Sort(ModifierOrder);
     }
 
     private int ModifierOrder(Modifier a, Modifier b)
@@ -195,6 +216,83 @@ public class Parameters : MonoBehaviour
      *      BASE (unmodified) PARAMETERS
      */
 
+    public int LVLb
+    {
+        get { return GetBaseStat(StatTypes.LVL); }
+        set { SetBaseStat(StatTypes.LVL, value); }
+    }
+
+    public int EXPb
+    {
+        get { return GetBaseStat(StatTypes.EXP); }
+        set { SetBaseStat(StatTypes.EXP, value); }
+    }
+
+    public int CHPb
+    {
+        get { return GetBaseStat(StatTypes.CHP); }
+        set { SetBaseStat(StatTypes.CHP, value); }
+    }
+
+    public int MHPb
+    {
+        get { return GetBaseStat(StatTypes.MHP); }
+        set { SetBaseStat(StatTypes.MHP, value); }
+    }
+
+    public int CMPb
+    {
+        get { return GetBaseStat(StatTypes.CMP); }
+        set { SetBaseStat(StatTypes.CMP, value); }
+    }
+
+    public int MMPb
+    {
+        get { return GetBaseStat(StatTypes.MMP); }
+        set { SetBaseStat(StatTypes.MMP, value); }
+    }
+
+    public int ATKb
+    {
+        get { return GetBaseStat(StatTypes.ATK); }
+        set { SetBaseStat(StatTypes.ATK, value); }
+    }
+
+    public int DEFb
+    {
+        get { return GetBaseStat(StatTypes.DEF); }
+        set { SetBaseStat(StatTypes.DEF, value); }
+    }
+
+    public int SPRb
+    {
+        get { return GetBaseStat(StatTypes.SPR); }
+        set { SetBaseStat(StatTypes.SPR, value); }
+    }
+
+    public int SPDb
+    {
+        get { return GetBaseStat(StatTypes.SPD); }
+        set { SetBaseStat(StatTypes.SPD, value); }
+    }
+
+    public int MOVb
+    {
+        get { return GetBaseStat(StatTypes.MOV); }
+        set { SetBaseStat(StatTypes.MOV, value); }
+    }
+
+    public int JMPb
+    {
+        get { return GetBaseStat(StatTypes.JMP); }
+        set { SetBaseStat(StatTypes.JMP, value); }
+    }
+
+
+    /*
+     *      REAL (modified) PARAMETERS
+     */
+
     public int LVL
     {
         get { return GetBaseStat(StatTypes.LVL); }
@@ -206,71 +304,6 @@ public class Parameters : MonoBehaviour
         get { return GetBaseStat(StatTypes.EXP); }
         set { SetStat(StatTypes.EXP, value); }
     }
-
-    public int CHPb
-    {
-        get { return GetBaseStat(StatTypes.CHP); }
-        set { SetStat(StatTypes.CHP, value); }
-    }
-
-    public int MHPb
-    {
-        get { return GetBaseStat(StatTypes.MHP); }
-        set { SetStat(StatTypes.MHP, value); }
-    }
-
-    public int CMPb
-    {
-        get { return GetBaseStat(StatTypes.CMP); }
-        set { SetStat(StatTypes.CMP, value); }
-    }
-
-    public int MMPb
-    {
-        get { return GetBaseStat(StatTypes.MMP); }
-        set { SetStat(StatTypes.MMP, value); }
-    }
-
-    public int ATKb
-    {
-        get { return GetBaseStat(StatTypes.ATK); }
-        set { SetStat(StatTypes.ATK, value); }
-    }
-
-    public int DEFb
-    {
-        get { return GetBaseStat(StatTypes.DEF); }
-        set { SetStat(StatTypes.DEF, value); }
-    }
-
-    public int SPRb
-    {
-        get { return GetBaseStat(StatTypes.SPR); }
-        set { SetStat(StatTypes.SPR, value); }
-    }
-
-    public int SPDb
-    {
-        get { return GetBaseStat(StatTypes.SPD); }
-        set { SetStat(StatTypes.SPD, value); }
-    }
-
-    public int MOVb
-    {
-        get { return GetBaseStat(StatTypes.MOV); }
-        set { SetStat(StatTypes.MOV, value); }
-    }
-
-    public int JMPb
-    {
-        get { return GetBaseStat(StatTypes.JMP); }
-        set { SetStat(StatTypes.JMP, value); }
-    }
-
-
-    /*
-     *      REAL (modified) PARAMETERS
-     */
 
     public int CHP
     {

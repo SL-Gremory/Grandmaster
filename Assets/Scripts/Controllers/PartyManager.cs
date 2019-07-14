@@ -13,10 +13,10 @@ public class PartyManager : MonoBehaviour
 {
 
     public static PartyManager Instance { get; private set; }
-    public static List<Unit> CurrentParty;
+    public static List<GameObject> CurrentParty;
     const float minLevelBonus = 1.5f;
     const float maxLevelBonus = 0.5f;
-    List<Unit> _unitsInScene;
+    List<UnitData> _unitsInScene;
 
     private PartyManager()
     {
@@ -26,17 +26,17 @@ public class PartyManager : MonoBehaviour
     private void Start()
     {
         if (CurrentParty == null)
-            CurrentParty = new List<Unit>();
+            CurrentParty = new List<GameObject>();
 
 
         // This is where I should load from save file the player's party
 
         // Find potentially new player units in the scene
-        _unitsInScene = GameObject.FindObjectsOfType<Unit>().ToList();
-        foreach (Unit u in _unitsInScene)
+        _unitsInScene = GameObject.FindObjectsOfType<UnitData>().ToList();
+        foreach (UnitData u in _unitsInScene)
         {
-            if (!CurrentParty.Contains(u) && u.GetUnitAffiliation() == Team.HERO)
-                AddToParty(u);
+            if (!CurrentParty.Contains(u.gameObject) && u.UnitTeam == Team.HERO)
+                AddToParty(u.gameObject);
         }
 
     }
@@ -51,13 +51,13 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    public static void AddToParty(Unit u)
+    public static void AddToParty(GameObject u)
     {
         CurrentParty.Add(u);
     }
 
 
-    public static void RemoveFromParty(Unit u)
+    public static void RemoveFromParty(GameObject u)
     {
         CurrentParty.Remove(u);
     }
@@ -65,12 +65,12 @@ public class PartyManager : MonoBehaviour
 
     public static void RewardExperience(int prize, Party activeParty)
     {
-        List<Unit> partyMembers = new List<Unit>(activeParty.Count);
+        List<GameObject> partyMembers = new List<GameObject>(activeParty.Count);
 
         // Obtain active party members
         for (int i = 0; i < activeParty.Count; i++)
         {
-            Unit u = activeParty[i].GetComponent<Unit>();
+            GameObject u = activeParty[i];
 
             if (u != null)
                 partyMembers.Add(u);
@@ -82,8 +82,10 @@ public class PartyManager : MonoBehaviour
         // Determine the range of levels in party
         for (int i = partyMembers.Count - 1; i >= 0; i--)
         {
-            min = Mathf.Min(partyMembers[i].LVL, min);
-            max = Mathf.Max(partyMembers[i].LVL, max);
+            Parameters p = partyMembers[i].GetComponent<Parameters>();
+
+            min = Mathf.Min(p.LVL, min);
+            max = Mathf.Max(p.LVL, max);
         }
 
         // Weight awarded exp based on individual level
@@ -91,7 +93,9 @@ public class PartyManager : MonoBehaviour
         float summed = 0;
         for (int i = partyMembers.Count; i >= 0; i--)
         {
-            float percent = (float)(partyMembers[i].LVL - min) / (float)(max - min);
+            Parameters p = partyMembers[i].GetComponent<Parameters>();
+
+            float percent = (float)(p.LVL - min) / (float)(max - min);
             weights[i] = Mathf.Lerp(minLevelBonus, maxLevelBonus, percent);
             summed += weights[i];
         }
@@ -99,15 +103,18 @@ public class PartyManager : MonoBehaviour
         // Distribute weighted experience
         for (int i = partyMembers.Count; i >= 0; i--)
         {
-            if (partyMembers[i].LVL != Consts.GAME_MAX_LEVEL)
+            Parameters p = partyMembers[i].GetComponent<Parameters>();
+
+
+            if (p.LVL != Consts.GAME_MAX_LEVEL)
             {
-                partyMembers[i].EXP += Mathf.FloorToInt((weights[i] / summed) * prize);
+                p.EXP += Mathf.FloorToInt((weights[i] / summed) * prize);
 
                 // Check if distributed experience causes unit to level up
-                int totalAccumulatedExp = partyMembers[i].EXP + Experience.ExperienceForLevel(partyMembers[i].LVL);
-                if (totalAccumulatedExp >= Experience.ExperienceForLevel(partyMembers[i].EXP + 1))
+                int totalAccumulatedExp = p.EXP + Experience.ExperienceForLevel(p.LVL);
+                if (totalAccumulatedExp >= Experience.ExperienceForLevel(p.EXP + 1))
                 {
-                    partyMembers[i].LevelUp();
+                    p.LevelUp();
                 }
             }
         }
