@@ -25,8 +25,8 @@ public class BattleNavigate : MonoBehaviour
 
  //   [SerializeField]
     int maxDistance;
-    [SerializeField]
     float maxJump;
+
     [SerializeField]
     GameObject squarePrefab;
     [SerializeField]
@@ -71,6 +71,7 @@ public class BattleNavigate : MonoBehaviour
     internal void Move()
     {
         maxDistance = unitParameters.MOV;
+        maxJump = unitParameters.JMP;
 
         //Debug.Log("called Move(). Traveling: " + traveling + ". Path: " + path +".");
         //VARLER - if statement ensures path has been reset before re-entering Move()
@@ -144,6 +145,7 @@ public class BattleNavigate : MonoBehaviour
             return null;
         if (IsUnitAt(goal))
             return null;
+
         //SpawnVisualGridAround(visualsParent.transform, quadMesh, levelTerrain, gridMat, start, maxDistance);
         var path = Astar(start, goal, maxDistance, maxJump);
         var go = Instantiate(squarePrefab, new Vector3(goal.x + 0.5f, LevelGrid.Instance.GetHeight(goal.x, goal.y) + 0.1f, goal.y + 0.5f), squarePrefab.transform.rotation, visualsParent.transform);
@@ -230,7 +232,6 @@ public class BattleNavigate : MonoBehaviour
         }
     }
 
-    // Ronald: I made this non-static, would that break something?
     List<Int2> Astar(Int2 start, Int2 goal, int maxDistance, float maxJump)
     {
         HashSet<Int2> closedSet = new HashSet<Int2>();

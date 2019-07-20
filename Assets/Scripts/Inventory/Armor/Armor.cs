@@ -7,9 +7,9 @@ using UnityEngine;
 public class Armor : ScriptableObject
 {
     // Basic information
-    public string item_name;
-    public string item_description;
-    public Sprite item_icon;
+    public string name;
+    public string description;
+    public Sprite icon;
     public Rarity rarity;
 
     // Stat modification

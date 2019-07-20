@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon")]
 public class Weapon : ScriptableObject
 {
     // Basic information
-    public string item_name;
-    public string item_description;
-    public Sprite item_icon;
+    public string name;
+    public string description;
+    public Sprite icon;
     public Rarity rarity;
-    WeaponType type;
+    public WeaponType type;
 
- 
+
+    // Can be assigned after determining WeaponType
+    public RangedPhysicalAttribute rpAttribute;
+    public RangedMagicalAttribute rmAttribute;
+    public MeleePhysicalAttribute mpAttribute;
+    public MeleeAuraAttribute maAttribute;
+
+
     // Weapon's attack range
     public int range;
 

@@ -215,10 +215,10 @@ public class UnitStateController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Unit is attacking this unit for " + Attack2.CalculateProjectedDamage(attacker, defender) + " damage but will take " +
-            Attack2.CalculateProjectedDamage(defender, attacker) + " damage.");
+        Debug.Log("Unit is attacking this unit for " + Attack.CalculateProjectedDamage(attacker, defender) + " damage but will take " +
+            Attack.CalculateProjectedDamage(defender, attacker) + " damage.");
 
-        Attack2.CommenceBattle(gameObject, defender);
+        Attack.CommenceBattle(gameObject, defender);
         Debug.Log(unitData.UnitName + " is now at " + unitParameters.CHP + " HP and " + defenderData.UnitName + " now has " + defenderParameters.CHP);
 
         if (defenderParameters.CHP == 0)
