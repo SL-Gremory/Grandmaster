@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // set as scriptable object?
-// might be easier than creating whole prefabs for each job
+// might be easier than creating whole classes
 
 [CreateAssetMenu(menuName = "Grandmaster Job")]
 public class Job : ScriptableObject
@@ -24,8 +24,44 @@ public class Job : ScriptableObject
         StatTypes.JMP
     };
 
+    [Header("Base Stats")]
     public int[] baseStats = new int[statOrder.Length];
+
+    [Header("Stat Growths")]
     public int[] statGrowths = new int[statOrder.Length];
+
+
+    public int[,] statMilestones = new int[statOrder.Length, 10];
+
+
+
+
+
+    [Header("HP Stat Milestones")]
+    public int[] hpMilestones = new int[10];
+
+    [Header("MP Stat Milestones")]
+    public int[] mpMilestones = new int[10];
+
+    [Header("ATK Stat Milestones")]
+    public int[] atkMilestones = new int[10];
+
+    [Header("DEF Stat Milestones")]
+    public int[] defMilestones = new int[10];
+
+    [Header("SPR Stat Milestones")]
+    public int[] sprMilestones = new int[10];
+
+    [Header("SPD Stat Milestones")]
+    public int[] spdMilestones = new int[10];
+
+    [Header("JMP Stat Milestones")]
+    public int[] jmpMilestones = new int[10];
+
+    [Header("MOV Stat Milestones")]
+    public int[] movMilestones = new int[10];
+
+
 
     public int GetBaseStat(StatTypes parameter)
     {
@@ -97,6 +133,5 @@ public class Job : ScriptableObject
         }
         return -1;
     }
-
 
 }

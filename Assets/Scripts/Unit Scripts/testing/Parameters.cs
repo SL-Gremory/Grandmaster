@@ -154,6 +154,48 @@ public class Parameters : MonoBehaviour
         CMP = MMP;
     }
 
+    public void SemiRandomLevelUp()
+    {
+        // Get next highest ceiling milestone
+        int capIndex = Mathf.CeilToInt(LVL / 10) * 10;
+
+        // Obtain list of stats that can still increase using their indexes
+        List<int> canIncrease = new List<int>();
+        for (int i = 0; i < Job.statOrder.Length; i++)
+        {
+            if(baseStats[i] < currentJob.statMilestones[i,capIndex])
+            {
+                canIncrease.Add(i);
+            }
+        }
+
+
+
+    }
+
+
+    public void Shuffle<T>(ref T)
+    {
+        int n = (int)StatTypes.Count - 1;
+        System.Random seed = new System.Random();
+        List<int> list = new List<int>();
+
+        for (int i = 0; i < n; i++)
+        {
+            list.Add(i);
+        }
+
+        while(n > 1)
+        {
+            n--;
+            int s = seed.Next(n + 1);
+            int val = list[s];
+            list[s] = list[n];
+            list[n] = val;
+        }
+
+    }
+ 
 
     public void AddModifier(ModApplication mod)
     {
