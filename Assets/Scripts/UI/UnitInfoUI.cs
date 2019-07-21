@@ -15,19 +15,22 @@ public class UnitInfoUI : MonoBehaviour
     }
 
 
-    public void DisplayStats(Unit unit)
+    public void DisplayStats(GameObject unit)
     {
+        UnitData unitData = unit.GetComponent<UnitData>();
+        Parameters unitParam = unit.GetComponent<Parameters>();
+
         infoText.text =
-            unit.name + "\t" + "Lv." + unit.LVL +
-            "\nEXP: " + unit.EXP +
-            "\nHP: " + unit.CHP + "/" + unit.MHP +
-            "\nMP: " + unit.CMP + "/" + unit.MMP +
-            "\nATK: " + unit.ATK + 
-            "\nDEF: " + unit.DEF +
-            "\nSPR: " + unit.SPR +
-            "\nSPD: " + unit.SPD +
-            "\nMOV: " + unit.MOV +
-            "\nJMP: " + unit.JMP;
+            unitData.UnitName + "\t" + "Lv." + unitParam.LVL +
+            "\nEXP: " + unitParam.EXP +
+            "\nHP: " + unitParam.CHP + "/" + unitParam.MHP +
+            "\nMP: " + unitParam.CMP + "/" + unitParam.MMP +
+            "\nATK: " + unitParam.ATK + 
+            "\nDEF: " + unitParam.DEF +
+            "\nSPR: " + unitParam.SPR +
+            "\nSPD: " + unitParam.SPD +
+            "\nMOV: " + unitParam.MOV +
+            "\nJMP: " + unitParam.JMP;
     }
 
     public void ResetDisplay()

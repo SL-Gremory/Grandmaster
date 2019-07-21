@@ -21,7 +21,7 @@ public class TurnManager : MonoBehaviour
 
     public static TurnManager Instance { get; private set; }
 
-	void Start()
+	void Awake()
 	{
         if (Instance != null)
             Debug.LogError("There can't be multiple BattleManagers in the scene.");
@@ -71,38 +71,41 @@ public class TurnManager : MonoBehaviour
 			turnCountText.DisplayNewTurn();
 		}
 
-		//goes through every object of type Unit and readies/exhausts allies or enemies appropriately
-		Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
+        //goes through every object of type Unit and readies/exhausts allies or enemies appropriately
+        //Unit[] units = FindObjectsOfType(typeof(Unit)) as Unit[];
+        UnitData[] units = FindObjectsOfType(typeof(UnitData)) as UnitData[];
 
-        foreach (Unit unit in units)
+
+        foreach (UnitData unit in units)
 		//foreach (Unit unit in unitsGrid)
 		{
+            UnitStateController usc = unit.gameObject.GetComponent<UnitStateController>();
 			Debug.Log("finded a unit");
-            var unitInfo = unit.GetComponentInParent<Unit>();
+            //var unitInfo = unit.GetComponentInParent<Unit>();
 			if (isPlayerTurn)
 			{
-				if (unitInfo.GetUnitAffiliation() == Team.HERO)
+				if (unit.UnitTeam == Team.HERO)
 				{
-					unit.ReadyUnit();
-					Debug.Log("ally is woke");
+					usc.ReadyUnit();
+					//Debug.Log("ally is woke");
 				}
 				else
 				{
-					unit.ExhaustUnit();
-					Debug.Log("enemy is exhausted");
+					usc.ExhaustUnit();
+					//Debug.Log("enemy is exhausted");
 				}
 			}
 			else
 			{
-				if (unitInfo.GetUnitAffiliation() == Team.ENEMY)
+				if (unit.UnitTeam == Team.ENEMY)
 				{
-					unit.ReadyUnit();
-					Debug.Log("enemy is woke");
+					usc.ReadyUnit();
+					//Debug.Log("enemy is woke");
 				}
 				else
 				{
-					unit.ExhaustUnit();
-					Debug.Log("ally is exhausted");
+					usc.ExhaustUnit();
+					//Debug.Log("ally is exhausted");
 				}
 			}
 		}
@@ -114,9 +117,10 @@ public class TurnManager : MonoBehaviour
 		if (enemyUnitCount <= 0)
 		{
 			Debug.Log("player wins");
-            foreach (Unit unit in BattleNavigate.unitsGrid)
+            foreach (GameObject unit in BattleNavigate.unitsGrid)
 			{
-				unit.ExhaustUnit();
+                UnitStateController usc = unit.gameObject.GetComponent<UnitStateController>();
+				usc.ExhaustUnit();
 			}
 			doneButton.DeactivateButton();
 		}
@@ -124,9 +128,10 @@ public class TurnManager : MonoBehaviour
 		{
 			//loss
 			Debug.Log("enemy wins");
-			foreach (Unit unit in BattleNavigate.unitsGrid)
+			foreach (GameObject unit in BattleNavigate.unitsGrid)
 			{
-				unit.ExhaustUnit();
+                UnitStateController usc = unit.gameObject.GetComponent<UnitStateController>();
+                usc.ExhaustUnit();
 			}
 			doneButton.DeactivateButton();
 		}

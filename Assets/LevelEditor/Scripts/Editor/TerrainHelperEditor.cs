@@ -239,6 +239,51 @@ public class TerrainHelperEditor : Editor
         }
     }
 
+
+    void PaintPrefabRef(int posX, int posZ, GameObject prefab)
+    {
+        Tools.current = Tool.None;
+        var control = GUIUtility.GetControlID(GetHashCode(), FocusType.Passive);
+        switch (Event.current.type)
+        {
+            case EventType.MouseDrag:
+            case EventType.MouseDown:
+            case EventType.MouseUp:
+                if (Event.current.button == 0)
+                {
+                    if (prefabAdd.boolValue)
+                    {
+                        if (paintedPrefab.objectReferenceValue as GameObject == null)
+                        {
+                            Debug.LogWarning("You must assign a prefab to paint.");
+                        }
+                        else
+                        {
+                            grid.AddPrefab(posX, posZ, paintedPrefab.objectReferenceValue as GameObject);
+                        }
+                    }
+                    else if (prefabReplace.boolValue)
+                    {
+                        grid.AddPrefab(posX, posZ, paintedPrefab.objectReferenceValue as GameObject, true);
+                    }
+                    else if (prefabRemove.boolValue)
+                    {
+                        grid.RemovePrefab(posX, posZ, paintedPrefab.objectReferenceValue as GameObject);
+                    }
+                }
+                break;
+            case EventType.MouseMove:
+                break;
+            case EventType.Layout:
+                HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
     void DrawLines(int posX, int posZ, TerrainData data, Vector3 offset)
     {
         var dist = gridDist.intValue;
