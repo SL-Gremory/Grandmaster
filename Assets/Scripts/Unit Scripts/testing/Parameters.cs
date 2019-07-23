@@ -174,7 +174,7 @@ public class Parameters : MonoBehaviour
     }
 
 
-    public void Shuffle<T>(ref T)
+    public void Shuffle<T>(ref T item)
     {
         int n = (int)StatTypes.Count - 1;
         System.Random seed = new System.Random();
