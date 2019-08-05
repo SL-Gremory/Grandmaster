@@ -42,15 +42,18 @@ public class BattleNavigate : MonoBehaviour
     TerrainData levelTerrain;
 
     //public static Unit[,] unitsGrid;
-    public static GameObject[,] unitsGrid;
+
+    GameObject[,] unitsGrid;
 
     private void Start()
     {
+        levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
+        //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
+
+
         unit = gameObject;
-        unitData = unit.GetComponent<UnitData>();
-        unitSelectable = unit.GetComponent<Selectable>();
-        unitState = unit.GetComponent<UnitStateController>();
-        unitParameters = unit.GetComponent<Parameters>();
+        unitsGrid = BattleState.unitsGrid;
+
 
         if (unitsGrid == null)
         {
@@ -59,13 +62,22 @@ public class BattleNavigate : MonoBehaviour
             unitsGrid = new GameObject[mapSize.x, mapSize.y];
         }
 
-        levelTerrain = LevelGrid.Instance.GetComponent<Terrain>().terrainData;
-        //SpawnVisualGrid(new GameObject("Visual Grid Parent").transform, quadMesh, levelTerrain, gridMat);
-
-        //VARLER - find unit to interact with
-        //unit = gameObject.GetComponentInParent<Unit>();
-        //AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), unit);
+        unitData = unit.GetComponent<UnitData>();
+        unitSelectable = unit.GetComponent<Selectable>();
+        unitState = unit.GetComponent<UnitStateController>();
+        unitParameters = unit.GetComponent<Parameters>();
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), gameObject);
+
+        if (unitData != null)
+            if (unitData.UnitTeam == Team.HERO)
+                BattleState.playerUnitCount++;
+            else if (unitData.UnitTeam == Team.ENEMY)
+                BattleState.enemyUnitCount++;
+    }
+
+    private void Awake()
+    {
+
     }
 
     internal void Move()
@@ -328,7 +340,7 @@ public class BattleNavigate : MonoBehaviour
         return unitsGrid[pos.x, pos.y] != null && unitsGrid[pos.x, pos.y].GetComponent<UnitData>().UnitTeam != unitData.UnitTeam;
     }
 
-    public static bool IsUnitAt(Int2 pos)
+    public bool IsUnitAt(Int2 pos)
     {
         return unitsGrid[pos.x, pos.y] != null;
     }
@@ -348,6 +360,7 @@ public class BattleNavigate : MonoBehaviour
         if (unitsGrid[pos.x, pos.y] != null)
             Debug.LogError("Logic error, trying to place one unit on top of another. " + unitsGrid[pos.x, pos.y].GetComponent<UnitData>().UnitName, this);
         unitsGrid[pos.x, pos.y] = unit;
+
     }
      
 

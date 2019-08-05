@@ -312,7 +312,7 @@ public class Parameters : MonoBehaviour
             }
             else if (mod.Type == StatModType.Percent)
             {
-                modValue *= 1 + mod.Value;
+                modValue *= mod.Value / 100;
             }
         }
     }

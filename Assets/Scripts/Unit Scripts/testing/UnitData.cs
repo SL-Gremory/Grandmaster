@@ -18,7 +18,9 @@ public class UnitData : MonoBehaviour
     
     [SerializeField]
     internal readonly string UnitName;
-    //public readonly Sprite UnitSprite;
+    
+  //  [SerializeField]
+ //   public Sprite UnitSprite;
 
     [SerializeField]
     internal Job UnitJob;
@@ -41,10 +43,24 @@ public class UnitData : MonoBehaviour
     [SerializeField]
     internal Armor UnitArmor;
 
+    [SerializeField]
+    internal int BirthYear;
+
+    [SerializeField]
+    internal int BirthMonth;
+
+    [SerializeField]
+    internal int BirthDay;
+
+    public DateTime UnitBirthDate;
+    public Zodiac UnitZodiacSign;
 
     private void Awake()
     {
-        
+        if (UnitBirthDate == null)
+            UnitBirthDate = new DateTime(BirthYear, BirthMonth, BirthDay);
+
+        UnitZodiacSign = Calendar.GetZodiacByDate(UnitBirthDate);
     }
 
     private void Start()

@@ -24,6 +24,9 @@ public class UnitStateController : MonoBehaviour
     public Parameters unitParameters;
 
 
+    int weaponRange;
+
+
     #endregion
 
 
@@ -37,6 +40,12 @@ public class UnitStateController : MonoBehaviour
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         hpBar = gameObject.GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
+
+
+        if (unitData.UnitWeapon != null)
+            weaponRange = GetComponent<UnitData>().UnitWeapon.range;
+        else
+            weaponRange = 1;
 
         StartUnit();
         hpBar.Start();
@@ -209,7 +218,7 @@ public class UnitStateController : MonoBehaviour
             return;
         }
 
-        if (Int2.Distance(aPos, dPos) > 1)
+        if (Int2.Distance(aPos, dPos) > weaponRange)
         {
             Debug.Log("Cannot attack a unit that is out of range!");
             return;
@@ -243,12 +252,15 @@ public class UnitStateController : MonoBehaviour
         if (unitData.UnitTeam == Team.HERO)
         {
             TurnManager.Instance.playerUnitCount--;
+            BattleState.playerUnitCount--;
         }
         else if (unitData.UnitTeam == Team.ENEMY)
         {
             TurnManager.Instance.enemyUnitCount--;
+            BattleState.enemyUnitCount--;
+
         }
-        TurnManager.Instance.CheckWinConditions();
+        //TurnManager.Instance.CheckWinConditions();
         Debug.Log(string.Format("{0} has died to death", unitData.UnitName));
         StartCoroutine("DeathAnimation");
     }
