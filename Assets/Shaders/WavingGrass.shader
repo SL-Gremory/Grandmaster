@@ -32,7 +32,8 @@ Shader "Hidden/TerrainEngine/Details/WavingDoublePass" {
 		};
 
 		void surf(Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex - IN.uv_MainTex % (1.0 / 32.0) + 0.5 / 32.0) * IN.color;
+			const float pixelSize = 64.0;
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex- IN.uv_MainTex % (1.0 / pixelSize) + 0.5 / pixelSize) * IN.color;
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
 			clip(o.Alpha - _Cutoff);
