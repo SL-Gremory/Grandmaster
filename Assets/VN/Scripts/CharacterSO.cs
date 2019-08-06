@@ -22,6 +22,8 @@ public class CharacterSO : ScriptableObject
     Sprite portraitArtEmbarrassed;
     [SerializeField]
     Sprite portraitArtAngry;
+	[SerializeField] //Varler added this
+    Sprite portraitArtPerplexed; //Varler added this
 
     public string CharacterName { get => characterName; }
     public string Nickname { get => nickname; }
@@ -32,6 +34,7 @@ public class CharacterSO : ScriptableObject
     public Sprite PortraitArtSad { get => portraitArtSad; }
     public Sprite PortraitArtEmbarrassed { get => portraitArtEmbarrassed; }
     public Sprite PortraitArtAngry { get => portraitArtAngry; }
+	public Sprite PortraitArtPerplexed {get => portraitArtPerplexed; } //Varler added this
 
     private void OnEnable()
     {

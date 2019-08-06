@@ -1,23 +1,26 @@
 {
-    "characterName": "Anonym Ous",
+    "characterName": "Main Character",
     "nickname": "",
-    "description": "",
+    "description": "MC of Grandmaster w/ tattoos, magical powers, and hair for days",
     "splashArt": {
-        "instanceID": 13358
+        "instanceID": 22496
     },
     "portraitArtMain": {
-        "instanceID": 13240
+        "instanceID": 22474
     },
     "portraitArtHappy": {
-        "instanceID": 13364
+        "instanceID": 22476
     },
     "portraitArtSad": {
-        "instanceID": 13364
+        "instanceID": 22482
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 13364
+        "instanceID": 22480
     },
     "portraitArtAngry": {
-        "instanceID": 13364
+        "instanceID": 22478
+    },
+    "portraitArtPerplexed": {
+        "instanceID": 22472
     }
 }

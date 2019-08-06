@@ -1,0 +1,264 @@
+{
+	"Items": [
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Listen, guy... what’s your name again?"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "angry",
+			"speech": "Uh... It’s Leonard."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Uhh... okay. Do you really want to help her?"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "Her, how do you know it’s female? There’s so little..."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "She’s got tits you dumb ass!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "Since when were you an entomologist?"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "angry",
+			"speech": "Insectoid or not, she still needs our help."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Not a chance. We’re here to kill this thing and that’s what I plan on doing!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "angry",
+			"speech": "Absolutely not! Insectoids are incredibly rare! "
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "The opportunity to study her is the chance of a lifetime!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "They live in colonies that are INCREDIBLY defensive."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "angry",
+			"speech": "Passing up an opportunity like this, well… you might as well be burning an entire library of untold knowledge before it’s even written!"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "We promised we’d get rid of their problem, and the way I see it, unless she’s dead, she’s a problem."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Look, we don’t have to “kill her” to get rid of her. She can come with us!"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Come with us..? Are you crazy?!"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Did you not see all the bodies on our merry little stroll through this cave?"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "She’s too dangerous to handle, much less tame."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Unless you want bug barbecue, she’s not tagging along."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "That’s because you lack someone willing to help."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Listen, let me tag along, and I promise I’ll keep her in check!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "This is a once in a lifetime opportunity I can’t pass up, and I’m willing to put in the effort, if you’ll let me."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Eughhhh... fine."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "If I wake up in the middle of the night and find a bloodthirsty cockroach drooling over me... it’s on you lab rat!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "First off, she needs healing."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "She’s pretty cut up, but... i think i might have something here to fix her."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "I keep a good selection of herbs with me from my studies."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "There are a few that have some pain-numbing properties among... other... interesting side effects."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Eughhh, man that stuff smells awful!"
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "Here. Don’t take it all, now."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "It’s a pretty effective painkiller, if you use the right part of the plant."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "Use the wrong part, and it’ll get you high as a kite... if your brain doesn’t shut down first."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "There now. That’s as good insectoid. Just sit still and we’ll be done with this in no time."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Just sit still and we’ll be done with this in no time."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "...Seems like you got this under control. I’m headed outside..."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Wait! Not yet. I think it’s important that you stay."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Most monsters tend to acclimate to people in their presence when they experience good things."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "I learned that with Fenton, here."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "...alright fine. If it means she won’t try to eat me, I’ll stay."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "What... what is that?"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "It’s... an old magic item of mine."
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "I used it to record a song an old friend taught me."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "I see... I think the insectoid likes it."
+		},
+		{
+			"speaker": "MC",
+			"expression": "perplexed",
+			"speech": "Well, are you gonna give her a name?"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Calling her “the insectoid” is starting to bug me."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "I suppose I could..."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "Maybe..."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "Ummm... noo... eughh... thats not..."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "laugh",
+			"speech": "How about... Chrysanthemum?"
+		},
+		{
+			"speaker": "Emmy",
+			"expression": "base",
+			"speech": "*Emmy humming* Hum... meee..."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "perplexed",
+			"speech": "... Em... Emee?"
+		},
+		{
+			"speaker": "MC",
+			"expression": "base",
+			"speech": "Emmy? I suppose it does have a nice ring to it."
+		},
+		{
+			"speaker": "Leonard",
+			"expression": "base",
+			"speech": "Right. Let’s grab her and get out of this death trap!"
+		}
+	]
+}
