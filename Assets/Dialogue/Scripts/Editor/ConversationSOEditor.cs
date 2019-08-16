@@ -24,6 +24,7 @@ public class ConversationSOEditor : Editor
         }
         else if (t.Loaded)
         {
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("backgroundPrefab"));
             var actors = serializedObject.FindProperty("actors");
 			var voiceActing = serializedObject.FindProperty("voiceActing");
             for (int i = 0; i < actors.arraySize; i++)
