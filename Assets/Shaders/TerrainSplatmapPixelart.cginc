@@ -141,7 +141,7 @@ void SplatmapMix(Input IN, out half4 splat_control, out half weight, out fixed4 
 #endif
 #ifdef _NORMALMAP
 	if (splat_control.r > densTarget)
-		mixedNormal += UnpackNormalWithScale(tex2D(_Normal0, uvSplat0), _NormalScale0);
+		mixedNormal = UnpackNormalWithScale(tex2D(_Normal0, uvSplat0), _NormalScale0);
 	if (splat_control.g > densTarget)
 		mixedNormal += UnpackNormalWithScale(tex2D(_Normal1, uvSplat1), _NormalScale1);
 	if (splat_control.b > densTarget)
