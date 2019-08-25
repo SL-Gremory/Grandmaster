@@ -56,7 +56,7 @@ Shader "Nature/Terrain/StandardPixelart" {
 
 			SplatmapMix(IN, defaultSmoothness, splat_control, weight, mixedDiffuse, o.Normal);
 			
-
+			o.Normal = normalize(o.Normal);
 			o.Albedo = mixedDiffuse.rgb;
 			o.Alpha = 1;
             o.Smoothness = mixedDiffuse.a;
