@@ -13,7 +13,7 @@ public class CharacterSO : ScriptableObject
     [SerializeField]
     Sprite splashArt;
     [SerializeField]
-    Sprite portraitArtMain;
+    Sprite portraitArtBase;
     [SerializeField]
     Sprite portraitArtHappy;
     [SerializeField]
@@ -29,7 +29,7 @@ public class CharacterSO : ScriptableObject
     public string Nickname { get => nickname; }
     public string Description { get => description; }
     public Sprite SplashArt { get => splashArt; }
-    public Sprite PortraitArtMain { get => portraitArtMain; }
+    public Sprite PortraitArtBase { get => portraitArtBase; }
     public Sprite PortraitArtHappy { get => portraitArtHappy; }
     public Sprite PortraitArtSad { get => portraitArtSad; }
     public Sprite PortraitArtEmbarrassed { get => portraitArtEmbarrassed; }

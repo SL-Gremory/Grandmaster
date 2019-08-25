@@ -107,7 +107,36 @@ public class DialogueManager : MonoBehaviour
             image.color = new Color(0.3f, 0.3f, 0.3f);
         }
         ApplySplash(character);
-        portrait.sprite = character.PortraitArtMain; //TODO emotions
+        
+		string expressionName = currConv.Conversation[speechIndex].expression; //VARLER
+		if (expressionName == "Base")
+		{
+			portrait.sprite = character.PortraitArtBase;
+		}
+		else if (expressionName == "Happy")
+		{
+			portrait.sprite = character.PortraitArtHappy;
+		}
+		else if (expressionName == "Sad")
+		{
+			portrait.sprite = character.PortraitArtSad;
+		}
+		else if (expressionName == "Embarrassed")
+		{
+			portrait.sprite = character.PortraitArtEmbarrassed;
+		}
+		else if (expressionName == "Angry")
+		{
+			portrait.sprite = character.PortraitArtAngry;
+		}
+		else if (expressionName == "Perplexed")
+		{
+			portrait.sprite = character.PortraitArtPerplexed;
+		}
+		else
+		{
+			Debug.LogError("MISSING PORTRAIT!");
+		}//Varler: there's gotta be a better way of doing this. But this works.
     }
 
     void ApplySplash(CharacterSO character)

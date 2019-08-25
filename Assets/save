@@ -3,24 +3,24 @@
     "nickname": "",
     "description": "MC of Grandmaster w/ tattoos, magical powers, and hair for days",
     "splashArt": {
-        "instanceID": 22496
+        "instanceID": 11888
     },
-    "portraitArtMain": {
-        "instanceID": 22474
+    "portraitArtBase": {
+        "instanceID": 12460
     },
     "portraitArtHappy": {
-        "instanceID": 22476
+        "instanceID": 12532
     },
     "portraitArtSad": {
-        "instanceID": 22482
+        "instanceID": 15994
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 22480
+        "instanceID": 13228
     },
     "portraitArtAngry": {
-        "instanceID": 22478
+        "instanceID": 13098
     },
     "portraitArtPerplexed": {
-        "instanceID": 22472
+        "instanceID": 11996
     }
 }
