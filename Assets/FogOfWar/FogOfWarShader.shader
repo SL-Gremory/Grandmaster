@@ -100,12 +100,13 @@ Shader "Fog Of War"
 						break;
 					}*/
 					float3 p = ro + rd * t; // World space position of sample
-					float4 visHeight = tex2D(_VisHeightMap, pixelize(p.xz / _LevelSize.xz));
-					float d = p.y - (visHeight.b*(_LevelSize.y + 5) - 5) - 1.5;
-					//return float4(HSVtoRGB(float3(visHeight.r, visHeight.a, 1)),1);
+					float2 mapUV = float2(p.x/_LevelSize.x, p.z/_LevelSize.z);
+					float4 visHeight = tex2D(_VisHeightMap, mapUV);
+					//return fixed4(visHeight.b-3/_LevelSize.y,0,0,1);
+					//ret += fixed4((p.y) > 7, (visHeight.b*_LevelSize.y) > 6.0, 0, 1 / 32.0);
+					float d = p.y - visHeight.b*_LevelSize.y - 2.5;
 					// If the sample <= 0, we have hit something (see map()).
 					if (d < 0.001) {
-
 						p.x += _SinTime.x; // sin time/8
 						p.y += _SinTime.y; // sin time/4
 						//p = p - p % 1.0 / 32.0;
@@ -113,11 +114,12 @@ Shader "Fog Of War"
 						float lum = 0.75 + snoise(noiseScale*0.1*p)*0.17 + snoise(noiseScale*p)*0.09;
 						ret += float4(HSVtoRGB(float3(visHeight.r, visHeight.a, lum)), 0) *-d;
 						ret.rgb += _LightColor0.rgb*clamp(dot(snoise_grad(noiseScale*p).rgb, _WorldSpaceLightPos0.rgb),0,1) * -d * 0.1;
-						ret.a += -d;
+						//ret.a += -d;
+						ret.a += 1.0 / maxstep;
 						//break;
 					}
 
-					t += maxDist / (maxstep);
+					t += maxDist / ((float)maxstep);
 				}
 				ret.rgb = clamp(ret.rgb / max(1, ret.a),0,1);
 				return clamp(fixed4(ret.rgb, ret.a*0.35),0,1);
@@ -138,9 +140,12 @@ Shader "Fog Of War"
 				#endif
 
 				float depth = 1 - (tex2D(_CameraDepthTexture, pixelize(duv)).r);
-				depth = depth * 100 + 0.5; // near and far clip planes
+				depth = depth * 100.0 + 0.5; // near and far clip planes
 				fixed3 col = tex2D(_MainTex, i.uv); // Color of the scene before this shader was run
-				fixed4 add = raymarch(ro + rd * (depth - 10), rd, 10);
+
+				//return raymarch(ro + rd * (depth - 3.0), rd, 3.0);
+
+				fixed4 add = raymarch(ro + rd * (depth - 3.0), rd, 3.0);
 				//add.rgb = add.rgb - add.rgb % (1 / 32.0) + 1/64.0;
 
 				// Returns final color using alpha blending

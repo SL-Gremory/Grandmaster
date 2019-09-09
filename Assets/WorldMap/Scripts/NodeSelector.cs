@@ -17,7 +17,7 @@ namespace Map
             else
                 SaveManager.LoadFromDisk();
         }
-
+		/* // implemented in Node itself
         void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -29,10 +29,10 @@ namespace Map
                 if (node != null)
                 {
                     WorldMap.Instance.TravelTo(node);
-
+					Debug.Log("Travelling");
                 }
             }
-        }
+        }*/
 
         public void Save()
         {

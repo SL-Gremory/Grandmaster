@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 
 namespace Map
 {
@@ -11,10 +11,14 @@ namespace Map
     }
 
     [ExecuteInEditMode]
-    public class Node : MonoBehaviour
+    public class Node : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
         List<NodeAndFlag> travelNodes;
+
+		public Region GetRegion() {
+			return GetComponentInParent<Region>();
+		}
 
 #if UNITY_EDITOR
 
@@ -42,6 +46,10 @@ namespace Map
             return true;
         }
 
-    }
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			WorldMap.Instance.TravelTo(this);
+		}
+	}
 
 }
