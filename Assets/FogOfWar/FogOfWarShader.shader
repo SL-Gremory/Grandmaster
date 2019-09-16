@@ -100,10 +100,8 @@ Shader "Fog Of War"
 						break;
 					}*/
 					float3 p = ro + rd * t; // World space position of sample
-					float2 mapUV = float2(p.x/_LevelSize.x, p.z/_LevelSize.z);
+					float2 mapUV = float2(p.x / _LevelSize.x, p.z / _LevelSize.z);
 					float4 visHeight = tex2D(_VisHeightMap, mapUV);
-					//return fixed4(visHeight.b-3/_LevelSize.y,0,0,1);
-					//ret += fixed4((p.y) > 7, (visHeight.b*_LevelSize.y) > 6.0, 0, 1 / 32.0);
 					float d = p.y - visHeight.b*_LevelSize.y - 2.5;
 					// If the sample <= 0, we have hit something (see map()).
 					if (d < 0.001) {
@@ -112,10 +110,10 @@ Shader "Fog Of War"
 						//p = p - p % 1.0 / 32.0;
 						float noiseScale = (visHeight.g + 0.25)*(visHeight.g + 0.25);
 						float lum = 0.75 + snoise(noiseScale*0.1*p)*0.17 + snoise(noiseScale*p)*0.09;
-						ret += float4(HSVtoRGB(float3(visHeight.r, visHeight.a, lum)), 0) *-d;
-						ret.rgb += _LightColor0.rgb*clamp(dot(snoise_grad(noiseScale*p).rgb, _WorldSpaceLightPos0.rgb),0,1) * -d * 0.1;
+						ret += float4(HSVtoRGB(float3(visHeight.r, visHeight.a, lum)), 0) *(1.0 / (float)maxstep);
+						ret.rgb += _LightColor0.rgb*clamp(dot(snoise_grad(noiseScale*p).rgb, _WorldSpaceLightPos0.rgb),0,1) * (1.0 / (float)maxstep)*-d;
 						//ret.a += -d;
-						ret.a += 1.0 / maxstep;
+						ret.a += 1.0 / (float)maxstep;
 						//break;
 					}
 
@@ -141,11 +139,17 @@ Shader "Fog Of War"
 
 				float depth = 1 - (tex2D(_CameraDepthTexture, pixelize(duv)).r);
 				depth = depth * 100.0 + 0.5; // near and far clip planes
+				float3 rayStart = ro + rd * (depth - 3.0);
+				float3 rayEnd = ro + rd * depth;
+				if (rayEnd.y < 0)
+					return fixed4(0, 0, 0, 1);
+				if (rayEnd.x < 0 || rayEnd.x > _LevelSize.x || rayEnd.z < 0 || rayEnd.z > _LevelSize.z)
+					return fixed4(0, 0, 0, 1);
 				fixed3 col = tex2D(_MainTex, i.uv); // Color of the scene before this shader was run
 
 				//return raymarch(ro + rd * (depth - 3.0), rd, 3.0);
 
-				fixed4 add = raymarch(ro + rd * (depth - 3.0), rd, 3.0);
+				fixed4 add = raymarch(rayStart, rd, 3.0);
 				//add.rgb = add.rgb - add.rgb % (1 / 32.0) + 1/64.0;
 
 				// Returns final color using alpha blending

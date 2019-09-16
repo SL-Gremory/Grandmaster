@@ -55,7 +55,7 @@ public class FogOfWarGrid : MonoBehaviour
 				SetFog(new Int2(x, y), 0);
 			}
 		}
-		for (int x = 0; x < 16; x++)
+		for (int x = 0; x < 48; x++)
 		{
 			for (int y = 0; y < 64; y++)
 			{

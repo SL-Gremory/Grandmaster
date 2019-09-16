@@ -27,6 +27,8 @@ Shader "Unlit/WorldGridEffect"
 		#include "UnityCG.cginc"
 		#include "Lighting.cginc"
 
+		float4 _LevelSize;
+
 		struct appdata
 		{
 			float4 vertex : POSITION;
@@ -49,6 +51,8 @@ Shader "Unlit/WorldGridEffect"
 
 		fixed4 frag(v2f i) : SV_Target
 		{
+			if (i.worldPos.x < 0 || i.worldPos.x > _LevelSize.x || i.worldPos.z < 0 || i.worldPos.z > _LevelSize.z)
+				clip(-1);
 			fixed4 col = fixed4(0.5,0.5,0.5,1) * pow(1.5*max(abs(((i.worldPos.x) % 1 - 0.5)), abs(((i.worldPos.z) % 1 - 0.5))), 7.5) * _LightColor0;
 			return col;
 		}
