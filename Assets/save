@@ -1,26 +1,26 @@
 {
-    "characterName": "Main Character",
+    "characterName": "Another One",
     "nickname": "",
-    "description": "MC of Grandmaster w/ tattoos, magical powers, and hair for days",
+    "description": "Test emmy 2",
     "splashArt": {
-        "instanceID": 11888
+        "instanceID": 12318
     },
     "portraitArtBase": {
-        "instanceID": 12460
+        "instanceID": 0
     },
     "portraitArtHappy": {
-        "instanceID": 12532
+        "instanceID": 12730
     },
     "portraitArtSad": {
-        "instanceID": 15994
+        "instanceID": 13498
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 13228
+        "instanceID": 14444
     },
     "portraitArtAngry": {
-        "instanceID": 13098
+        "instanceID": 13784
     },
     "portraitArtPerplexed": {
-        "instanceID": 11996
+        "instanceID": 12730
     }
 }
