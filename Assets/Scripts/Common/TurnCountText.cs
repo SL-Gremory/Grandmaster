@@ -5,20 +5,18 @@ using UnityEngine.UI;
 
 public class TurnCountText : MonoBehaviour
 {
-	//Initialize variables
-	private TurnManager turnManager;
 	[SerializeField]
 	private Text displayText; //this script is on Main Camera. Place UI text object here
-	
-    // Start is called before the first frame update
-    void Start()
-    {
-		turnManager = GameObject.FindObjectOfType<TurnManager>();
+							//Pagi: why should this be on Main Camera instead of the text itself?
+
+	// Start is called before the first frame update
+	void Start()
+	{
 		DisplayNewTurn();
-    }
-	
+	}
+
 	internal void DisplayNewTurn()
 	{
-		displayText.text = "Turn " + turnManager.turnCounter;
+		displayText.text = "Turn " + TurnManager.Instance.turnCounter;
 	}
 }
