@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /* For reference, the stat order for units is
- * 
+ *
  *       LVL,    // Level
  *       EXP,   // Current experience
  *       CHP,    // Current Hit points
@@ -17,7 +17,7 @@ using UnityEngine;
  *       SPD,    // Speed
  *       MOV,    // Move count
  *       JMP,    // Max amount able to change height,
- *       
+ *
  */
 
 
@@ -114,8 +114,8 @@ public class Parameters : MonoBehaviour
         EXP = 0;
         LVLb = 1;
         LVL = 1;
-        
-        
+
+
         for (int i = 0; i < Job.statOrder.Length; i++)
         {
             StatTypes parameter = Job.statOrder[i];
@@ -127,7 +127,7 @@ public class Parameters : MonoBehaviour
         CHPb = MHPb;
         CMP = MMP;
         CMPb = MMPb;
-        
+
     }
 
 
@@ -156,7 +156,7 @@ public class Parameters : MonoBehaviour
 
     public void SemiRandomLevelUp()
     {
-        
+
         int capIndex = Mathf.CeilToInt(LVL / 10) * 10;  // Get next highest ceiling milestone
         int gainCount = Random.Range(1, StatGain(LVL)); // Get amount that can increase this level
         List<int> canIncrease = new List<int>();    // Obtain list of stats that can still increase using their indexes
@@ -189,7 +189,7 @@ public class Parameters : MonoBehaviour
             // UpdateRealStat();
             PrintingTempFunc(statIndex);
         }
-            
+
     }
 
     public int StatGain(int level)
@@ -240,31 +240,6 @@ public class Parameters : MonoBehaviour
         }
     }
 
-
-
-
-    public void Shuffle<T>(ref T canIncrease)
-    {
-        int n = (int)StatTypes.Count - 1;
-        System.Random seed = new System.Random();
-        List<int> list = new List<int>();
-
-        for (int i = 0; i < n; i++)
-        {
-            list.Add(i);
-        }
-
-        while(n > 1)
-        {
-            n--;
-            int s = seed.Next(n + 1);
-            int val = list[s];
-            list[s] = list[n];
-            list[n] = val;
-        }
-
-    }
- 
 
     public void AddModifier(ModApplication mod)
     {
