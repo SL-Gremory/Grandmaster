@@ -45,16 +45,19 @@ public class NameAndCharacter
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue <--", order = 1)]
 public class ConversationSO : ScriptableObject, ISequence
 {
-    [SerializeField]
-    NameAndCharacter[] actors;
 	[SerializeField]
-	AudioClip[] voiceActing;
+	protected GameObject backgroundPrefab;
+	public GameObject BackgroundPefab { get => backgroundPrefab; }
+    [SerializeField]
+	protected NameAndCharacter[] actors;
+	[SerializeField]
+	protected AudioClip[] voiceActing;
 	public AudioClip[] VoiceActing { get => voiceActing; }
 
     public bool Loaded { get; private set; }
     public NameAndCharacter[] Actors { get => actors; }
     [SerializeField]
-    Speech[] conversation;
+	protected Speech[] conversation;
     public Speech[] Conversation { get { return conversation; } }
 
     public void Load()
