@@ -19,13 +19,21 @@ public class BattleState : MonoBehaviour
     // Reference to grid data
     public static GameObject[,] unitsGrid;
 
+    // Global reference for current selected unit
+    public static GameObject currentSelect;
+
     public static int playerUnitCount = 0;
     public static int enemyUnitCount = 0;
     public static int neutralUnitCount = 0;
 
+    public static GameObject radialMenu;
+
     private void Start()
     {
         Debug.Log("Battle State starting");
+        currentSelect = null;
+        radialMenu = GameObject.Find("Custom Radial Menu");
+        //radialMenu.SetActive(false);
     }
 
     public int GetPlayerUnitCount()
@@ -66,6 +74,12 @@ public class BattleState : MonoBehaviour
             Debug.Log("Enemy count: " + BattleState.enemyUnitCount);
 
         }
+    }
+
+    public static void SelectUnit(GameObject u)
+    {
+        currentSelect = u;
+        Debug.Log(u.GetComponent<UnitData>().UnitName);
     }
 
 

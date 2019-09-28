@@ -17,7 +17,7 @@ public class UnitData : MonoBehaviour
      */
     
     [SerializeField]
-    internal readonly string UnitName;
+    internal string UnitName;
     
   //  [SerializeField]
  //   public Sprite UnitSprite;
