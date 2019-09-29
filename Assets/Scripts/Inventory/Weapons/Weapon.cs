@@ -8,7 +8,7 @@ using UnityEditor;
 public class Weapon : ScriptableObject
 {
     // Basic information
-    public string name;
+    public string weaponName;
     public string description;
     public Sprite icon;
     public Rarity rarity;

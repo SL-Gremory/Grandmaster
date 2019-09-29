@@ -18,6 +18,8 @@ public class DoneButton : Selectable
 		//SPACE to activate when selected
 		if (isSelected) //&& Input.GetKeyDown("space"))
 		{
+            Selectable.zoomed = false;
+            Selectable.currentSelected = null;
 			turnManager.turnIsDone = true;
 			isSelected = false; //failsafe to prevent multiple button presses
 			SelectThis(false); //remove selecter icon before it shows up on button

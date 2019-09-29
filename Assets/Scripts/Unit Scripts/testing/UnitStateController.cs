@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class UnitStateController : MonoBehaviour
 {
-
-
     #region Declarations
 
     private TurnManager turnManager;
@@ -22,11 +20,9 @@ public class UnitStateController : MonoBehaviour
     public UnitData unitData;
     public Selectable unitSelectable;
     public Parameters unitParameters;
-
+    int weaponRange;
 
     #endregion
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +33,12 @@ public class UnitStateController : MonoBehaviour
         turnManager = TurnManager.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         hpBar = gameObject.GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
+
+
+        if (unitData.UnitWeapon != null)
+            weaponRange = GetComponent<UnitData>().UnitWeapon.range;
+        else
+            weaponRange = 1;
 
         StartUnit();
         hpBar.Start();
@@ -65,7 +67,6 @@ public class UnitStateController : MonoBehaviour
                 {
                     foundUnitObject = hit.transform.gameObject;
 
-
                     // If attack is impossible, deselect the found unit
                     // and put selector back to this unit
                     if (foundUnitObject != null)
@@ -92,23 +93,7 @@ public class UnitStateController : MonoBehaviour
         }
         else if (unitSelectable.GetSelectStatus())
         {
-
-
-
-
-
-
-
-            //unitInfo.DisplayStats(this);
-
-
-
-
-
-
-
-
-
+            
             if (!moveIsDone)
             {
                 if (turnManager.isPlayerTurn && unitData.UnitTeam == Team.HERO || !turnManager.isPlayerTurn && unitData.UnitTeam == Team.ENEMY)
@@ -134,6 +119,7 @@ public class UnitStateController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 unitParameters.CHP -= 10;
+                HPChange(10);
                 Debug.Log(unitParameters.CHP);
                 if (unitParameters.CHP <= 0)
                 {
@@ -144,8 +130,7 @@ public class UnitStateController : MonoBehaviour
             //Hit Z to simulated a selected unit to be in attacking phase
             if (Input.GetKeyDown(KeyCode.Z) && !actionIsDone)
             {
-                Debug.Log(unitData.UnitName + " is atacc");
-                isAttacking = true;
+                Attacking();
             }
 
             if (Input.GetKeyDown(KeyCode.B) && moveIsDone && !actionIsDone)
@@ -155,6 +140,29 @@ public class UnitStateController : MonoBehaviour
             }
 
         }
+    }
+
+
+    public void Attacking()
+    {
+        Debug.Log(unitData.UnitName + " is atacc");
+        //isAttacking = true;
+
+    }
+
+    public void Moving()
+    {
+
+    }
+
+    public void Items()
+    {
+
+    }
+
+    public void Skills()
+    {
+
     }
 
 
@@ -209,7 +217,7 @@ public class UnitStateController : MonoBehaviour
             return;
         }
 
-        if (Int2.Distance(aPos, dPos) > 1)
+        if (Int2.Distance(aPos, dPos) > weaponRange)
         {
             Debug.Log("Cannot attack a unit that is out of range!");
             return;
@@ -234,7 +242,10 @@ public class UnitStateController : MonoBehaviour
         }
     }
 
-
+    private void HPChange(int hpDelta)
+    {
+        DamagePopup.Create(gameObject.transform.position, hpDelta, false);
+    }
 
     internal void KillUnit()
     {
@@ -243,12 +254,15 @@ public class UnitStateController : MonoBehaviour
         if (unitData.UnitTeam == Team.HERO)
         {
             TurnManager.Instance.playerUnitCount--;
+            BattleState.playerUnitCount--;
         }
         else if (unitData.UnitTeam == Team.ENEMY)
         {
             TurnManager.Instance.enemyUnitCount--;
+            BattleState.enemyUnitCount--;
+
         }
-        TurnManager.Instance.CheckWinConditions();
+        //TurnManager.Instance.CheckWinConditions();
         Debug.Log(string.Format("{0} has died to death", unitData.UnitName));
         StartCoroutine("DeathAnimation");
     }

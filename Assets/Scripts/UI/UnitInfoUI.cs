@@ -9,9 +9,16 @@ public class UnitInfoUI : MonoBehaviour
 
     Text infoText;
 
+    //GameObject IconDisplay;
+    Text StatsDisplay;
+    Text AffinitiesDisplay;
+
     private void Start()
     {
-        infoText = GetComponentInParent<Text>();
+        //infoText = GetComponentInParent<Text>();
+        //IconDisplay = GameObject.Find("HUD Icon").GetComponent<Text>();
+        //StatsDisplay = GameObject.Find("HUD Stats").GetComponent<Text>();
+        //AffinitiesDisplay = GameObject.Find("HUD Affinities").GetComponent<Text>();
     }
 
 
@@ -33,9 +40,23 @@ public class UnitInfoUI : MonoBehaviour
             "\nJMP: " + unitParam.JMP;
     }
 
+    public void DisplayInformation(GameObject selected)
+    {
+        UnitData unitData = selected.GetComponent<UnitData>();
+        Parameters unitParameters = selected.GetComponent<Parameters>();
+
+        StatsDisplay.text = "Stats for " + unitData.UnitName;
+        AffinitiesDisplay.text = "Affinities for " + unitData.UnitName;
+
+
+    }
+
     public void ResetDisplay()
     {
-        infoText = default;
+        //infoText = default;
+        StatsDisplay = default;
+        AffinitiesDisplay = default;
+        
     }
 
 }
