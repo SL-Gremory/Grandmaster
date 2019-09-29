@@ -5,12 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Selectable : MonoBehaviour
 {
+    BattleHUD battleHUD;
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
 	internal bool isActive; //if can be selected. for most things it will always be true.
 	protected bool isSelected; //if is selected
 
+    public static GameObject actionWheel;
+    public static bool zoomed;
+    public static GameObject currentSelected;
+    UnitInfoUI ui = new UnitInfoUI();
 
     public void SetSelectStatus(bool status)
     {
@@ -33,6 +38,8 @@ public class Selectable : MonoBehaviour
         originalColor = this.GetComponent<SpriteRenderer>().color;
 		darkColor1 = new Color(originalColor.r-0.3f, originalColor.g-0.3f, originalColor.b-0.3f);
 		darkColor2 = new Color(originalColor.r-0.6f, originalColor.g-0.6f, originalColor.b-0.6f);
+        //actionWheel = GameObject.Find("Default Radial Menu");
+        //battleHUD = GameObject.Find("HUD").GetComponent<BattleHUD>();
     }
 
     void OnMouseEnter()
@@ -53,14 +60,16 @@ public class Selectable : MonoBehaviour
 		if (isActive && Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Selected a selectable");
-			
-			if (isSelected)
+            //battleHUD.DisplayInfo(gameObject);
+            if (isSelected)
 			{
 				isSelected = false;
 				SelectThis(false);
 				Debug.Log("Deselected a selectable via toggle");
-			}
-			else
+                zoomed = false;
+                currentSelected = null;
+            }
+            else
 			{
 				//find all selectables; if is selected, revert selection
 				Selectable[] selectables = FindObjectsOfType(typeof(Selectable)) as Selectable[];
@@ -74,8 +83,10 @@ public class Selectable : MonoBehaviour
 				//select only the clicked selectable
 				isSelected = true;
 				SelectThis(true);
-			}
-		}
+
+            }
+
+        }
 
 
     }
@@ -84,14 +95,22 @@ public class Selectable : MonoBehaviour
 	{
 		if (yes)
 		{
-			SelecterIcon.targetObject = this.gameObject;
-		}
-		else
+            BattleState.SelectUnit(gameObject);
+            SelecterIcon.targetObject = this.gameObject;
+            currentSelected = this.gameObject;
+            zoomed = true;
+            ui.DisplayInformation(gameObject);
+
+        }
+        else
 		{
             SelecterIcon.targetObject = null;
             SelecterIcon.ResetPosition();
-		}
-	}
+            zoomed = false;
+            currentSelected = null;
+            ui.ResetDisplay();
+        }
+    }
 	
 
 

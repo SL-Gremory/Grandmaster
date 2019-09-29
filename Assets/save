@@ -1,8 +1,9 @@
 {
-    "characterName": "Another One",
+    "characterName": "Emmy",
     "nickname": "",
     "description": "",
     "splashArt": {
+<<<<<<< HEAD
         "instanceID": 12960
     },
     "portraitArtMain": {
@@ -19,5 +20,23 @@
     },
     "portraitArtAngry": {
         "instanceID": 14226
+=======
+        "instanceID": 20994
+    },
+    "portraitArtMain": {
+        "instanceID": 20952
+    },
+    "portraitArtHappy": {
+        "instanceID": 20952
+    },
+    "portraitArtSad": {
+        "instanceID": 20954
+    },
+    "portraitArtEmbarrassed": {
+        "instanceID": 20956
+    },
+    "portraitArtAngry": {
+        "instanceID": 20958
+>>>>>>> f39698a8f34aa1ade62bb5fd74d4ca0f0e074d29
     }
 }

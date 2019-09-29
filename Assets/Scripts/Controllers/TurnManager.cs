@@ -77,7 +77,6 @@ public class TurnManager : MonoBehaviour
 
 
         foreach (UnitData unit in units)
-		//foreach (Unit unit in unitsGrid)
 		{
             UnitStateController usc = unit.gameObject.GetComponent<UnitStateController>();
 			Debug.Log("finded a unit");
@@ -112,6 +111,8 @@ public class TurnManager : MonoBehaviour
 	}
 
     // I already have Win/Lose conditions in BattleControl, we should merge them  <--------------------------
+
+    /*
     internal void CheckWinConditions()
 	{
 		if (enemyUnitCount <= 0)
@@ -140,5 +141,5 @@ public class TurnManager : MonoBehaviour
 			//carry on my wayward son
 		}
 	}
-
+    */
 }

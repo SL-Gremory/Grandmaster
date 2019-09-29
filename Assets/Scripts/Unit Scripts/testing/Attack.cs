@@ -75,6 +75,10 @@ public static class Attack
 
     private static double MeleePhysicalTriangle(Weapon a, Weapon d)
     {
+        if (a == null || d == null)
+            return 1d;
+
+
         if (d.type != WeaponType.MELEE_PHYSICAL)
             return 1d;
 
@@ -97,6 +101,10 @@ public static class Attack
 
     private static double RangedMagicalTriangle(Weapon a, Weapon d)
     {
+        if (a == null || d == null)
+            return 1d;
+
+
         // If different weapons, return default multiplier
         if (d.type != WeaponType.RANGED_MAGICAL) 
             return 1d;
