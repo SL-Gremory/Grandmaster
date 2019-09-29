@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum EndCondition {
     NEVER,
-    afterTenSeconds
+    noEnemies,
+    afterTenSeconds,
+    escaped
 }
 
 public static class BattleJudges 
 {
     static readonly System.Predicate<BattleState>[] endConditions = new System.Predicate<BattleState>[] {
         returnsFalse,
-        hasTenSecondsPassed
+        enemiesCleared,
+        hasTenSecondsPassed,
+        reachedEscape
     };
+
 
     public static bool JudgeEnd(EndCondition cond, BattleState state) {
         return endConditions[(int)cond](state);
@@ -23,7 +29,29 @@ public static class BattleJudges
     }
 
     static bool hasTenSecondsPassed(BattleState state) {
-        return state.RealTimeElapsed >= 10;
+        if (state.RealTimeElapsed >= 10)
+        {
+            Debug.Log("Ten seconds have passed");
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool enemiesCleared(BattleState state) {
+        if (state.GetEnemyUnitCount() == 0)
+        {
+            Debug.Log("ENEMIES DED");
+            return true;
+        }
+            
+
+        return false;
+    }
+
+    static bool reachedEscape(BattleState state)
+    {
+        return false;
     }
 }
 

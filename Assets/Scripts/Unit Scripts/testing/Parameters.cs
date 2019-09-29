@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /* For reference, the stat order for units is
- * 
+ *
  *       LVL,    // Level
  *       EXP,   // Current experience
  *       CHP,    // Current Hit points
@@ -17,7 +17,7 @@ using UnityEngine;
  *       SPD,    // Speed
  *       MOV,    // Move count
  *       JMP,    // Max amount able to change height,
- *       
+ *
  */
 
 
@@ -114,8 +114,8 @@ public class Parameters : MonoBehaviour
         EXP = 0;
         LVLb = 1;
         LVL = 1;
-        
-        
+
+
         for (int i = 0; i < Job.statOrder.Length; i++)
         {
             StatTypes parameter = Job.statOrder[i];
@@ -127,7 +127,7 @@ public class Parameters : MonoBehaviour
         CHPb = MHPb;
         CMP = MMP;
         CMPb = MMPb;
-        
+
     }
 
 
@@ -156,11 +156,13 @@ public class Parameters : MonoBehaviour
 
     public void SemiRandomLevelUp()
     {
-        // Get next highest ceiling milestone
-        int capIndex = Mathf.CeilToInt(LVL / 10) * 10;
 
-        // Obtain list of stats that can still increase using their indexes
-        List<int> canIncrease = new List<int>();
+        int capIndex = Mathf.CeilToInt(LVL / 10) * 10;  // Get next highest ceiling milestone
+        int gainCount = Random.Range(1, StatGain(LVL)); // Get amount that can increase this level
+        List<int> canIncrease = new List<int>();    // Obtain list of stats that can still increase using their indexes
+        List<int> willIncrease = new List<int>();   // Choose randomly from list (with replacement)
+        System.Random seed = new System.Random();
+
         for (int i = 0; i < Job.statOrder.Length; i++)
         {
             if(baseStats[i] < currentJob.statMilestones[i,capIndex])
@@ -169,33 +171,75 @@ public class Parameters : MonoBehaviour
             }
         }
 
+        while (gainCount > 0)
+        {
+            int s = seed.Next(0, canIncrease.Count - 1);
+            willIncrease.Add(canIncrease[s]);
+            gainCount--;
+        }
+        willIncrease.Sort();
 
+        // Raise those stats
+        while (willIncrease.Count > 0)
+        {
+            int statIndex = willIncrease[0];
+            willIncrease.RemoveAt(0);
+            // Note: LVL and EXP are the first two elements in baseStats and will not be touched
+            baseStats[statIndex + 2]++;
+            // UpdateRealStat();
+            PrintingTempFunc(statIndex);
+        }
 
     }
 
-
-    public void Shuffle<T>(ref T item)
+    public int StatGain(int level)
     {
-        int n = (int)StatTypes.Count - 1;
-        System.Random seed = new System.Random();
-        List<int> list = new List<int>();
-
-        for (int i = 0; i < n; i++)
-        {
-            list.Add(i);
-        }
-
-        while(n > 1)
-        {
-            n--;
-            int s = seed.Next(n + 1);
-            int val = list[s];
-            list[s] = list[n];
-            list[n] = val;
-        }
-
+        if (level <= 20)
+            return 3;
+        else if (level <= 40)
+            return 5;
+        else if (level <= 60)
+            return 8;
+        else if (level <= 80)
+            return 12;
+        else if (level <= 90)
+            return 17;
+        else
+            return 23;
     }
- 
+
+
+    private void PrintingTempFunc(int parameter)
+    {
+        switch (parameter)
+        {
+            case 0:
+                Debug.Log("MHP increased from " + (MHPb - 1) + " to " + MHPb);
+                break;
+            case 1:
+                Debug.Log("MMP increased from " + (MMPb - 1) + " to " + MMPb);
+                break;
+            case 2:
+                Debug.Log("ATK increased from " + (ATKb - 1) + " to " + ATKb);
+                break;
+            case 3:
+                Debug.Log("DEF increased from " + (DEFb - 1) + " to " + DEFb);
+                break;
+            case 4:
+                Debug.Log("SPR increased from " + (SPRb - 1) + " to " + SPRb);
+                break;
+            case 5:
+                Debug.Log("SPD increased from " + (SPDb - 1) + " to " + SPDb);
+                break;
+            case 6:
+                Debug.Log("MOV increased from " + (JMPb - 1) + " to " + JMPb);
+                break;
+            case 7:
+                Debug.Log("JMP increased from " + (MOVb - 1) + " to " + MOVb);
+                break;
+        }
+    }
+
 
     public void AddModifier(ModApplication mod)
     {
@@ -243,7 +287,7 @@ public class Parameters : MonoBehaviour
             }
             else if (mod.Type == StatModType.Percent)
             {
-                modValue *= 1 + mod.Value;
+                modValue *= mod.Value / 100;
             }
         }
     }

@@ -20,7 +20,7 @@ public class WeaponEditor : Editor
         EditorGUI.BeginChangeCheck();
         EditorGUILayout.BeginVertical();
 
-        targetWeapon.name = EditorGUILayout.TextField("Name", targetWeapon.name);
+        targetWeapon.weaponName = EditorGUILayout.TextField("Name", targetWeapon.weaponName);
         targetWeapon.description = EditorGUILayout.TextField("Description", targetWeapon.description);
         targetWeapon.rarity = (Rarity)EditorGUILayout.EnumPopup("Rarity", targetWeapon.rarity);
 

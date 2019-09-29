@@ -1,23 +1,23 @@
 {
-    "characterName": "Another One",
+    "characterName": "Emmy",
     "nickname": "",
     "description": "",
     "splashArt": {
-        "instanceID": 12132
+        "instanceID": 20994
     },
     "portraitArtMain": {
-        "instanceID": 13774
+        "instanceID": 20952
     },
     "portraitArtHappy": {
-        "instanceID": 12536
+        "instanceID": 20952
     },
     "portraitArtSad": {
-        "instanceID": 13216
+        "instanceID": 20954
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 14044
+        "instanceID": 20956
     },
     "portraitArtAngry": {
-        "instanceID": 13498
+        "instanceID": 20958
     }
 }
