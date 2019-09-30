@@ -14,8 +14,8 @@ public class Selectable : MonoBehaviour
 
     public static GameObject actionWheel;
     public static bool zoomed;
-    public static GameObject currentSelected;
-    UnitInfoUI ui = new UnitInfoUI();
+    public static GameObject currentSelected; //most recent thing clicked
+    //UnitInfoUI ui = new UnitInfoUI();
 
     public void SetSelectStatus(bool status)
     {
@@ -99,7 +99,7 @@ public class Selectable : MonoBehaviour
             SelecterIcon.targetObject = this.gameObject;
             currentSelected = this.gameObject;
             zoomed = true;
-            ui.DisplayInformation(gameObject);
+            //ui.DisplayInformation(gameObject);
 
         }
         else
@@ -108,7 +108,7 @@ public class Selectable : MonoBehaviour
             SelecterIcon.ResetPosition();
             zoomed = false;
             currentSelected = null;
-            ui.ResetDisplay();
+            //ui.ResetDisplay();
         }
     }
 	

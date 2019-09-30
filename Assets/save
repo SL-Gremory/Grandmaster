@@ -1,42 +1,26 @@
 {
-    "characterName": "Emmy",
+    "characterName": "Another One",
     "nickname": "",
-    "description": "",
+    "description": "Test emmy 2",
     "splashArt": {
-<<<<<<< HEAD
-        "instanceID": 12960
+        "instanceID": 12708
     },
-    "portraitArtMain": {
-        "instanceID": 17232
-    },
-    "portraitArtHappy": {
-        "instanceID": 13340
-    },
-    "portraitArtSad": {
-        "instanceID": 13972
-    },
-    "portraitArtEmbarrassed": {
-        "instanceID": 14754
-    },
-    "portraitArtAngry": {
-        "instanceID": 14226
-=======
-        "instanceID": 20994
-    },
-    "portraitArtMain": {
-        "instanceID": 20952
+    "portraitArtBase": {
+        "instanceID": 0
     },
     "portraitArtHappy": {
-        "instanceID": 20952
+        "instanceID": 13102
     },
     "portraitArtSad": {
-        "instanceID": 20954
+        "instanceID": 13886
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 20956
+        "instanceID": 14818
     },
     "portraitArtAngry": {
-        "instanceID": 20958
->>>>>>> f39698a8f34aa1ade62bb5fd74d4ca0f0e074d29
+        "instanceID": 14158
+    },
+    "portraitArtPerplexed": {
+        "instanceID": 13102
     }
 }
