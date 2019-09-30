@@ -146,7 +146,7 @@ public class UnitStateController : MonoBehaviour
     public void Attacking()
     {
         Debug.Log(unitData.UnitName + " is atacc");
-        //isAttacking = true;
+        isAttacking = true;
 
     }
 

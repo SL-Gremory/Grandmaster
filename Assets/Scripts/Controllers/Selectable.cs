@@ -14,7 +14,7 @@ public class Selectable : MonoBehaviour
 
     public static GameObject actionWheel;
     public static bool zoomed;
-    public static GameObject currentSelected;
+    public static GameObject currentSelected; //most recent thing clicked
     //UnitInfoUI ui = new UnitInfoUI();
 
     public void SetSelectStatus(bool status)
