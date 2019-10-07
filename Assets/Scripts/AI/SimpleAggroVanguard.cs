@@ -260,15 +260,6 @@ public class SimpleAggroVanguard : MonoBehaviour
         return null;
     }
 
-    void Int2 SearchNearest() {
-        Int2 random;
-
-
-        return random;
-
-    }
-
-
     static List<Int2> ReconstructPath(Dictionary<Int2, Int2> cameFrom, Int2 current, int maxDistance)
     {
         var path = new List<Int2>();
