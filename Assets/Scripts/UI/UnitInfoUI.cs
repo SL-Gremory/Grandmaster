@@ -17,8 +17,8 @@ public class UnitInfoUI : MonoBehaviour
     {
         //infoText = GetComponentInParent<Text>();
         //IconDisplay = GameObject.Find("HUD Icon").GetComponent<Text>();
-        StatsDisplay = GameObject.Find("HUD Stats").GetComponent<Text>();
-        AffinitiesDisplay = GameObject.Find("HUD Affinities").GetComponent<Text>();
+        //StatsDisplay = GameObject.Find("HUD Stats").GetComponent<Text>();
+        //AffinitiesDisplay = GameObject.Find("HUD Affinities").GetComponent<Text>();
     }
 
 
@@ -32,7 +32,7 @@ public class UnitInfoUI : MonoBehaviour
             "\nEXP: " + unitParam.EXP +
             "\nHP: " + unitParam.CHP + "/" + unitParam.MHP +
             "\nMP: " + unitParam.CMP + "/" + unitParam.MMP +
-            "\nATK: " + unitParam.ATK + 
+            "\nATK: " + unitParam.ATK +
             "\nDEF: " + unitParam.DEF +
             "\nSPR: " + unitParam.SPR +
             "\nSPD: " + unitParam.SPD +
@@ -56,7 +56,7 @@ public class UnitInfoUI : MonoBehaviour
         //infoText = default;
         StatsDisplay = default;
         AffinitiesDisplay = default;
-        
+
     }
 
 }

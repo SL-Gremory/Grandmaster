@@ -35,7 +35,7 @@ public static class Attack
         t = TriangleCalculation(attacker, defender);
 
         total = (int)Math.Floor(((1 / e) * (t * ((x * (a * (ad + ab))) - (d * (dd + db))))) + f);
-
+		
         return (total > 0) ? total : 0;
     }
 

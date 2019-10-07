@@ -93,7 +93,7 @@ public class UnitStateController : MonoBehaviour
         }
         else if (unitSelectable.GetSelectStatus())
         {
-            
+
             if (!moveIsDone)
             {
                 if (turnManager.isPlayerTurn && unitData.UnitTeam == Team.HERO || !turnManager.isPlayerTurn && unitData.UnitTeam == Team.ENEMY)
@@ -146,7 +146,7 @@ public class UnitStateController : MonoBehaviour
     public void Attacking()
     {
         Debug.Log(unitData.UnitName + " is atacc");
-        //isAttacking = true;
+        isAttacking = true;
 
     }
 

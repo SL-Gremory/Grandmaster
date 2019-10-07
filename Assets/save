@@ -1,23 +1,26 @@
 {
     "characterName": "Emmy",
     "nickname": "",
-    "description": "",
+    "description": "Test emmy 2",
     "splashArt": {
-        "instanceID": 12488
+        "instanceID": 12708
     },
-    "portraitArtMain": {
-        "instanceID": 12448
+    "portraitArtBase": {
+        "instanceID": 0
     },
     "portraitArtHappy": {
-        "instanceID": 12448
+        "instanceID": 13102
     },
     "portraitArtSad": {
-        "instanceID": 12450
+        "instanceID": 13886
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 12452
+        "instanceID": 14818
     },
     "portraitArtAngry": {
-        "instanceID": 12454
+        "instanceID": 14158
+    },
+    "portraitArtPerplexed": {
+        "instanceID": 13102
     }
 }

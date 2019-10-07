@@ -83,10 +83,10 @@ public class LevelGrid : MonoBehaviour
 
     private void OnEnable()
     {
-        
-    }
-    
-    private void OnDisable()
+		Shader.SetGlobalVector("_LevelSize", new Vector4(GetMapSize().x, GetComponent<Terrain>().terrainData.size.y, GetMapSize().y, 0));
+	}
+
+	private void OnDisable()
     {
         HidePrefabsAll();
     }
