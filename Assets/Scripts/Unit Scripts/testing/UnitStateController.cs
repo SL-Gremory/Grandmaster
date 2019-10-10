@@ -228,7 +228,14 @@ public class UnitStateController : MonoBehaviour
 
         Attack.CommenceBattle(gameObject, defender);
         Debug.Log(unitData.UnitName + " is now at " + unitParameters.CHP + " HP and " + defenderData.UnitName + " now has " + defenderParameters.CHP);
-
+		
+		//Display damage numbers now! Have pointers to attacker, defender, and damage values
+		//game objects are not destroyed yet
+		//Instantiate damage number prefab above attacker and/or defender
+		//Do something like DamageNumber.SpawnNumber(damage, target); for attacker and defender
+		DamagePopup.Create(new Vector3(defender.transform.position.x, defender.transform.position.y +2f, defender.transform.position.z), Attack.CalculateProjectedDamage(attacker, defender), false); //damage popup over defender
+		DamagePopup.Create(new Vector3(attacker.transform.position.x, attacker.transform.position.y +2f, attacker.transform.position.z), Attack.CalculateProjectedDamage(defender, attacker), false); //damage popup over attacker
+		
         if (defenderParameters.CHP == 0)
         {
             // Ded
