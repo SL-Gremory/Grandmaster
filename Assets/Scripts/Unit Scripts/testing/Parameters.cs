@@ -33,15 +33,15 @@ public class Parameters : MonoBehaviour
     private Job currentJob;
 
     // Base (unmodified) stats
-    [SerializeField]
-    private int[] baseStats;
+    //[SerializeField]
+    public int[] baseStats;
     //    private List<int> baseStats = new List<int>((int)StatTypes.Count);
 
 
 
     // Real (modified) stats
     [SerializeField]
-    private int[] realStats;
+    public int[] realStats;
     //private List<int> realStats = new List<int>((int)StatTypes.Count);
 
     private List<Modifier>[] statModifiers;
