@@ -1,26 +1,26 @@
 {
-    "characterName": "Another One",
+    "characterName": "Anonym Ous",
     "nickname": "",
-    "description": "Test emmy 2",
+    "description": "Test thing",
     "splashArt": {
-        "instanceID": 12708
+        "instanceID": 23130
     },
     "portraitArtBase": {
         "instanceID": 0
     },
     "portraitArtHappy": {
-        "instanceID": 13102
+        "instanceID": 23134
     },
     "portraitArtSad": {
-        "instanceID": 13886
+        "instanceID": 23134
     },
     "portraitArtEmbarrassed": {
-        "instanceID": 14818
+        "instanceID": 23134
     },
     "portraitArtAngry": {
-        "instanceID": 14158
+        "instanceID": 23134
     },
     "portraitArtPerplexed": {
-        "instanceID": 13102
+        "instanceID": 23134
     }
 }
