@@ -12,16 +12,10 @@ public class DamagePopup : MonoBehaviour
 
     public static DamagePopup Create(Vector3 position, int amount, bool crit)
     {
-		Debug.Log("executed DamagePopup.Create()"); //V
-		
-		Transform popupTransform = Instantiate(damagePopupPrefab, position); //V
-        DamagePopup damagePopup = popupTransform.GetComponent<DamagePopup>(); //V
-		
         // Transform popupTransform = Instantiate(damagePopupPrefab, new Vector3(0,0,0), Quaternion.identity);
         // DamagePopup damagePopup = popupTransform.GetComponent<DamagePopup>();
 
-        // return damagePopup;
-		
+        //   return damagePopup;
         return null;
     }
 
