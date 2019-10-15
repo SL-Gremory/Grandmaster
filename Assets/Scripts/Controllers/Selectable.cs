@@ -49,12 +49,12 @@ public class Selectable : MonoBehaviour
 			Highlight(true);
 		}
 	}
-
+	
 	void OnMouseExit()
 	{
 		Highlight(false);
 	}
-
+	
 	public void OnMouseOver()
 	{
 		if (isActive && Input.GetMouseButtonDown(0))
@@ -111,7 +111,7 @@ public class Selectable : MonoBehaviour
             //ui.ResetDisplay();
         }
     }
-
+	
 
 
 
@@ -129,7 +129,7 @@ public class Selectable : MonoBehaviour
 		}
 		this.GetComponent<SpriteRenderer>().color = tmp;
 	}
-
+	
 	public void ChangeColor(int choice)
 	{
 		if (choice == 0)

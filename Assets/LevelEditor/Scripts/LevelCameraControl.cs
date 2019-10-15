@@ -26,7 +26,7 @@ public class LevelCameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Rotation Code
+		//Rotation Code
         zoomAmount += Input.mouseScrollDelta.y;
         zoomAmount = Mathf.Clamp(zoomAmount, 1f, 12f);
         var movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -40,18 +40,18 @@ public class LevelCameraControl : MonoBehaviour
             transform.RotateAround(transform.position + transform.forward * 20f, Vector3.up, mouseXdelta * rotationSpeed * Time.deltaTime * 365f);
             //transform.Rotate(new Vector3(0, , 0), Space.World);
         }
-        var scale = Mathf.Max(1f, Mathf.Round(zoomAmount * (Screen.height / referenceHeight)));
+        var scale = Mathf.Max(1f,Mathf.Round(zoomAmount * (Screen.height / referenceHeight)));
         var halfHeight = Screen.height / (2f * pixelsPerUnit * scale);
         cam.orthographicSize = halfHeight;
-
-        //Translation code
-        if (Input.GetMouseButton(2))
-        {
-            var mouseXdelta = (Input.mousePosition.x - oldMousePos.x) / Screen.width;
-            var mouseYdelta = (Input.mousePosition.y - oldMousePos.y) / Screen.height;
-            transform.Translate(-mouseXdelta * 40f / (zoomAmount), -mouseYdelta * 40f / (zoomAmount), 0f);
-        }
-
+		
+		//Translation code
+		if (Input.GetMouseButton(2))
+		{
+			var mouseXdelta = (Input.mousePosition.x - oldMousePos.x) / Screen.width;
+			var mouseYdelta = (Input.mousePosition.y - oldMousePos.y) / Screen.height;
+			transform.Translate(-mouseXdelta*40f/(zoomAmount), -mouseYdelta*40f/(zoomAmount), 0f);
+		}
+		
         oldMousePos = Input.mousePosition;
     }
 }
