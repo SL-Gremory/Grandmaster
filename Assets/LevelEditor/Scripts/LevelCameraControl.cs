@@ -74,7 +74,7 @@ public class LevelCameraControl : MonoBehaviour
 				//transform.Rotate(new Vector3(0, , 0), Space.World);
 			}
 			var scale = Mathf.Max(1f,Mathf.Round(zoomAmount * (Screen.height / referenceHeight)));
-			var halfHeight = Screen.height / (2f * pixelsPerUnit * scale);
+			var halfHeight = Screen.height / (1f * pixelsPerUnit * scale); //was originally 2f, but varler wanted a further zoomed out view
 			cam.orthographicSize = halfHeight;
 			
 			//Translation code
@@ -82,7 +82,10 @@ public class LevelCameraControl : MonoBehaviour
 			{
 				var mouseXdelta = (Input.mousePosition.x - oldMousePos.x) / Screen.width;
 				var mouseYdelta = (Input.mousePosition.y - oldMousePos.y) / Screen.height;
-				transform.Translate(-mouseXdelta*40f/(zoomAmount), -mouseYdelta*40f/(zoomAmount), 0f);
+				var xMoveAmount = -40f*mouseXdelta/(Mathf.Pow(zoomAmount,0.5f));
+				var yMoveAmount = -60f*mouseYdelta*Mathf.Sin(transform.eulerAngles.x*Mathf.PI/180f)/(Mathf.Pow(zoomAmount,0.5f));
+				var zMoveAmount = -60f*mouseYdelta*Mathf.Cos(transform.eulerAngles.x*Mathf.PI/180f)/(Mathf.Pow(zoomAmount,0.5f));
+				transform.Translate(xMoveAmount, yMoveAmount, zMoveAmount);
 			}
 			
 			oldMousePos = Input.mousePosition;
