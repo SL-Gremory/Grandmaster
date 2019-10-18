@@ -95,7 +95,7 @@ public class Selectable : MonoBehaviour
 	{
 		if (yes)
 		{
-            BattleState.SelectUnit(gameObject);
+            //BattleState.SelectUnit(this.gameObject);
             SelecterIcon.targetObject = this.gameObject;
             currentSelected = this.gameObject;
             zoomed = true;

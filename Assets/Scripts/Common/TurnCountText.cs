@@ -17,6 +17,6 @@ public class TurnCountText : MonoBehaviour
 
 	internal void DisplayNewTurn()
 	{
-		displayText.text = "Turn " + TurnManager.Instance.turnCounter;
+		displayText.text = "Turn " + BattleState.Instance.turnCounter;
 	}
 }
