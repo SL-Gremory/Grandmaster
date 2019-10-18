@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DoneButton : Selectable
 {
-	private TurnManager turnManager;
+	private BattleState battleState;
 	
     // Start is called before the first frame update
     void Start()
     {
-		turnManager = TurnManager.Instance;
-		ResetButton(turnManager.isPlayerTurn);
+		battleState = BattleState.Instance;
+		ResetButton(battleState.isPlayerTurn);
     }
 	
 	void Update()
@@ -20,7 +20,7 @@ public class DoneButton : Selectable
 		{
             Selectable.zoomed = false;
             Selectable.currentSelected = null;
-			turnManager.turnIsDone = true;
+			battleState.turnIsDone = true;
 			isSelected = false; //failsafe to prevent multiple button presses
 			SelectThis(false); //remove selecter icon before it shows up on button
 			Debug.Log("Player declared end of turn");

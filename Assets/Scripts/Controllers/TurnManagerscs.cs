@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class TurnManagerscs : MonoBehaviour
 {
-
+    /*
     [SerializeField]
 	private DoneButton doneButton;
     [SerializeField]
@@ -109,6 +109,7 @@ public class TurnManager : MonoBehaviour
 			}
 		}
 	}
+    */
 
     // I already have Win/Lose conditions in BattleControl, we should merge them  <--------------------------
 

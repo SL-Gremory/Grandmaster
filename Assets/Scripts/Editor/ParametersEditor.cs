@@ -51,7 +51,7 @@ public class ParametersEditor : Editor
     public override void OnInspectorGUI()
     {
 
-        ShowArrayProperty(serializedObject.FindProperty("baseStats"), "Base Stats");
+        //ShowArrayProperty(serializedObject.FindProperty("baseStats"), "Base Stats");
         ShowArrayProperty(serializedObject.FindProperty("realStats"), "Real Stats");
     }
 }
