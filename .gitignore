@@ -76,3 +76,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+
+# Meta files are not uploaded
+ *.meta
+ !*.*.meta
