@@ -77,4 +77,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-*.meta
+# Meta files are not uploaded
+ *.meta
+ !*.*.meta
