@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
+  m_Name: Rubble Claw
+  m_EditorClassIdentifier: 
+  weaponName: Rubble Claw
+  description: 
+  icon: {fileID: 0}
+  rarity: 0
+  type: 4
+  rpAttribute: 0
+  rmAttribute: 0
+  mpAttribute: 0
+  maAttribute: 6
+  range: 1
+  hp_mod: 10
+  hp_mod_type: 0
+  mp_mod: 0
+  mp_mod_type: 0
+  atk_mod: 8
+  atk_mod_type: 0
+  def_mod: 0
+  def_mod_type: 0
+  spr_mod: 0
+  spr_mod_type: 0
+  spd_mod: 4
+  spd_mod_type: 0
+  mov_mod: 0
+  mov_mod_type: 0
+  jmp_mod: 0
+  jmp_mod_type: 0

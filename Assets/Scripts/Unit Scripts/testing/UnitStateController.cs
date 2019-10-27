@@ -5,7 +5,7 @@ public class UnitStateController : MonoBehaviour
 {
     #region Declarations
 
-    private TurnManager turnManager;
+    private BattleState battleState;
     private BattleNavigate battleNavigate;
 
     // Booleans
@@ -30,7 +30,7 @@ public class UnitStateController : MonoBehaviour
         unitData = gameObject.GetComponent<UnitData>();
         unitSelectable = gameObject.GetComponent<Selectable>();
         unitParameters = gameObject.GetComponent<Parameters>();
-        turnManager = TurnManager.Instance;
+        battleState = BattleState.Instance;
         battleNavigate = gameObject.GetComponentInParent<BattleNavigate>();
         hpBar = gameObject.GetComponentInChildren<HPScript>(); // Rocky HP bar stuff
 
@@ -96,7 +96,7 @@ public class UnitStateController : MonoBehaviour
             
             if (!moveIsDone)
             {
-                if (turnManager.isPlayerTurn && unitData.UnitTeam == Team.HERO || !turnManager.isPlayerTurn && unitData.UnitTeam == Team.ENEMY)
+                if (battleState.isPlayerTurn && unitData.UnitTeam == Team.HERO || !battleState.isPlayerTurn && unitData.UnitTeam == Team.ENEMY)
                 {
                     battleNavigate.Move();
                 }
@@ -170,8 +170,8 @@ public class UnitStateController : MonoBehaviour
     {
         if (unitData.UnitTeam == Team.HERO)
         {
-            TurnManager.Instance.playerUnitCount++;
-            if (TurnManager.Instance.isPlayerTurn)
+            BattleState.Instance.AddPlayerUnitCount(1);
+            if (BattleState.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -182,8 +182,8 @@ public class UnitStateController : MonoBehaviour
         }
         else if (unitData.UnitTeam == Team.ENEMY)
         {
-            TurnManager.Instance.enemyUnitCount++;
-            if (!TurnManager.Instance.isPlayerTurn)
+            BattleState.Instance.AddEnemyUnitCount(1);
+            if (!BattleState.Instance.isPlayerTurn)
             {
                 ReadyUnit();
             }
@@ -253,12 +253,12 @@ public class UnitStateController : MonoBehaviour
         battleNavigate.ResetNavigator();
         if (unitData.UnitTeam == Team.HERO)
         {
-            TurnManager.Instance.playerUnitCount--;
+            BattleState.Instance.AddPlayerUnitCount(-1);
             BattleState.playerUnitCount--;
         }
         else if (unitData.UnitTeam == Team.ENEMY)
         {
-            TurnManager.Instance.enemyUnitCount--;
+            BattleState.Instance.AddEnemyUnitCount(-1);
             BattleState.enemyUnitCount--;
 
         }
@@ -313,7 +313,7 @@ public class UnitStateController : MonoBehaviour
         {
             isAttacking = false;
             ExhaustUnit();
-            TurnManager.Instance.unitsDone++;
+            BattleState.Instance.AddUnitsDone(1);
             //Debug.Log("Unit finished acting");
         }
     }
