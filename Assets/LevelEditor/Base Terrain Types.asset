@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e286145fc4006449b142b1fe345a60, type: 3}
+  m_Name: Base Terrain Types
+  m_EditorClassIdentifier: 
+  layers:
+  - layer: {fileID: 8574412962073106934, guid: 12594dd401d78ea4cba3313bf57d6705, type: 2}
+    walkability: 1
+  - layer: {fileID: 8574412962073106934, guid: bf8d263a6796cdf46adb36be37382244, type: 2}
+    walkability: 1
+  - layer: {fileID: 8574412962073106934, guid: a3a01b16e85ef7e42be397aa7bc19a77, type: 2}
+    walkability: 1
+  - layer: {fileID: 8574412962073106934, guid: 5b28ee3fa7847b5468ea60bb4c07792c, type: 2}
+    walkability: 2
+  - layer: {fileID: 8574412962073106934, guid: 3833f7e891aab4542aac25261c464d78, type: 2}
+    walkability: 4
+  - layer: {fileID: 8574412962073106934, guid: 5f2cea4c0c4b0874cb9f57ea6d47e3dd, type: 2}
+    walkability: 4
+  - layer: {fileID: 8574412962073106934, guid: bbc501f0a1987f94c8bcc1f1835ccc50, type: 2}
+    walkability: 4
+  - layer: {fileID: 8574412962073106934, guid: b4f525622136bd340abf79383d180ba3, type: 2}
+    walkability: 4
+  - layer: {fileID: 8574412962073106934, guid: 8bbd00444bb80384f8d9e2c694dd9655, type: 2}
+    walkability: 4
+  - layer: {fileID: 0}
+    walkability: 0

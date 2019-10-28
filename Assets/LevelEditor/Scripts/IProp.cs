@@ -7,5 +7,6 @@ using UnityEngine;
 // terrain height and walkability will take this into account
 public interface IProp
 {
-    bool IsWalkable();
+    Walkability GetWalkability();
+	bool OnlyWalkability();
 }

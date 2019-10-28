@@ -5,10 +5,17 @@ using UnityEngine;
 public class PropDummy : MonoBehaviour, IProp
 {
     [SerializeField]
-    bool isWalkable;
+    Walkability terrainType;
+	[SerializeField, Tooltip("Ignore this object for creating heightmap")]
+	bool onlyWalkability;
 
-    public bool IsWalkable()
+    public Walkability GetWalkability()
     {
-        return isWalkable;
+        return terrainType;
     }
+
+	public bool OnlyWalkability()
+	{
+		return onlyWalkability;
+	}
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 [CustomEditor(typeof(LevelGrid))]
 public class LevelGridEditor : Editor
 {
+    SerializedProperty terrainTypes;
     SerializedProperty angle;
-    SerializedProperty useTerrain;
+	SerializedProperty useTerrain;
     SerializedProperty useProps;
     SerializedProperty usePrefabs;
 
     private void OnEnable()
     {
+		terrainTypes = serializedObject.FindProperty("terrainTypes");
         angle = serializedObject.FindProperty("setUnwalkableAngle");
-        useTerrain = serializedObject.FindProperty("useTerrain");
+		useTerrain = serializedObject.FindProperty("useTerrain");
         useProps = serializedObject.FindProperty("useProps");
         usePrefabs = serializedObject.FindProperty("usePrefabs");
 
@@ -24,7 +26,7 @@ public class LevelGridEditor : Editor
 
         serializedObject.Update();
         EditorGUI.BeginChangeCheck();
-
+		EditorGUILayout.PropertyField(terrainTypes);
         EditorGUILayout.LabelField("Use in edit mode to keep changes.");
         EditorGUILayout.IntSlider(angle, 0, 90);
         EditorGUILayout.BeginHorizontal();

@@ -9,7 +9,7 @@ public class TerrainHelperEditor : Editor
     SerializedProperty showWalkability;
     SerializedProperty showPrefabs;
     SerializedProperty editWalkability;
-    SerializedProperty setUnwalkable;
+    SerializedProperty walkableType;
     SerializedProperty paintPrefabs;
     SerializedProperty paintedPrefab;
     SerializedProperty prefabAdd;
@@ -47,7 +47,7 @@ public class TerrainHelperEditor : Editor
         showWalkability = serializedObject.FindProperty("showWalkability");
         showPrefabs = serializedObject.FindProperty("showPrefabs");
         editWalkability = serializedObject.FindProperty("editWalkability");
-        setUnwalkable = serializedObject.FindProperty("setUnwalkable");
+        walkableType = serializedObject.FindProperty("walkableType");
         paintedPrefab = serializedObject.FindProperty("paintedPrefab");
         paintPrefabs = serializedObject.FindProperty("paintPrefabs");
         prefabAdd = serializedObject.FindProperty("prefabAdd");
@@ -89,7 +89,7 @@ public class TerrainHelperEditor : Editor
         editWalkability.boolValue = GUILayout.Toggle(editWalkability.boolValue, "Paint Walkability", "Button");
         if (editWalkability.boolValue)
         {
-            setUnwalkable.boolValue = GUILayout.Toggle(setUnwalkable.boolValue, setUnwalkable.boolValue ? "Set Unwalkable" : "Set Walkable", "Button");
+			EditorGUILayout.PropertyField(walkableType);
             paintPrefabs.boolValue = false;
         }
         paintPrefabs.boolValue = GUILayout.Toggle(paintPrefabs.boolValue, "Paint Prefabs", "Button");
@@ -185,7 +185,7 @@ public class TerrainHelperEditor : Editor
             case EventType.MouseDown:
             case EventType.MouseUp:
                 if (Event.current.button == 0)
-                    grid.SetWalkable(posX, posZ, !setUnwalkable.boolValue);
+                    grid.SetWalkable(posX, posZ, (Walkability)walkableType.enumValueIndex);
                 break;
             case EventType.MouseMove:
                 break;
@@ -282,7 +282,9 @@ public class TerrainHelperEditor : Editor
         }
     }
 
-
+	Color[] walkabilityColors = new Color[] {
+		Color.red, Color.green, Color.yellow, Color.Lerp(Color.green, Color.red, 0.5f), Color.Lerp(Color.red+Color.green, Color.black, 0.5f), Color.blue, Color.cyan, Color.magenta
+	};
 
     void DrawLines(int posX, int posZ, TerrainData data, Vector3 offset)
     {
@@ -308,10 +310,10 @@ public class TerrainHelperEditor : Editor
                 if (x < dist && z < dist && showWalkability.boolValue)
                 {
 
-                    var walkable = grid.IsWalkable(posX + x, posZ + z);
-                    Handles.color = walkable ? Color.green : Color.red;
+                    var walkable = grid.GetWalkability(posX + x, posZ + z);
+					Handles.color = walkabilityColors[(int)walkable];
                     var middlePos = new Vector3(posX + x + 0.5f, grid.GetHeight(posX + x, posZ + z), posZ + z + 0.5f);
-                    var size = walkable ? 1f : 0.95f;
+                    var size = walkable != Walkability.Unwalkable ? 1f : 0.95f;
                     Handles.DrawWireCube(middlePos, new Vector3(size, 0, size));
                     /*
                     var middlePos = new Vector2((posX + x + 0.5f) / data.heightmapWidth, (posZ + z + 0.5f) / data.heightmapHeight);

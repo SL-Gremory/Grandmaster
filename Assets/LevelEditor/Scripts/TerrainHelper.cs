@@ -19,8 +19,8 @@ public class TerrainHelper : MonoBehaviour
     [Tooltip("Change cell walkability with left-click.")]
     bool editWalkability;
     [SerializeField]
-    [Tooltip("If true set target cell unwalkable.")]
-    bool setUnwalkable = true;
+    [Tooltip("Set cell walkability type.")]
+    Walkability walkableType;
     [SerializeField]
     bool paintPrefabs;
     [SerializeField]
