@@ -279,7 +279,8 @@ public class BattleNavigate : MonoBehaviour
                 var neighHeight = LevelGrid.Instance.GetHeight(neighbor.x, neighbor.y);
                 if (Mathf.Abs(currHeight - neighHeight) > maxJump) //cannot cross the height difference
                     continue;
-                if (!LevelGrid.Instance.IsWalkable(neighbor.x, neighbor.y)) //cell not walkable
+				//TODO use terrain types depending on character class etc.
+                if (LevelGrid.Instance.GetWalkability(neighbor.x, neighbor.y) == Walkability.Unwalkable) //cell not walkable
                     continue;
                 if (IsNonAllyAt(neighbor)) // cell is occupied by a different team unit
                     continue;
