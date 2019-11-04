@@ -36,6 +36,7 @@ Shader "Fog Of War"
 			uniform float4 _LevelSize;
 			uniform float4 _ScreenResolution;
 
+
 			// Input to vertex shader
 			struct appdata
 			{
@@ -138,7 +139,8 @@ Shader "Fog Of War"
 				#endif
 
 				float depth = 1 - (tex2D(_CameraDepthTexture, pixelize(duv)).r);
-				depth = depth * 100.0 + 0.5; // near and far clip planes
+				//depth = depth * 100.0 + 0.5; // near and far clip planes
+				depth = depth * _ProjectionParams.z + _ProjectionParams.y;
 				float3 rayStart = ro + rd * (depth - 3.0);
 				float3 rayEnd = ro + rd * depth;
 				if (rayEnd.y < 0)
