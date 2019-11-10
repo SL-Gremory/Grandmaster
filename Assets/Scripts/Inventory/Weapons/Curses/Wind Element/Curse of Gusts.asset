@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
+  m_Name: Curse of Gusts
+  m_EditorClassIdentifier: 
+  weaponName: Curse of Gusts
+  description: 
+  icon: {fileID: 0}
+  rarity: 1
+  type: 2
+  rpAttribute: 0
+  rmAttribute: 4
+  mpAttribute: 0
+  maAttribute: 0
+  range: 4
+  hp_mod: 0
+  hp_mod_type: 0
+  mp_mod: 20
+  mp_mod_type: 0
+  atk_mod: 18
+  atk_mod_type: 0
+  def_mod: 0
+  def_mod_type: 0
+  spr_mod: 6
+  spr_mod_type: 0
+  spd_mod: 0
+  spd_mod_type: 0
+  mov_mod: 0
+  mov_mod_type: 0
+  jmp_mod: 0
+  jmp_mod_type: 0
