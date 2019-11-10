@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
-  m_Name: Holy Staff
+  m_Name: Slug Shotgun
   m_EditorClassIdentifier: 
-  weaponName: Holy Staff
+  weaponName: Slug Shotgun
   description: 
   icon: {fileID: 0}
-  rarity: 2
-  type: 3
-  rpAttribute: 0
+  rarity: 1
+  type: 1
+  rpAttribute: 1
   rmAttribute: 0
-  mpAttribute: 3
+  mpAttribute: 0
   maAttribute: 0
-  range: 1
+  range: 7
   hp_mod: 0
   hp_mod_type: 0
-  mp_mod: 0
+  mp_mod: 10
   mp_mod_type: 0
-  atk_mod: 26
+  atk_mod: 20
   atk_mod_type: 0
   def_mod: 0
   def_mod_type: 0

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
-  m_Name: Devout Staff
+  m_Name: Prophet Staff
   m_EditorClassIdentifier: 
-  weaponName: Devout Staff
+  weaponName: Prophet Staff
   description: 
   icon: {fileID: 0}
-  rarity: 1
+  rarity: 2
   type: 3
   rpAttribute: 0
   rmAttribute: 0
@@ -24,13 +24,13 @@ MonoBehaviour:
   range: 1
   hp_mod: 0
   hp_mod_type: 0
-  mp_mod: 0
+  mp_mod: 45
   mp_mod_type: 0
-  atk_mod: 15
+  atk_mod: 21
   atk_mod_type: 0
   def_mod: 0
   def_mod_type: 0
-  spr_mod: 0
+  spr_mod: 26
   spr_mod_type: 0
   spd_mod: 0
   spd_mod_type: 0
