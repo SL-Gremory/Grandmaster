@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
-  m_Name: Sniper Bow
+  m_Name: Plasma Rifle
   m_EditorClassIdentifier: 
-  weaponName: Sniper Bow
+  weaponName: Plasma Rifle
   description: 
   icon: {fileID: 0}
   rarity: 2
@@ -21,12 +21,12 @@ MonoBehaviour:
   rmAttribute: 0
   mpAttribute: 0
   maAttribute: 0
-  range: 5
+  range: 7
   hp_mod: 0
   hp_mod_type: 0
-  mp_mod: 0
+  mp_mod: 15
   mp_mod_type: 0
-  atk_mod: 55
+  atk_mod: 30
   atk_mod_type: 0
   def_mod: 0
   def_mod_type: 0

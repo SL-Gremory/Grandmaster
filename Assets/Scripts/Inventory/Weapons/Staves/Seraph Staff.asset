@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04830ba376371d64cb71b271d677921b, type: 3}
-  m_Name: Combat Bow
+  m_Name: Seraph Staff
   m_EditorClassIdentifier: 
-  weaponName: Combat Bow
+  weaponName: Seraph Staff
   description: 
   icon: {fileID: 0}
-  rarity: 1
-  type: 1
-  rpAttribute: 1
+  rarity: 2
+  type: 3
+  rpAttribute: 0
   rmAttribute: 0
-  mpAttribute: 0
+  mpAttribute: 3
   maAttribute: 0
-  range: 4
+  range: 1
   hp_mod: 0
   hp_mod_type: 0
-  mp_mod: 0
+  mp_mod: 60
   mp_mod_type: 0
-  atk_mod: 30
+  atk_mod: 35
   atk_mod_type: 0
   def_mod: 0
   def_mod_type: 0
-  spr_mod: 0
+  spr_mod: 34
   spr_mod_type: 0
   spd_mod: 0
   spd_mod_type: 0
