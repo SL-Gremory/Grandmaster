@@ -68,11 +68,6 @@ public class BattleNavigate : MonoBehaviour
         unitParameters = unit.GetComponent<Parameters>();
         AddUnit(new Int2((int)transform.position.x, (int)transform.position.z), gameObject);
 
-        if (unitData != null)
-            if (unitData.UnitTeam == Team.HERO)
-                BattleState.playerUnitCount++;
-            else if (unitData.UnitTeam == Team.ENEMY)
-                BattleState.enemyUnitCount++;
     }
 
     private void Awake()

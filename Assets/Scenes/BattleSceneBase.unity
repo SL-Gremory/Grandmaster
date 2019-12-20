@@ -316,10 +316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   end: {fileID: 165416531}
-  BattleData: {fileID: 0}
-  doneButton: {fileID: 0}
-  turnCountText: {fileID: 0}
-  playerFirst: 0
+  BattleData: {fileID: 11400000, guid: 83a40d81b5d988f4bb5a36a45133bfd3, type: 2}
+  doneButton: {fileID: 328080141}
+  turnCountText: {fileID: 1428534649}
+  playerFirst: 1
 --- !u!4 &165416533
 Transform:
   m_ObjectHideFlags: 0
@@ -473,6 +473,18 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
+--- !u!114 &328080141 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1831646473498611453, guid: 80deb0548c987d44e9dc38c4755827a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2111746544}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6059e2b3b4963ea4fbc5e59284af868f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &449201629
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +716,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1215399338
+--- !u!1 &952872164
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -712,7 +724,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1215399339}
+  - component: {fileID: 952872165}
   m_Layer: 0
   m_Name: PrefabHolderHolderTempShit4674
   m_TagString: Untagged
@@ -720,13 +732,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1215399339
+--- !u!4 &952872165
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215399338}
+  m_GameObject: {fileID: 952872164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
