@@ -56,6 +56,8 @@ public class UnitStateController : MonoBehaviour
         // Unit is in attacking phase
         if (isAttacking)
         {
+			unitSelectable.OscillateHighlight(true);//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			
             GameObject foundUnitObject = null;
 
             if (Input.GetMouseButton(0))
@@ -74,6 +76,8 @@ public class UnitStateController : MonoBehaviour
                         PrepareAttackOn(foundUnitObject);
                         foundUnitObject.GetComponent<UnitStateController>().DeselectUnit();
                         unitSelectable.SelectThis(true);
+						
+						unitSelectable.OscillateHighlight(false);//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                     }
                 }
             }
@@ -86,7 +90,8 @@ public class UnitStateController : MonoBehaviour
                 {
                     foundUnitObject.GetComponent<UnitStateController>().DeselectUnit();
                 }
-
+				
+				unitSelectable.OscillateHighlight(false);//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                 isAttacking = false;
             }
 
@@ -254,12 +259,10 @@ public class UnitStateController : MonoBehaviour
         if (unitData.UnitTeam == Team.HERO)
         {
             BattleState.Instance.AddPlayerUnitCount(-1);
-            BattleState.playerUnitCount--;
         }
         else if (unitData.UnitTeam == Team.ENEMY)
         {
             BattleState.Instance.AddEnemyUnitCount(-1);
-            BattleState.enemyUnitCount--;
 
         }
         //TurnManager.Instance.CheckWinConditions();

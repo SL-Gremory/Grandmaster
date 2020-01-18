@@ -21,7 +21,7 @@ public class FogOfWarGrid : MonoBehaviour
 	{
 		grid = GetComponent<LevelGrid>();
 		maxMapHeight = GetComponent<Terrain>().terrainData.size.y;
-		Debug.Log(maxMapHeight);
+		//Debug.Log(maxMapHeight);
 		visibilityMap = new bool[grid.GetMapSize().x, grid.GetMapSize().y];
 		visibilityTex = new Texture2D(grid.GetMapSize().x, grid.GetMapSize().y, TextureFormat.RGBAFloat, false);
 		visibilityTex.wrapMode = TextureWrapMode.Clamp;

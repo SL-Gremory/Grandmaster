@@ -9,6 +9,7 @@ public class Selectable : MonoBehaviour
 	protected Color originalColor;
 	protected Color darkColor1;
 	protected Color darkColor2;
+	protected Color startOscillateColor;
 	internal bool isActive; //if can be selected. for most things it will always be true.
 	protected bool isSelected; //if is selected
 
@@ -83,12 +84,8 @@ public class Selectable : MonoBehaviour
 				//select only the clicked selectable
 				isSelected = true;
 				SelectThis(true);
-
             }
-
         }
-
-
     }
 
 	public void SelectThis(bool yes)
@@ -112,9 +109,6 @@ public class Selectable : MonoBehaviour
         }
     }
 	
-
-
-
 	public void Highlight(bool highlighted)
 	{
 		//not a true highlight, just changes the transparency
@@ -143,6 +137,36 @@ public class Selectable : MonoBehaviour
 		else if (choice == 2)
 		{
 			this.GetComponent<SpriteRenderer>().color = darkColor2;
+		}
+	}
+	
+	private int oscillateDirection;
+	public void OscillateHighlight(bool isOscillating)
+	{
+		if (isOscillating)
+		{
+			Debug.Log("ran OscillateHighlight");
+			//Move the alpha higher or lower depending on what is needed
+			Color tmp = this.GetComponent<SpriteRenderer>().color;
+			if (tmp.a < 0.5f)
+			{
+				//make more opaque
+				oscillateDirection = 1;
+			}
+			else if (tmp.a > 0.95f)
+			{
+				//make more transparent
+				oscillateDirection = -1;
+			}
+			tmp.a += 0.02f*oscillateDirection;
+			this.GetComponent<SpriteRenderer>().color = tmp;
+		}
+		else
+		{
+			//Revert alpha back to 1
+			Color tmp = this.GetComponent<SpriteRenderer>().color;
+			tmp.a = 1f;
+			this.GetComponent<SpriteRenderer>().color = tmp;
 		}
 	}
 }
